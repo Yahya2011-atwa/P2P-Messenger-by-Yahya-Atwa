@@ -39,6 +39,141 @@
             direction: rtl;
         }
 
+        /* شاشة تسجيل الدخول */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            animation: slideUp 0.5s ease;
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .login-logo {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .login-title {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .login-subtitle {
+            color: var(--gray-color);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .login-form {
+            margin: 30px 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
+        }
+
+        .login-tips {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        .login-tips h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-tips ul {
+            padding-right: 20px;
+        }
+
+        .login-tips li {
+            margin-bottom: 8px;
+            color: var(--gray-color);
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -46,6 +181,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            display: none; /* مخفي حتى تسجيل الدخول */
         }
 
         /* شريط العنوان */
@@ -102,6 +238,49 @@
         .logo h1 {
             font-size: 1.8rem;
             font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .change-user-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .change-user-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .connection-status {
@@ -560,9 +739,21 @@
             border: 1px solid var(--border-color);
         }
 
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .message-sender {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
         .message-time {
             font-size: 0.75rem;
-            margin-top: 5px;
             opacity: 0.8;
             display: flex;
             align-items: center;
@@ -570,12 +761,10 @@
         }
 
         .message.sent .message-time {
-            text-align: left;
-            color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .message.received .message-time {
-            text-align: right;
             color: var(--gray-color);
         }
 
@@ -859,6 +1048,26 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        /* نافذة تغيير المستخدم */
+        .change-user-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            padding: 20px;
+        }
+
+        .change-user-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
         /* مخصص للشاشات الصغيرة */
         @media (max-width: 768px) {
             .container {
@@ -873,6 +1082,11 @@
                 flex-direction: column;
                 text-align: center;
                 gap: 15px;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                text-align: center;
             }
             
             .app-main {
@@ -906,6 +1120,10 @@
                 gap: 10px;
                 text-align: center;
             }
+            
+            .login-container {
+                padding: 30px 20px;
+            }
         }
 
         /* تأثيرات التحميل */
@@ -932,7 +1150,87 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-container">
+            <div class="login-logo">
+                <i class="fas fa-comments"></i>
+            </div>
+            <h1 class="login-title">منصة المراسلة المباشرة</h1>
+            <p class="login-subtitle">ادخل معرفك الشخصي لبدء الاستخدام</p>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="usernameInput">
+                        <i class="fas fa-user"></i>
+                        معرفك الشخصي
+                    </label>
+                    <input 
+                        type="text" 
+                        id="usernameInput" 
+                        placeholder="مثال: أحمد، محمد، خالد..."
+                        autocomplete="off"
+                        autofocus
+                    >
+                </div>
+                
+                <button id="loginButton" class="login-button">
+                    <i class="fas fa-sign-in-alt"></i>
+                    حفظ والدخول
+                </button>
+            </div>
+            
+            <div class="login-tips">
+                <h4><i class="fas fa-lightbulb"></i> نصائح مهمة:</h4>
+                <ul>
+                    <li>اختر اسماً تعرفه أنت وأصدقاؤك</li>
+                    <li>المعرف سيتم حفظه على هذا الجهاز فقط</li>
+                    <li>يمكنك تغيير المعرف لاحقاً من الأعلى</li>
+                    <li>شارك هذا المعرف مع من تريد التواصل معهم</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تغيير المستخدم -->
+    <div id="changeUserOverlay" class="change-user-overlay">
+        <div class="login-container">
+            <div class="login-logo">
+                <i class="fas fa-user-edit"></i>
+            </div>
+            <h1 class="login-title">تغيير المعرف الشخصي</h1>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="changeUsernameInput">
+                        <i class="fas fa-user"></i>
+                        المعرف الجديد
+                    </label>
+                    <input 
+                        type="text" 
+                        id="changeUsernameInput" 
+                        placeholder="أدخل معرفك الجديد..."
+                        autocomplete="off"
+                        autofocus
+                    >
+                </div>
+                
+                <div class="action-buttons" style="margin-top: 30px;">
+                    <button id="saveNewUserButton" class="login-button" style="background: var(--success-color);">
+                        <i class="fas fa-save"></i>
+                        حفظ التغييرات
+                    </button>
+                    <button id="cancelChangeUser" class="login-button" style="background: var(--gray-color);">
+                        <i class="fas fa-times"></i>
+                        إلغاء
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div class="container" id="mainApp">
         <!-- شريط العنوان -->
         <header class="app-header">
             <div class="header-content">
@@ -940,6 +1238,17 @@
                     <i class="fas fa-comments"></i>
                     <h1>P2P Messenger</h1>
                 </div>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">م</div>
+                    <div>
+                        <div class="user-name" id="userNameDisplay">مستخدم</div>
+                        <button class="change-user-btn" id="changeUserBtn">
+                            <i class="fas fa-edit"></i> تغيير
+                        </button>
+                    </div>
+                </div>
+                
                 <div class="connection-status" id="connectionStatus">
                     <span class="status-dot"></span>
                     <span class="status-text">غير متصل</span>
@@ -967,7 +1276,7 @@
                     <h2><i class="fas fa-cogs"></i> إعدادات الاتصال</h2>
                     
                     <div class="connection-controls">
-                        <!-- توليد المعرف -->
+                        <!-- عرض المعرف -->
                         <div class="control-group">
                             <label for="myId"><i class="fas fa-fingerprint"></i> معرفك الخاص</label>
                             <div class="input-with-button">
@@ -975,12 +1284,9 @@
                                 <button id="copyMyId" class="btn-icon" title="نسخ المعرف">
                                     <i class="fas fa-copy"></i>
                                 </button>
-                                <button id="generateId" class="btn-icon" title="توليد معرف جديد">
-                                    <i class="fas fa-redo"></i>
-                                </button>
                             </div>
                             <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-info-circle"></i> يتم حفظ المعرف تلقائياً على هذا الجهاز
+                                <i class="fas fa-share-alt"></i> شارك هذا المعرف مع من تريد التواصل معهم
                             </small>
                         </div>
 
@@ -988,7 +1294,7 @@
                         <div class="control-group">
                             <label for="peerId"><i class="fas fa-user-plus"></i> معرف الشخص الآخر</label>
                             <div class="input-with-button">
-                                <input type="text" id="peerId" placeholder="أدخل المعرف هنا">
+                                <input type="text" id="peerId" placeholder="أدخل معرف الشخص الآخر">
                                 <button id="connectBtn" class="btn-primary">
                                     <i class="fas fa-plug"></i> الاتصال
                                 </button>
@@ -1033,17 +1339,17 @@
                 <div class="panel-card instructions">
                     <h3><i class="fas fa-lightbulb"></i> كيف تعمل؟</h3>
                     <ol>
-                        <li>المعرف الخاص بك محفوظ على هذا الجهاز</li>
+                        <li>ادخل اسمك في بداية الاستخدام</li>
                         <li>انسخ معرفك من الأعلى وأرسله للطرف الآخر</li>
                         <li>أدخل معرف الشخص الآخر في الحقل المخصص</li>
                         <li>انقر على زر "الاتصال"</li>
-                        <li>يمكنك إعادة الاتصال تلقائياً بعد التحديث</li>
+                        <li>ابدأ المراسلة الفورية!</li>
                     </ol>
                     <div class="features">
                         <span class="feature-tag"><i class="fas fa-shield-alt"></i> مشفر</span>
                         <span class="feature-tag"><i class="fas fa-bolt"></i> فوري</span>
                         <span class="feature-tag"><i class="fas fa-server"></i> لا سيرفرات</span>
-                        <span class="feature-tag"><i class="fas fa-save"></i> محفوظ محلياً</span>
+                        <span class="feature-tag"><i class="fas fa-user-lock"></i> معرف شخصي</span>
                     </div>
                 </div>
             </section>
@@ -1106,7 +1412,7 @@
                     <span class="badge">P2P</span>
                     <span class="badge">End-to-End</span>
                     <span class="badge">No Server</span>
-                    <span class="badge">Persistent ID</span>
+                    <span class="badge">Your Identity</span>
                 </p>
             </div>
         </footer>
@@ -1138,7 +1444,8 @@
             constructor() {
                 this.peer = null;
                 this.connection = null;
-                this.myId = this.getOrCreateId();
+                this.username = this.getSavedUsername();
+                this.myId = this.generatePeerId();
                 this.messages = [];
                 this.isConnected = false;
                 this.connectionAttempts = 0;
@@ -1147,6 +1454,80 @@
                 
                 this.initializeElements();
                 this.initializeEventListeners();
+                
+                // إذا كان هناك معرف مستخدم، نبدأ التطبيق
+                if (this.username) {
+                    this.startApp();
+                } else {
+                    this.showLoginScreen();
+                }
+            }
+
+            // الحصول على اسم المستخدم المحفوظ
+            getSavedUsername() {
+                return localStorage.getItem('p2p_username');
+            }
+
+            // حفظ اسم المستخدم
+            saveUsername(username) {
+                if (username && username.trim()) {
+                    localStorage.setItem('p2p_username', username.trim());
+                    this.username = username.trim();
+                    return true;
+                }
+                return false;
+            }
+
+            // توليد معرف فريد
+            generatePeerId() {
+                // استخدام اسم المستخدم كجزء من المعرف
+                const usernamePart = this.username ? 
+                    encodeURIComponent(this.username).substring(0, 20) : 
+                    'user';
+                
+                const timestamp = Date.now().toString(36);
+                const randomStr = Math.random().toString(36).substr(2, 5);
+                
+                return `${usernamePart}-${timestamp}-${randomStr}`;
+            }
+
+            // عرض شاشة تسجيل الدخول
+            showLoginScreen() {
+                const loginOverlay = document.getElementById('loginOverlay');
+                const usernameInput = document.getElementById('usernameInput');
+                const loginButton = document.getElementById('loginButton');
+                
+                loginOverlay.style.display = 'flex';
+                usernameInput.focus();
+                
+                // التركيز على حقل الإدخال
+                setTimeout(() => {
+                    usernameInput.focus();
+                }, 100);
+                
+                // تسجيل الدخول عند الضغط على Enter
+                usernameInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        loginButton.click();
+                    }
+                });
+            }
+
+            // بدء التطبيق
+            startApp() {
+                const loginOverlay = document.getElementById('loginOverlay');
+                const mainApp = document.getElementById('mainApp');
+                
+                // إخفاء شاشة تسجيل الدخول
+                loginOverlay.style.display = 'none';
+                
+                // عرض التطبيق الرئيسي
+                mainApp.style.display = 'flex';
+                
+                // تحديث عرض اسم المستخدم
+                this.updateUserDisplay();
+                
+                // تهيئة باقي التطبيق
                 this.initializePeer();
                 this.initializeEmojiPicker();
                 this.restoreChat();
@@ -1156,36 +1537,69 @@
                 this.attemptAutoReconnect();
             }
 
-            // الحصول على المعرف المخزن أو إنشاء جديد
-            getOrCreateId() {
-                let savedId = localStorage.getItem('p2p_messenger_id');
-                
-                // إذا لم يوجد معرف مخزن، إنشاء جديد وحفظه
-                if (!savedId) {
-                    savedId = this.generatePeerId();
-                    localStorage.setItem('p2p_messenger_id', savedId);
+            // تحديث عرض بيانات المستخدم
+            updateUserDisplay() {
+                if (this.username) {
+                    // عرض اسم المستخدم
+                    document.getElementById('userNameDisplay').textContent = this.username;
+                    
+                    // إنشاء صورة رمزية (Avatar) من الحرف الأول
+                    const avatarElement = document.getElementById('userAvatar');
+                    const firstLetter = this.username.charAt(0).toUpperCase();
+                    avatarElement.textContent = firstLetter;
+                    
+                    // تلوين الصورة الرمزية بناءً على اسم المستخدم
+                    const colors = ['#4361ee', '#3a0ca3', '#4cc9f0', '#f72585', '#f8961e', '#2a9d8f'];
+                    const colorIndex = this.username.length % colors.length;
+                    avatarElement.style.background = colors[colorIndex];
+                    avatarElement.style.color = 'white';
+                    
+                    // تحديث المعرف
+                    this.myId = this.generatePeerId();
+                    this.elements.myId.value = this.myId;
                 }
-                
-                return savedId;
             }
 
-            // توليد معرف عشوائي
-            generatePeerId() {
-                const timestamp = Date.now().toString(36);
-                const randomStr = Math.random().toString(36).substr(2, 5);
-                return `user-${timestamp}-${randomStr}`;
+            // تغيير اسم المستخدم
+            changeUsername(newUsername) {
+                if (this.saveUsername(newUsername)) {
+                    this.updateUserDisplay();
+                    
+                    // إعادة إنشاء Peer مع المعرف الجديد
+                    if (this.peer) {
+                        this.peer.destroy();
+                    }
+                    
+                    this.initializePeer();
+                    
+                    this.showNotification('success', 'تم التحديث', 'تم تغيير معرفك الشخصي بنجاح');
+                    return true;
+                }
+                return false;
             }
 
             // تهيئة العناصر
             initializeElements() {
                 this.elements = {
+                    // عناصر تسجيل الدخول
+                    loginOverlay: document.getElementById('loginOverlay'),
+                    usernameInput: document.getElementById('usernameInput'),
+                    loginButton: document.getElementById('loginButton'),
+                    
+                    // عناصر تغيير المستخدم
+                    changeUserOverlay: document.getElementById('changeUserOverlay'),
+                    changeUserBtn: document.getElementById('changeUserBtn'),
+                    changeUsernameInput: document.getElementById('changeUsernameInput'),
+                    saveNewUserButton: document.getElementById('saveNewUserButton'),
+                    cancelChangeUser: document.getElementById('cancelChangeUser'),
+                    
+                    // عناصر التطبيق الرئيسي
                     myId: document.getElementById('myId'),
                     peerId: document.getElementById('peerId'),
                     connectBtn: document.getElementById('connectBtn'),
                     disconnectBtn: document.getElementById('disconnectBtn'),
                     clearChatBtn: document.getElementById('clearChatBtn'),
                     copyMyId: document.getElementById('copyMyId'),
-                    generateId: document.getElementById('generateId'),
                     messageInput: document.getElementById('messageInput'),
                     sendBtn: document.getElementById('sendBtn'),
                     messagesContainer: document.getElementById('messagesContainer'),
@@ -1204,16 +1618,18 @@
                     dismissReconnect: document.getElementById('dismissReconnect')
                 };
 
-                this.elements.myId.value = this.myId;
-                
-                // تحميل آخر معرف اتصال
-                const lastPeerId = localStorage.getItem('p2p_last_peer');
-                if (lastPeerId) {
-                    this.elements.peerId.value = lastPeerId;
+                if (this.username) {
+                    this.elements.myId.value = this.myId;
+                    
+                    // تحميل آخر معرف اتصال
+                    const lastPeerId = localStorage.getItem('p2p_last_peer');
+                    if (lastPeerId) {
+                        this.elements.peerId.value = lastPeerId;
+                    }
                 }
             }
 
-            // تهيئة PeerJS مع إعدادات محسنة
+            // تهيئة PeerJS
             initializePeer() {
                 const config = {
                     host: '0.peerjs.com',
@@ -1227,19 +1643,11 @@
                             { urls: 'stun:stun1.l.google.com:19302' },
                             { urls: 'stun:stun2.l.google.com:19302' },
                             { urls: 'stun:stun3.l.google.com:19302' },
-                            { urls: 'stun:stun4.l.google.com:19302' },
-                            { 
-                                urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-                                username: 'c84c2b8a8bbdd0ee37934b3e1d1df6c7e4c11d5b09795bdc176a247a1e1d6a',
-                                credential: 'Aedp5kY14yWgNp+flE6WlTpxTE0='
-                            }
+                            { urls: 'stun:stun4.l.google.com:19302' }
                         ],
                         iceCandidatePoolSize: 10,
-                        iceTransportPolicy: 'all',
-                        bundlePolicy: 'max-bundle',
-                        rtcpMuxPolicy: 'require'
-                    },
-                    sdpSemantics: 'unified-plan'
+                        iceTransportPolicy: 'all'
+                    }
                 };
 
                 this.peer = new Peer(this.myId, config);
@@ -1261,10 +1669,15 @@
                 this.peer.on('error', (err) => {
                     console.error('❌ خطأ في PeerJS:', err);
                     
-                    // محاولة إعادة الاتصال في حالة فشل
                     if (err.type === 'server-error' || err.type === 'network') {
                         this.showNotification('warning', 'فقد الاتصال بالسيرفر', 'جاري إعادة المحاولة...');
                         this.reconnectToServer();
+                    } else if (err.type === 'unavailable-id') {
+                        // إذا كان المعرف مستخدم بالفعل، نولد معرفاً جديداً
+                        this.myId = this.generatePeerId();
+                        this.elements.myId.value = this.myId;
+                        this.initializePeer();
+                        this.showNotification('info', 'تم تحديث المعرف', 'تم توليد معرف جديد لك');
                     } else {
                         this.showNotification('error', 'خطأ في الاتصال', err.message);
                     }
@@ -1276,7 +1689,6 @@
                     console.log('⚠️ تم قطع الاتصال مع سيرفر PeerJS');
                     this.updateConnectionStatus('disconnected');
                     
-                    // محاولة إعادة الاتصال بعد 3 ثواني
                     setTimeout(() => {
                         if (!this.peer.disconnected) return;
                         this.reconnectToServer();
@@ -1315,21 +1727,42 @@
                 this.connection = conn;
                 this.setupConnectionEvents();
                 this.savePeerId(conn.peer);
-                this.showNotification('info', 'اتصال وارد', `تم الاتصال من ${conn.peer}`);
+                this.showNotification('info', 'اتصال وارد', `تم الاتصال من ${this.extractUsernameFromId(conn.peer)}`);
                 this.updateConnectionStatus('connecting');
+            }
+
+            // استخراج اسم المستخدم من المعرف
+            extractUsernameFromId(peerId) {
+                try {
+                    const parts = peerId.split('-');
+                    if (parts.length > 0) {
+                        const username = decodeURIComponent(parts[0]);
+                        return username || 'مستخدم مجهول';
+                    }
+                } catch (e) {
+                    console.log('❌ خطأ في فك تشفير اسم المستخدم:', e);
+                }
+                return 'مستخدم مجهول';
             }
 
             // إعداد أحداث الاتصال
             setupConnectionEvents() {
                 this.connection.on('open', () => {
                     this.isConnected = true;
-                    this.connectionAttempts = 0; // إعادة تعداد محاولات الاتصال
+                    this.connectionAttempts = 0;
                     this.updateUI();
-                    this.showNotification('success', 'تم الاتصال!', 'يمكنك البدء في المراسلة الآن');
+                    this.showNotification('success', 'تم الاتصال!', `تم الاتصال بـ ${this.extractUsernameFromId(this.connection.peer)}`);
                     this.updatePeerInfo();
                     this.updateConnectionStatus('connected');
                     
-                    // إرسال ping لقياس سرعة الاتصال
+                    // إرسال معلومات المستخدم
+                    this.connection.send({
+                        type: 'user-info',
+                        username: this.username,
+                        timestamp: Date.now()
+                    });
+                    
+                    // بدء مراقبة الاتصال
                     this.startConnectionMonitor();
                 });
 
@@ -1359,7 +1792,10 @@
                 this.connectionMonitor = setInterval(() => {
                     if (this.connection && this.connection.open) {
                         const startTime = Date.now();
-                        this.connection.send({ type: 'ping', timestamp: startTime });
+                        this.connection.send({ 
+                            type: 'ping', 
+                            timestamp: startTime 
+                        });
                     } else {
                         clearInterval(this.connectionMonitor);
                     }
@@ -1368,6 +1804,62 @@
 
             // تهيئة مستمعي الأحداث
             initializeEventListeners() {
+                // زر تسجيل الدخول
+                this.elements.loginButton.addEventListener('click', () => {
+                    const username = this.elements.usernameInput.value.trim();
+                    
+                    if (!username) {
+                        this.showNotification('warning', 'اسم مطلوب', 'الرجاء إدخال اسمك الشخصي');
+                        return;
+                    }
+                    
+                    if (username.length < 2) {
+                        this.showNotification('warning', 'اسم قصير', 'الرجاء إدخال اسم مكون من حرفين على الأقل');
+                        return;
+                    }
+                    
+                    if (this.saveUsername(username)) {
+                        this.startApp();
+                        this.showNotification('success', 'مرحباً!', `تم تسجيل دخولك كـ ${username}`);
+                    }
+                });
+                
+                // زر تغيير المستخدم
+                this.elements.changeUserBtn.addEventListener('click', () => {
+                    this.elements.changeUserOverlay.classList.add('show');
+                    this.elements.changeUsernameInput.value = this.username;
+                    setTimeout(() => {
+                        this.elements.changeUsernameInput.focus();
+                        this.elements.changeUsernameInput.select();
+                    }, 100);
+                });
+                
+                // حفظ المستخدم الجديد
+                this.elements.saveNewUserButton.addEventListener('click', () => {
+                    const newUsername = this.elements.changeUsernameInput.value.trim();
+                    
+                    if (!newUsername || newUsername.length < 2) {
+                        this.showNotification('warning', 'اسم غير صالح', 'الرجاء إدخال اسم مكون من حرفين على الأقل');
+                        return;
+                    }
+                    
+                    if (this.changeUsername(newUsername)) {
+                        this.elements.changeUserOverlay.classList.remove('show');
+                    }
+                });
+                
+                // إلغاء تغيير المستخدم
+                this.elements.cancelChangeUser.addEventListener('click', () => {
+                    this.elements.changeUserOverlay.classList.remove('show');
+                });
+                
+                // إغلاق نافذة تغيير المستخدم بالضغط على ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.elements.changeUserOverlay.classList.contains('show')) {
+                        this.elements.changeUserOverlay.classList.remove('show');
+                    }
+                });
+                
                 // زر الاتصال
                 this.elements.connectBtn.addEventListener('click', () => this.connectToPeer());
                 
@@ -1379,9 +1871,6 @@
                 
                 // نسخ المعرف
                 this.elements.copyMyId.addEventListener('click', () => this.copyMyId());
-                
-                // توليد معرف جديد
-                this.elements.generateId.addEventListener('click', () => this.generateNewId());
                 
                 // إرسال الرسالة
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
@@ -1484,7 +1973,7 @@
                     return;
                 }
 
-                this.showNotification('info', 'جاري الاتصال...', `محاولة الاتصال بـ ${peerId}`);
+                this.showNotification('info', 'جاري الاتصال...', `محاولة الاتصال بـ ${this.extractUsernameFromId(peerId)}`);
                 this.updateConnectionStatus('connecting');
                 
                 try {
@@ -1494,6 +1983,7 @@
                         metadata: {
                             client: 'P2P Messenger',
                             version: '1.0',
+                            username: this.username,
                             timestamp: Date.now()
                         }
                     });
@@ -1561,7 +2051,8 @@
                     type: 'message',
                     text: messageText,
                     timestamp: new Date().toISOString(),
-                    sender: this.myId,
+                    sender: this.username,
+                    senderId: this.myId,
                     messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
                 };
 
@@ -1589,7 +2080,15 @@
                 } else if (data.type === 'pong') {
                     const latency = Date.now() - data.timestamp;
                     this.elements.connSpeed.textContent = `${latency}ms`;
+                } else if (data.type === 'user-info') {
+                    // تحديث اسم المستخدم للطرف الآخر
+                    this.updatePeerName(data.username);
                 }
+            }
+
+            // تحديث اسم الطرف الآخر
+            updatePeerName(username) {
+                this.elements.peerName.textContent = `مستخدم: ${username}`;
             }
 
             // إضافة رسالة إلى الواجهة
@@ -1613,7 +2112,10 @@
                 
                 // إشعار عند استلام رسالة جديدة
                 if (type === 'received') {
-                    this.showNotification('info', 'رسالة جديدة', messageData.text.substring(0, 50) + '...');
+                    const shortMessage = messageData.text.length > 50 ? 
+                        messageData.text.substring(0, 50) + '...' : 
+                        messageData.text;
+                    this.showNotification('info', `رسالة من ${messageData.sender}`, shortMessage);
                 }
             }
 
@@ -1630,11 +2132,14 @@
                 
                 messageElement.innerHTML = `
                     <div class="message-content">
-                        ${this.escapeHtml(message.text)}
-                        <div class="message-time">
-                            <i class="far fa-clock"></i>
-                            ${time}
+                        <div class="message-header">
+                            <span class="message-sender">${this.escapeHtml(message.sender)}</span>
+                            <span class="message-time">
+                                <i class="far fa-clock"></i>
+                                ${time}
+                            </span>
                         </div>
+                        ${this.escapeHtml(message.text)}
                     </div>
                 `;
                 
@@ -1665,7 +2170,7 @@
             // حفظ الرسائل في التخزين المحلي
             saveMessages() {
                 try {
-                    // حفظ آخر 100 رسالة فقط لتجنب مشاكل التخزين
+                    // حفظ آخر 100 رسالة فقط
                     const messagesToSave = this.messages.slice(-100);
                     localStorage.setItem('p2p_messages', JSON.stringify(messagesToSave));
                 } catch (error) {
@@ -1724,7 +2229,8 @@
             // تحديث معلومات الطرف الآخر
             updatePeerInfo() {
                 if (this.connection) {
-                    this.elements.peerName.textContent = `مستخدم: ${this.connection.peer.substring(0, 15)}...`;
+                    const username = this.extractUsernameFromId(this.connection.peer);
+                    this.elements.peerName.textContent = `مستخدم: ${username}`;
                 }
             }
 
@@ -1763,26 +2269,6 @@
                         console.error('❌ خطأ في النسخ:', err);
                         this.showNotification('error', 'خطأ', 'تعذر نسخ المعرف');
                     });
-            }
-
-            // توليد معرف جديد
-            generateNewId() {
-                if (this.isConnected) {
-                    this.showNotification('warning', 'اتصال نشط', 'لا يمكن تغيير المعرف أثناء الاتصال');
-                    return;
-                }
-                
-                this.myId = this.generatePeerId();
-                this.elements.myId.value = this.myId;
-                localStorage.setItem('p2p_messenger_id', this.myId);
-                
-                // إعادة تهيئة Peer
-                if (this.peer) {
-                    this.peer.destroy();
-                }
-                this.initializePeer();
-                
-                this.showNotification('success', 'تم التوليد', 'تم توليد معرف جديد');
             }
 
             // عرض الإشعارات
@@ -1866,7 +2352,7 @@
         // تهيئة التطبيق عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
             const app = new P2PMessenger();
-            window.p2pMessenger = app; // لجعل التطبيق متاحًا في وحدة التحكم
+            window.p2pMessenger = app;
             console.log('🚀 P2P Messenger جاهز للاستخدام!');
             
             // التحذير عند إغلاق الصفحة
