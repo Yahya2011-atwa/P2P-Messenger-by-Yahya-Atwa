@@ -3,381 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المراسلة المباشرة - P2P Messenger</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>منصة المراسلة المباشرة</title>
     <style>
-        /* ========== CSS كامل ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3a0ca3;
-            --success-color: #4cc9f0;
-            --danger-color: #f72585;
-            --warning-color: #f8961e;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --gray-color: #6c757d;
-            --bg-color: #f5f7fb;
-            --card-color: #ffffff;
-            --border-color: #e0e0e0;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --radius: 12px;
-        }
-
         body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #f5f7fb 0%, #e4edf5 100%);
-            color: var(--dark-color);
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
             min-height: 100vh;
             direction: rtl;
         }
 
-        /* شاشة تسجيل الدخول */
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            padding: 20px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            width: 100%;
-            animation: slideUp 0.5s ease;
-            text-align: center;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .login-logo {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .login-title {
-            color: var(--dark-color);
-            margin-bottom: 10px;
-            font-size: 1.8rem;
-        }
-
-        .login-subtitle {
-            color: var(--gray-color);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-
-        .login-form {
-            margin: 30px 0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.2rem;
-            text-align: center;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input.code-input {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-        }
-
-        .form-group .input-hint {
-            font-size: 0.9rem;
-            color: var(--gray-color);
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .login-button {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
-        }
-
-        .login-button.secondary {
-            background: var(--light-color);
-            color: var(--dark-color);
-            border: 2px solid var(--border-color);
-            margin-top: 15px;
-        }
-
-        .login-button.secondary:hover {
-            background: #e9ecef;
-            border-color: var(--primary-color);
-        }
-
-        .login-tips {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-            text-align: right;
-        }
-
-        .login-tips h4 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .login-tips ul {
-            padding-right: 20px;
-        }
-
-        .login-tips li {
-            margin-bottom: 8px;
-            color: var(--gray-color);
-        }
-
-        .code-display {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
-            border: 2px dashed var(--primary-color);
-        }
-
-        .code-display .code {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            letter-spacing: 3px;
-            margin: 10px 0;
-            font-family: monospace;
-        }
-
-        .code-display .label {
-            font-size: 0.9rem;
-            color: var(--gray-color);
-            margin-bottom: 5px;
-        }
-
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
+            max-width: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            display: none; /* مخفي حتى تسجيل الدخول */
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
         /* شريط العنوان */
-        .app-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        .header {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
             color: white;
-            border-radius: var(--radius);
-            padding: 20px 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
-        .app-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-            animation: shine 3s infinite;
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .header-content {
+        .header .user-info {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo i {
-            font-size: 2.2rem;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px;
-            border-radius: 50%;
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            color: var(--primary-color);
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .user-code {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
             font-weight: bold;
             font-size: 1.2rem;
         }
 
-        .user-details {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .user-code {
-            font-weight: 600;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            font-family: monospace;
-        }
-
-        .user-name {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin-top: 2px;
-        }
-
-        .change-user-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        .change-user-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .connection-status {
+        .status {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
         }
 
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background-color: #ff4757;
-            animation: pulse 2s infinite;
-            position: relative;
-        }
-
-        .status-dot.connecting {
-            background-color: #ffa502;
-            animation: pulse-connecting 1s infinite;
+            background: #ff4757;
         }
 
         .status-dot.connected {
-            background-color: #2ed573;
-            animation: pulse-connected 2s infinite;
+            background: #2ed573;
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -385,393 +85,120 @@
             50% { opacity: 0.5; }
         }
 
-        @keyframes pulse-connecting {
-            0%, 100% { 
-                opacity: 1;
-                box-shadow: 0 0 0 0 rgba(255, 165, 2, 0.4);
-            }
-            50% { 
-                opacity: 0.8;
-                box-shadow: 0 0 0 10px rgba(255, 165, 2, 0);
-            }
-        }
-
-        @keyframes pulse-connected {
-            0%, 100% { 
-                opacity: 1;
-                box-shadow: 0 0 0 0 rgba(46, 213, 115, 0.4);
-            }
-            50% { 
-                opacity: 0.8;
-                box-shadow: 0 0 0 10px rgba(46, 213, 115, 0);
-            }
-        }
-
         /* المحتوى الرئيسي */
-        .app-main {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
+        .main-content {
             flex: 1;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 1024px) {
-            .app-main {
-                grid-template-columns: 1fr;
-            }
+            display: flex;
+            overflow: hidden;
         }
 
         /* لوحة التحكم */
         .control-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            width: 300px;
+            background: #f8f9fa;
+            border-left: 1px solid #dee2e6;
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        .panel-card {
-            background: var(--card-color);
-            border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .panel-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .panel-card h2 {
-            color: var(--primary-color);
+        .panel-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            font-size: 1.4rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .panel-section h3 {
+            color: #4361ee;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .control-group {
-            margin-bottom: 20px;
+        .input-group {
+            margin-bottom: 15px;
         }
 
-        .control-group label {
+        .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 600;
-            color: var(--dark-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: #495057;
         }
 
-        .input-with-button {
-            display: flex;
-            gap: 10px;
-        }
-
-        .input-with-button input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid var(--border-color);
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
             border-radius: 8px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.2rem;
-            text-align: center;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            transition: border-color 0.3s;
         }
 
-        .input-with-button input:focus {
+        .input-group input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            border-color: #4361ee;
         }
 
-        .input-with-button input:read-only {
-            background-color: #f8f9fa;
-            cursor: not-allowed;
-        }
-
-        /* الأزرار */
-        .btn-primary, .btn-secondary, .btn-icon, .btn-send {
-            padding: 12px 24px;
+        .button {
+            width: 100%;
+            padding: 12px;
+            background: #4361ee;
+            color: white;
             border: none;
             border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
             font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            min-width: 120px;
+        .button:hover {
+            background: #3a0ca3;
         }
 
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
-        }
-
-        .btn-secondary {
-            background: var(--light-color);
-            color: var(--dark-color);
-            border: 2px solid var(--border-color);
-        }
-
-        .btn-secondary:hover:not(:disabled) {
-            background: #e9ecef;
-            border-color: var(--primary-color);
-        }
-
-        .btn-icon {
-            padding: 12px;
-            background: var(--light-color);
-            color: var(--dark-color);
-            border: 2px solid var(--border-color);
-            width: 48px;
-            height: 48px;
-        }
-
-        .btn-icon:hover {
-            background: #e9ecef;
-            border-color: var(--primary-color);
-        }
-
-        .btn-send {
-            background: linear-gradient(135deg, var(--success-color), #2a9d8f);
-            color: white;
-            padding: 12px 30px;
-        }
-
-        .btn-send:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(76, 201, 240, 0.2);
-        }
-
-        button:disabled {
-            opacity: 0.5;
+        .button:disabled {
+            background: #6c757d;
             cursor: not-allowed;
-            transform: none !important;
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin: 25px 0;
+        .button.secondary {
+            background: #6c757d;
         }
 
-        /* معلومات الاتصال */
-        .connection-info {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 2px dashed var(--border-color);
+        .button.success {
+            background: #28a745;
         }
 
-        .connection-info h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .info-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
-            border-right: 4px solid var(--primary-color);
-            transition: transform 0.2s ease;
-        }
-
-        .info-item:hover {
-            transform: translateY(-3px);
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: var(--gray-color);
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-
-        .info-value {
-            color: var(--dark-color);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        /* التعليمات */
-        .instructions h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .instructions ol {
-            padding-right: 20px;
-            margin-bottom: 20px;
-        }
-
-        .instructions li {
-            margin-bottom: 10px;
-            padding-right: 10px;
-            position: relative;
-        }
-
-        .instructions li::before {
-            content: '';
-            position: absolute;
-            right: -20px;
-            top: 8px;
-            width: 8px;
-            height: 8px;
-            background: var(--primary-color);
-            border-radius: 50%;
-        }
-
-        .features {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .feature-tag {
-            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-            color: #00695c;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: transform 0.2s ease;
-        }
-
-        .feature-tag:hover {
-            transform: scale(1.05);
+        .button.danger {
+            background: #dc3545;
         }
 
         /* منطقة المحادثة */
-        .chat-section {
+        .chat-area {
+            flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        .chat-container {
-            background: var(--card-color);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--border-color);
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .chat-header h2 {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
-        }
-
-        .peer-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .message-count {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* نافذة الرسائل */
         .messages-container {
             flex: 1;
-            padding: 25px;
+            padding: 20px;
             overflow-y: auto;
-            background: #fafbfd;
-            min-height: 400px;
-            max-height: 60vh;
-            background-image: 
-                radial-gradient(circle at 25px 25px, rgba(0,0,0,0.05) 2px, transparent 0),
-                radial-gradient(circle at 75px 75px, rgba(0,0,0,0.05) 2px, transparent 0);
-            background-size: 100px 100px;
+            background: #f8f9fa;
         }
 
-        .welcome-message {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray-color);
-        }
-
-        .welcome-message i {
-            font-size: 4rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            opacity: 0.7;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .welcome-message h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--dark-color);
-        }
-
-        .welcome-message p {
-            font-size: 1.1rem;
-        }
-
-        /* الرسائل الفردية */
         .message {
-            margin-bottom: 20px;
-            max-width: 80%;
-            animation: fadeIn 0.3s ease;
+            margin-bottom: 15px;
+            max-width: 70%;
+            animation: fadeIn 0.3s;
         }
 
         @keyframes fadeIn {
@@ -788,1922 +215,883 @@
         }
 
         .message-content {
-            padding: 15px 20px;
-            border-radius: 20px;
+            padding: 12px 16px;
+            border-radius: 18px;
             position: relative;
             word-wrap: break-word;
-            line-height: 1.5;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            line-height: 1.4;
         }
 
         .message.sent .message-content {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: #4361ee;
             color: white;
             border-bottom-right-radius: 5px;
         }
 
         .message.received .message-content {
-            background: var(--light-color);
-            color: var(--dark-color);
+            background: white;
+            color: #333;
+            border: 1px solid #dee2e6;
             border-bottom-left-radius: 5px;
-            border: 1px solid var(--border-color);
-        }
-
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
-
-        .message-sender {
-            font-weight: bold;
-            color: var(--primary-color);
         }
 
         .message-time {
             font-size: 0.75rem;
-            opacity: 0.8;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .message.sent .message-time {
-            color: rgba(255, 255, 255, 0.9);
+            margin-top: 5px;
+            opacity: 0.7;
+            text-align: right;
         }
 
         .message.received .message-time {
-            color: var(--gray-color);
+            text-align: left;
         }
 
-        /* منطقة إدخال الرسالة */
-        .message-input-area {
-            padding: 25px;
-            border-top: 2px solid var(--border-color);
-            background: var(--card-color);
+        /* إدخال الرسالة */
+        .message-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #dee2e6;
         }
 
         .input-container {
             display: flex;
-            gap: 15px;
-            align-items: flex-end;
+            gap: 10px;
         }
 
         .input-container textarea {
             flex: 1;
-            padding: 15px;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
             resize: none;
-            min-height: 60px;
+            font-family: inherit;
+            font-size: 1rem;
+            min-height: 50px;
             max-height: 120px;
-            transition: all 0.3s ease;
         }
 
         .input-container textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            border-color: #4361ee;
         }
 
-        .input-container textarea:disabled {
-            background-color: #f8f9fa;
-            cursor: not-allowed;
-        }
-
-        .input-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .input-hint {
-            text-align: center;
-            margin-top: 10px;
-            color: var(--gray-color);
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        kbd {
-            background: var(--light-color);
-            padding: 3px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            font-size: 0.8rem;
-        }
-
-        /* التذييل */
-        .app-footer {
-            background: var(--card-color);
-            border-radius: var(--radius);
-            padding: 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            margin-top: auto;
-            border: 1px solid var(--border-color);
-        }
-
-        .footer-content p {
-            margin-bottom: 10px;
-            color: var(--gray-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tech-badges {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .badge {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            color: var(--primary-color);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: transform 0.2s ease;
-        }
-
-        .badge:hover {
-            transform: scale(1.05);
-        }
-
-        /* الإشعارات */
-        #notificationArea {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .notification {
-            background: white;
-            padding: 15px 20px;
-            border-radius: var(--radius);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
-            max-width: 350px;
-            border-right: 4px solid var(--primary-color);
-            transform-origin: left center;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(-100%) scale(0.8); opacity: 0; }
-            to { transform: translateX(0) scale(1); opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            to { opacity: 0; transform: translateX(-100%) scale(0.8); }
-        }
-
-        .notification.success {
-            border-right-color: var(--success-color);
-        }
-
-        .notification.error {
-            border-right-color: var(--danger-color);
-        }
-
-        .notification.warning {
-            border-right-color: var(--warning-color);
-        }
-
-        .notification.info {
-            border-right-color: var(--primary-color);
-        }
-
-        .notification i {
-            font-size: 1.5rem;
-        }
-
-        .notification.success i {
-            color: var(--success-color);
-        }
-
-        .notification.error i {
-            color: var(--danger-color);
-        }
-
-        .notification.warning i {
-            color: var(--warning-color);
-        }
-
-        .notification.info i {
-            color: var(--primary-color);
-        }
-
-        .notification-content {
-            flex: 1;
-        }
-
-        .notification-content h4 {
-            margin-bottom: 5px;
-            font-size: 1rem;
-        }
-
-        .notification-content p {
-            font-size: 0.9rem;
-            color: var(--gray-color);
-        }
-
-        /* نافذة الإيموجي */
-        .emoji-picker {
-            position: fixed;
-            bottom: 120px;
-            left: 30px;
-            background: var(--card-color);
-            border-radius: var(--radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            width: 300px;
-            display: none;
-            border: 1px solid var(--border-color);
-        }
-
-        .emoji-picker.show {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px) scale(0.9); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
-        }
-
-        .emoji-header {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .emoji-header h4 {
-            color: var(--primary-color);
-            font-size: 1rem;
-        }
-
-        .emoji-grid {
-            padding: 15px;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .emoji-item {
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px;
-            text-align: center;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .emoji-item:hover {
-            background: var(--light-color);
-            transform: scale(1.2);
-        }
-
-        /* إعادة الاتصال */
-        .reconnect-banner {
-            background: linear-gradient(135deg, var(--warning-color), #e67e22);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: slideDown 0.5s ease;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .reconnect-banner button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .reconnect-banner button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* نافذة تغيير المستخدم */
-        .change-user-overlay {
+        /* شاشة تسجيل الدخول */
+        .login-screen {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10001;
-            padding: 20px;
+            z-index: 1000;
         }
 
-        .change-user-overlay.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* كود تسجيل الدخول */
-        .login-code-container {
+        .login-box {
             background: white;
             padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 90%;
             text-align: center;
         }
 
-        .your-code {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin: 30px 0;
-            letter-spacing: 5px;
-            font-family: monospace;
+        .login-box h2 {
+            color: #4361ee;
+            margin-bottom: 10px;
+        }
+
+        .login-box p {
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .code-display {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
-            border: 3px dashed var(--primary-color);
+            margin: 20px 0;
+            border: 2px dashed #4361ee;
         }
 
-        .code-actions {
+        .code-display .code {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4361ee;
+            letter-spacing: 3px;
+            font-family: monospace;
+        }
+
+        /* إشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             display: flex;
+            align-items: center;
             gap: 15px;
-            margin-top: 30px;
+            z-index: 1001;
+            animation: slideIn 0.3s, fadeOut 0.3s 2.7s forwards;
+            border-right: 4px solid #4361ee;
         }
 
-        .code-actions button {
-            flex: 1;
-            padding: 15px;
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        /* مخصص للشاشات الصغيرة */
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(-100%); }
+        }
+
+        .notification.success {
+            border-right-color: #28a745;
+        }
+
+        .notification.error {
+            border-right-color: #dc3545;
+        }
+
+        .notification.info {
+            border-right-color: #17a2b8;
+        }
+
+        /* للتطبيقات الصغيرة */
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .app-header {
-                padding: 15px;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .user-info {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .app-main {
-                gap: 20px;
-            }
-            
-            .panel-card, .chat-header, .message-input-area {
-                padding: 15px;
-            }
-            
-            .input-with-button {
+            .main-content {
                 flex-direction: column;
             }
             
-            .action-buttons {
-                flex-direction: column;
+            .control-panel {
+                width: 100%;
+                border-left: none;
+                border-bottom: 1px solid #dee2e6;
             }
             
             .message {
-                max-width: 90%;
+                max-width: 85%;
             }
-            
-            .emoji-picker {
-                width: calc(100% - 40px);
-                left: 20px;
-                right: 20px;
-            }
-            
-            .reconnect-banner {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-            
-            .login-container {
-                padding: 30px 20px;
-            }
-            
-            .your-code {
-                font-size: 2rem;
-                letter-spacing: 3px;
-            }
-        }
-
-        /* تأثيرات التحميل */
-        .loading {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
         }
     </style>
 </head>
 <body>
     <!-- شاشة تسجيل الدخول -->
-    <div id="loginOverlay" class="login-overlay">
-        <div class="login-container">
-            <div class="login-logo">
-                <i class="fas fa-comments"></i>
-            </div>
-            <h1 class="login-title">منصة المراسلة المباشرة</h1>
-            <p class="login-subtitle">اختر كودك الشخصي للبدء</p>
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <h2>👋 مرحباً بك</h2>
+            <p>ادخل كوداً شخصياً للبدء</p>
             
-            <div class="login-form">
-                <div class="form-group">
-                    <label for="userCodeInput">
-                        <i class="fas fa-hashtag"></i>
-                        الكود الشخصي
-                    </label>
-                    <input 
-                        type="text" 
-                        id="userCodeInput" 
-                        placeholder="مثال: 184512"
-                        class="code-input"
-                        autocomplete="off"
-                        autofocus
-                        maxlength="10"
-                        pattern="[0-9]*"
-                        inputmode="numeric"
-                    >
-                    <div class="input-hint">
-                        <i class="fas fa-info-circle"></i>
-                        أدخل أرقام فقط (يمكنك تغييره لاحقاً)
-                    </div>
-                </div>
-                
-                <div class="form-group" style="margin-top: 30px;">
-                    <label for="userNameInput">
-                        <i class="fas fa-user"></i>
-                        اسمك (اختياري)
-                    </label>
-                    <input 
-                        type="text" 
-                        id="userNameInput" 
-                        placeholder="مثال: أحمد"
-                        autocomplete="off"
-                    >
-                    <div class="input-hint">
-                        <i class="fas fa-info-circle"></i>
-                        سيظهر هذا الاسم في الرسائل
-                    </div>
-                </div>
-                
-                <button id="loginButton" class="login-button">
-                    <i class="fas fa-save"></i>
-                    حفظ والبدء
-                </button>
-                
-                <button id="generateCodeButton" class="login-button secondary">
-                    <i class="fas fa-random"></i>
-                    توليد كود عشوائي
-                </button>
+            <div class="input-group">
+                <input type="number" id="userCodeInput" placeholder="مثال: 123456" maxlength="6" autofocus>
+                <input type="text" id="userNameInput" placeholder="اسمك (اختياري)" style="margin-top: 10px;">
             </div>
             
-            <div class="login-tips">
-                <h4><i class="fas fa-lightbulb"></i> كيف تعمل؟</h4>
-                <ul>
-                    <li>اختر كوداً شخصياً مثل: 123456 أو 184512</li>
-                    <li>أرسل هذا الكود للشخص الذي تريد التواصل معه</li>
-                    <li>سيتم حفظ الكود على هذا الجهاز</li>
-                    <li>يمكنك تغيير الكود لاحقاً من الأعلى</li>
-                </ul>
+            <button class="button" onclick="registerUser()">
+                💾 حفظ والبدء
+            </button>
+            
+            <div style="margin-top: 20px; color: #6c757d; font-size: 0.9rem;">
+                ⚡ يتم تخزين البيانات محلياً على جهازك فقط
             </div>
         </div>
     </div>
 
-    <!-- نافذة تأكيد الكود -->
-    <div id="confirmCodeOverlay" class="login-overlay" style="display: none;">
-        <div class="login-code-container">
-            <div class="login-logo">
-                <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
-            </div>
-            <h1 class="login-title">تم إنشاء كودك الشخصي!</h1>
-            <p class="login-subtitle">شارك هذا الكود مع من تريد التواصل معهم</p>
-            
-            <div class="your-code" id="confirmCodeDisplay">184512</div>
-            
-            <div class="login-tips">
-                <h4><i class="fas fa-share-alt"></i> شارك الكود:</h4>
-                <ul>
-                    <li>انسخ الكود وأرسله لصديقك</li>
-                    <li>اطلب منه إدخال هذا الكود في حقل "الكود الشخصي للآخر"</li>
-                    <li>انقر على زر "الاتصال"</li>
-                    <li>ابدأ المحادثة!</li>
-                </ul>
-            </div>
-            
-            <div class="code-actions">
-                <button id="copyCodeButton" class="login-button">
-                    <i class="fas fa-copy"></i> نسخ الكود
-                </button>
-                <button id="startChatButton" class="login-button" style="background: var(--success-color);">
-                    <i class="fas fa-comments"></i> بدء المحادثة
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة تغيير المستخدم -->
-    <div id="changeUserOverlay" class="change-user-overlay">
-        <div class="login-container">
-            <div class="login-logo">
-                <i class="fas fa-user-edit"></i>
-            </div>
-            <h1 class="login-title">تغيير الإعدادات الشخصية</h1>
-            
-            <div class="login-form">
-                <div class="form-group">
-                    <label for="changeUserCodeInput">
-                        <i class="fas fa-hashtag"></i>
-                        الكود الشخصي الجديد
-                    </label>
-                    <input 
-                        type="text" 
-                        id="changeUserCodeInput" 
-                        class="code-input"
-                        placeholder="أدخل كودك الجديد..."
-                        maxlength="10"
-                        pattern="[0-9]*"
-                        inputmode="numeric"
-                        autocomplete="off"
-                        autofocus
-                    >
-                </div>
-                
-                <div class="form-group">
-                    <label for="changeUserNameInput">
-                        <i class="fas fa-user"></i>
-                        اسمك (اختياري)
-                    </label>
-                    <input 
-                        type="text" 
-                        id="changeUserNameInput" 
-                        placeholder="اسمك..."
-                        autocomplete="off"
-                    >
-                </div>
-                
-                <div class="action-buttons" style="margin-top: 30px;">
-                    <button id="saveNewUserButton" class="login-button" style="background: var(--success-color);">
-                        <i class="fas fa-save"></i>
-                        حفظ التغييرات
-                    </button>
-                    <button id="cancelChangeUser" class="login-button" style="background: var(--gray-color);">
-                        <i class="fas fa-times"></i>
-                        إلغاء
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- التطبيق الرئيسي -->
-    <div class="container" id="mainApp">
+    <!-- تطبيق المراسلة -->
+    <div id="appContainer" class="container" style="display: none;">
         <!-- شريط العنوان -->
-        <header class="app-header">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-comments"></i>
-                    <h1>P2P Messenger</h1>
+        <div class="header">
+            <h1>📱 مراسلة مباشرة P2P</h1>
+            <div class="user-info">
+                <div class="user-code" id="myCodeDisplay">000000</div>
+                <div id="userNameDisplay">مستخدم</div>
+            </div>
+            <div class="status" id="connectionStatus">
+                <div class="status-dot"></div>
+                <span id="statusText">غير متصل</span>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <!-- منطقة المحادثة -->
+            <div class="chat-area">
+                <div class="messages-container" id="messagesContainer">
+                    <div style="text-align: center; padding: 40px; color: #6c757d;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">💬</div>
+                        <h3>مرحباً في المراسلة المباشرة</h3>
+                        <p>قم بالاتصال بشخص آخر لبدء المحادثة</p>
+                    </div>
                 </div>
                 
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">#</div>
-                    <div class="user-details">
-                        <div class="user-code" id="userCodeDisplay">000000</div>
-                        <div class="user-name" id="userNameDisplay">مستخدم</div>
-                        <button class="change-user-btn" id="changeUserBtn">
-                            <i class="fas fa-edit"></i> تغيير
+                <!-- إدخال الرسالة -->
+                <div class="message-input">
+                    <div class="input-container">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="اكتب رسالتك هنا..."
+                            rows="1"
+                            disabled
+                        ></textarea>
+                        <button class="button" id="sendBtn" disabled onclick="sendMessage()">
+                            📤 إرسال
                         </button>
                     </div>
+                    <div style="text-align: center; margin-top: 10px; color: #6c757d; font-size: 0.8rem;">
+                        ↵ اضغط Enter للإرسال
+                    </div>
+                </div>
+            </div>
+
+            <!-- لوحة التحكم -->
+            <div class="control-panel">
+                <div class="panel-section">
+                    <h3>⚙️ إعدادات الاتصال</h3>
+                    
+                    <div class="input-group">
+                        <label>كودك الشخصي:</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="myCode" readonly style="background: #f8f9fa;">
+                            <button class="button secondary" onclick="copyMyCode()" style="width: auto; padding: 0 15px;">
+                                📋 نسخ
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>كود الشخص الآخر:</label>
+                        <input type="number" id="peerCodeInput" placeholder="أدخل الكود هنا">
+                    </div>
+                    
+                    <button class="button success" id="connectBtn" onclick="connectToPeer()">
+                        🔌 الاتصال
+                    </button>
+                    
+                    <button class="button danger" id="disconnectBtn" onclick="disconnect()" disabled>
+                        ❌ قطع الاتصال
+                    </button>
                 </div>
                 
-                <div class="connection-status" id="connectionStatus">
-                    <span class="status-dot"></span>
-                    <span class="status-text">غير متصل</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- إعادة الاتصال -->
-        <div id="reconnectBanner" class="reconnect-banner" style="display: none;">
-            <span>لديك اتصال سابق، هل تريد إعادة الاتصال؟</span>
-            <div>
-                <button id="reconnectBtn" class="btn-reconnect">
-                    <i class="fas fa-plug"></i> إعادة الاتصال
-                </button>
-                <button id="dismissReconnect" class="btn-reconnect">
-                    <i class="fas fa-times"></i> تجاهل
-                </button>
-            </div>
-        </div>
-
-        <main class="app-main">
-            <!-- لوحة التحكم -->
-            <section class="control-panel">
-                <div class="panel-card">
-                    <h2><i class="fas fa-cogs"></i> إعدادات الاتصال</h2>
-                    
-                    <div class="connection-controls">
-                        <!-- عرض الكود -->
-                        <div class="control-group">
-                            <label for="myId"><i class="fas fa-hashtag"></i> كودك الشخصي</label>
-                            <div class="code-display">
-                                <div class="label">الكود الخاص بك:</div>
-                                <div class="code" id="myCodeDisplay">184512</div>
-                                <div class="input-hint">
-                                    <i class="fas fa-share-alt"></i> شارك هذا الكود مع من تريد التواصل معهم
-                                </div>
-                            </div>
-                            <div class="action-buttons">
-                                <button id="copyMyId" class="btn-secondary">
-                                    <i class="fas fa-copy"></i> نسخ الكود
-                                </button>
-                                <button id="shareCodeBtn" class="btn-secondary">
-                                    <i class="fas fa-share-alt"></i> مشاركة
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- إدخال كود الجهة الأخرى -->
-                        <div class="control-group">
-                            <label for="peerId"><i class="fas fa-user-plus"></i> الكود الشخصي للآخر</label>
-                            <div class="input-with-button">
-                                <input 
-                                    type="text" 
-                                    id="peerId" 
-                                    placeholder="أدخل كود الشخص الآخر"
-                                    class="code-input"
-                                    maxlength="10"
-                                    pattern="[0-9]*"
-                                    inputmode="numeric"
-                                >
-                                <button id="connectBtn" class="btn-primary">
-                                    <i class="fas fa-plug"></i> الاتصال
-                                </button>
-                            </div>
-                            <div class="input-hint">
-                                <i class="fas fa-history"></i> سيتم حفظ آخر كود للاتصال السريع
-                            </div>
-                        </div>
-
-                        <!-- إجراءات -->
-                        <div class="action-buttons">
-                            <button id="disconnectBtn" class="btn-secondary" disabled>
-                                <i class="fas fa-plug-circle-xmark"></i> قطع الاتصال
-                            </button>
-                            <button id="clearChatBtn" class="btn-secondary">
-                                <i class="fas fa-trash"></i> مسح المحادثة
-                            </button>
-                        </div>
-
-                        <!-- معلومات الاتصال -->
-                        <div class="connection-info" id="connectionInfo" style="display: none;">
-                            <h3><i class="fas fa-info-circle"></i> معلومات الاتصال</h3>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <span class="info-label">الحالة:</span>
-                                    <span class="info-value" id="connState">-</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">النوع:</span>
-                                    <span class="info-value" id="connType">-</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">السرعة:</span>
-                                    <span class="info-value" id="connSpeed">-</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- التعليمات -->
-                <div class="panel-card instructions">
-                    <h3><i class="fas fa-lightbulb"></i> كيف تعمل؟</h3>
-                    <ol>
-                        <li>اختر كوداً شخصياً وحفظه</li>
-                        <li>انسخ كودك وأرسله للطرف الآخر</li>
-                        <li>أدخل كود الشخص الآخر في الحقل المخصص</li>
+                <div class="panel-section">
+                    <h3>📝 تعليمات</h3>
+                    <ol style="padding-right: 20px; color: #495057; line-height: 1.8;">
+                        <li>انسخ كودك من الأعلى</li>
+                        <li>أرسله للشخص الآخر</li>
+                        <li>أدخل كود الشخص الآخر</li>
                         <li>انقر على زر "الاتصال"</li>
-                        <li>ابدأ المراسلة الفورية!</li>
+                        <li>ابدأ المراسلة!</li>
                     </ol>
-                    <div class="features">
-                        <span class="feature-tag"><i class="fas fa-shield-alt"></i> مشفر</span>
-                        <span class="feature-tag"><i class="fas fa-bolt"></i> فوري</span>
-                        <span class="feature-tag"><i class="fas fa-server"></i> لا سيرفرات</span>
-                        <span class="feature-tag"><i class="fas fa-hashtag"></i> نظام كود</span>
-                    </div>
                 </div>
-            </section>
-
-            <!-- منطقة المحادثة -->
-            <section class="chat-section">
-                <div class="chat-container">
-                    <!-- رأس المحادثة -->
-                    <div class="chat-header">
-                        <h2><i class="fas fa-comment-dots"></i> المحادثة</h2>
-                        <div class="chat-info" id="chatInfo">
-                            <span id="peerName" class="peer-name">لم يتم الاتصال بعد</span>
-                            <span class="message-count" id="messageCount">0 رسالة</span>
-                        </div>
-                    </div>
-
-                    <!-- نافذة الرسائل -->
-                    <div class="messages-container" id="messagesContainer">
-                        <div class="welcome-message">
-                            <i class="fas fa-handshake"></i>
-                            <h3>مرحبًا في منصة المراسلة المباشرة</h3>
-                            <p>قم بالاتصال بشخص آخر لبدء المحادثة</p>
-                        </div>
-                    </div>
-
-                    <!-- منطقة إدخال الرسالة -->
-                    <div class="message-input-area">
-                        <div class="input-container">
-                            <textarea 
-                                id="messageInput" 
-                                placeholder="اكتب رسالتك هنا..." 
-                                rows="2"
-                                disabled
-                            ></textarea>
-                            <div class="input-actions">
-                                <button id="sendBtn" class="btn-send" disabled>
-                                    <i class="fas fa-paper-plane"></i> إرسال
-                                </button>
-                                <button id="emojiBtn" class="btn-icon" title="إيموجي">
-                                    <i class="far fa-smile"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="input-hint">
-                            <i class="fas fa-keyboard"></i> اضغط <kbd>Enter</kbd> للإرسال، <kbd>Shift+Enter</kbd> لسطر جديد
-                        </div>
-                    </div>
+                
+                <div class="panel-section">
+                    <h3>🛠️ أدوات</h3>
+                    <button class="button secondary" onclick="clearChat()">
+                        🗑️ مسح المحادثة
+                    </button>
+                    <button class="button secondary" onclick="changeUser()" style="margin-top: 10px;">
+                        🔄 تغيير المستخدم
+                    </button>
                 </div>
-            </section>
-        </main>
-
-        <!-- التذييل -->
-        <footer class="app-footer">
-            <div class="footer-content">
-                <p>
-                    <i class="fas fa-code"></i> مبني بـ 
-                    <strong>WebRTC</strong> و <strong>PeerJS</strong>
-                </p>
-                <p class="tech-badges">
-                    <span class="badge">P2P</span>
-                    <span class="badge">End-to-End</span>
-                    <span class="badge">No Server</span>
-                    <span class="badge">Code System</span>
-                </p>
-            </div>
-        </footer>
-
-        <!-- الإشعارات -->
-        <div id="notificationArea"></div>
-
-        <!-- نافذة الإيموجي -->
-        <div class="emoji-picker" id="emojiPicker">
-            <div class="emoji-header">
-                <h4>اختر إيموجي</h4>
-                <button class="btn-icon close-emoji">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="emoji-grid">
-                <!-- سيتم إضافة الإيموجي عبر JavaScript -->
             </div>
         </div>
     </div>
 
-    <!-- مكتبات JavaScript عبر CDN -->
-    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    
-    <!-- كود JavaScript مدمج -->
+    <!-- منطقة الإشعارات -->
+    <div id="notificationArea"></div>
+
     <script>
-        // ========== JavaScript كامل ==========
-        class P2PMessenger {
-            constructor() {
-                this.peer = null;
-                this.connection = null;
-                this.userCode = this.getSavedUserCode();
-                this.userName = this.getSavedUserName();
-                this.myId = this.generatePeerId();
-                this.messages = [];
-                this.isConnected = false;
-                this.connectionAttempts = 0;
-                this.maxConnectionAttempts = 5;
-                this.reconnectTimeout = null;
-                
-                this.initializeElements();
-                this.initializeEventListeners();
-                
-                // إذا كان هناك كود مستخدم، نبدأ التطبيق
-                if (this.userCode) {
-                    this.startApp();
-                } else {
-                    this.showLoginScreen();
-                }
+        // ========== المتغيرات الرئيسية ==========
+        let myCode = '';
+        let myName = 'مستخدم';
+        let peerConnection = null;
+        let dataChannel = null;
+        let messages = [];
+        let isConnected = false;
+        let isCaller = false;
+
+        // ========== WebRTC Configuration ==========
+        const configuration = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' },
+                { urls: 'stun:stun3.l.google.com:19302' }
+            ]
+        };
+
+        // ========== تسجيل المستخدم ==========
+        function registerUser() {
+            const codeInput = document.getElementById('userCodeInput');
+            const nameInput = document.getElementById('userNameInput');
+            
+            let code = codeInput.value.trim();
+            let name = nameInput.value.trim();
+            
+            if (!code || code.length < 3) {
+                showNotification('error', 'خطأ', 'الرجاء إدخال كود مكون من 3 أرقام على الأقل');
+                codeInput.focus();
+                return;
             }
-
-            // توليد كود عشوائي
-            generateRandomCode() {
-                // توليد كود مكون من 6 أرقام
-                return Math.floor(100000 + Math.random() * 900000).toString();
+            
+            if (name.length > 20) {
+                showNotification('error', 'خطأ', 'الاسم يجب أن يكون أقل من 20 حرفاً');
+                nameInput.focus();
+                return;
             }
+            
+            // حفظ بيانات المستخدم
+            myCode = code;
+            myName = name || 'مستخدم';
+            
+            localStorage.setItem('p2p_code', myCode);
+            localStorage.setItem('p2p_name', myName);
+            
+            // إخفاء شاشة تسجيل الدخول
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            
+            // تحديث الواجهة
+            updateUserDisplay();
+            loadMessages();
+            
+            showNotification('success', 'مرحباً!', `تم تسجيل دخولك باستخدام الكود: ${myCode}`);
+        }
 
-            // الحصول على كود المستخدم المحفوظ
-            getSavedUserCode() {
-                return localStorage.getItem('p2p_user_code');
+        // ========== عرض بيانات المستخدم ==========
+        function updateUserDisplay() {
+            document.getElementById('myCodeDisplay').textContent = myCode;
+            document.getElementById('userNameDisplay').textContent = myName;
+            document.getElementById('myCode').value = myCode;
+        }
+
+        // ========== الاتصال بالطرف الآخر ==========
+        async function connectToPeer() {
+            const peerCodeInput = document.getElementById('peerCodeInput');
+            const peerCode = peerCodeInput.value.trim();
+            
+            if (!peerCode || peerCode.length < 3) {
+                showNotification('error', 'خطأ', 'الرجاء إدخال كود صحيح');
+                peerCodeInput.focus();
+                return;
             }
-
-            // الحصول على اسم المستخدم المحفوظ
-            getSavedUserName() {
-                return localStorage.getItem('p2p_user_name') || 'مستخدم';
+            
+            if (peerCode === myCode) {
+                showNotification('error', 'خطأ', 'لا يمكنك الاتصال بنفسك');
+                return;
             }
-
-            // حفظ كود المستخدم
-            saveUserCode(code) {
-                if (code && code.trim() && /^\d+$/.test(code.trim())) {
-                    localStorage.setItem('p2p_user_code', code.trim());
-                    this.userCode = code.trim();
-                    return true;
-                }
-                return false;
+            
+            if (isConnected) {
+                showNotification('warning', 'اتصال نشط', 'لديك اتصال نشط بالفعل');
+                return;
             }
-
-            // حفظ اسم المستخدم
-            saveUserName(name) {
-                if (name && name.trim()) {
-                    localStorage.setItem('p2p_user_name', name.trim());
-                    this.userName = name.trim();
-                    return true;
-                }
-                return false;
-            }
-
-            // توليد معرف فريد بناءً على الكود
-            generatePeerId() {
-                return `code-${this.userCode}-${Date.now().toString(36)}`;
-            }
-
-            // استخراج الكود من المعرف
-            extractCodeFromId(peerId) {
-                try {
-                    const parts = peerId.split('-');
-                    if (parts.length > 1 && parts[0] === 'code') {
-                        return parts[1];
-                    }
-                } catch (e) {
-                    console.log('❌ خطأ في فك تشفير الكود:', e);
-                }
-                return null;
-            }
-
-            // استخراج الاسم من الرسالة
-            extractNameFromData(data) {
-                return data.sender || 'مستخدم';
-            }
-
-            // عرض شاشة تسجيل الدخول
-            showLoginScreen() {
-                const loginOverlay = document.getElementById('loginOverlay');
-                const userCodeInput = document.getElementById('userCodeInput');
-                const generateCodeButton = document.getElementById('generateCodeButton');
+            
+            showNotification('info', 'جاري الاتصال...', `محاولة الاتصال بكود: ${peerCode}`);
+            updateStatus('connecting');
+            
+            // حفظ كود الاتصال الأخير
+            localStorage.setItem('last_peer_code', peerCode);
+            
+            try {
+                // إنشاء اتصال WebRTC
+                peerConnection = new RTCPeerConnection(configuration);
                 
-                loginOverlay.style.display = 'flex';
-                userCodeInput.focus();
+                // إنشاء قناة بيانات
+                dataChannel = peerConnection.createDataChannel('chat');
+                setupDataChannel();
                 
-                // التركيز على حقل الإدخال
-                setTimeout(() => {
-                    userCodeInput.focus();
-                }, 100);
+                // إنشاء العرض
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
                 
-                // توليد كود عشوائي
-                generateCodeButton.addEventListener('click', () => {
-                    const randomCode = this.generateRandomCode();
-                    userCodeInput.value = randomCode;
-                    userCodeInput.focus();
-                    userCodeInput.select();
-                });
-                
-                // السماح فقط بأرقام في حقل الكود
-                userCodeInput.addEventListener('input', (e) => {
-                    e.target.value = e.target.value.replace(/\D/g, '');
-                });
-            }
-
-            // تأكيد الكود
-            confirmCode(code, name) {
-                const loginOverlay = document.getElementById('loginOverlay');
-                const confirmOverlay = document.getElementById('confirmCodeOverlay');
-                const confirmCodeDisplay = document.getElementById('confirmCodeDisplay');
-                const copyCodeButton = document.getElementById('copyCodeButton');
-                const startChatButton = document.getElementById('startChatButton');
-                
-                // عرض الكود
-                confirmCodeDisplay.textContent = code;
-                
-                // نسخ الكود
-                copyCodeButton.addEventListener('click', () => {
-                    navigator.clipboard.writeText(code)
-                        .then(() => {
-                            this.showNotification('success', 'تم النسخ', 'تم نسخ الكود إلى الحافظة');
-                        })
-                        .catch(err => {
-                            console.error('❌ خطأ في النسخ:', err);
-                        });
-                });
-                
-                // بدء المحادثة
-                startChatButton.addEventListener('click', () => {
-                    if (this.saveUserCode(code) && this.saveUserName(name)) {
-                        confirmOverlay.style.display = 'none';
-                        this.startApp();
-                        this.showNotification('success', 'مرحباً!', `تم تسجيل دخولك باستخدام الكود: ${code}`);
-                    }
-                });
-                
-                // الانتقال لشاشة التأكيد
-                loginOverlay.style.display = 'none';
-                confirmOverlay.style.display = 'flex';
-            }
-
-            // بدء التطبيق
-            startApp() {
-                const mainApp = document.getElementById('mainApp');
-                
-                // عرض التطبيق الرئيسي
-                mainApp.style.display = 'flex';
-                
-                // تحديث عرض بيانات المستخدم
-                this.updateUserDisplay();
-                
-                // تهيئة باقي التطبيق
-                this.initializePeer();
-                this.initializeEmojiPicker();
-                this.restoreChat();
-                this.updateUI();
-                
-                // محاولة إعادة الاتصال التلقائي
-                this.attemptAutoReconnect();
-            }
-
-            // تحديث عرض بيانات المستخدم
-            updateUserDisplay() {
-                if (this.userCode) {
-                    // عرض الكود
-                    document.getElementById('userCodeDisplay').textContent = this.userCode;
-                    document.getElementById('myCodeDisplay').textContent = this.userCode;
-                    
-                    // عرض الاسم
-                    document.getElementById('userNameDisplay').textContent = this.userName;
-                    
-                    // إنشاء صورة رمزية من الرقم الأول من الكود
-                    const avatarElement = document.getElementById('userAvatar');
-                    const firstDigit = this.userCode.charAt(0);
-                    avatarElement.textContent = `#${firstDigit}`;
-                    
-                    // تلوين الصورة الرمزية بناءً على الكود
-                    const colors = ['#4361ee', '#3a0ca3', '#4cc9f0', '#f72585', '#f8961e', '#2a9d8f'];
-                    const colorIndex = parseInt(firstDigit) % colors.length;
-                    avatarElement.style.background = colors[colorIndex];
-                    avatarElement.style.color = 'white';
-                    
-                    // تحديث المعرف
-                    this.myId = this.generatePeerId();
-                }
-            }
-
-            // تغيير بيانات المستخدم
-            changeUserData(newCode, newName) {
-                if (this.saveUserCode(newCode) && this.saveUserName(newName || this.userName)) {
-                    this.updateUserDisplay();
-                    
-                    // إعادة إنشاء Peer مع المعرف الجديد
-                    if (this.peer) {
-                        this.peer.destroy();
-                    }
-                    
-                    this.initializePeer();
-                    
-                    this.showNotification('success', 'تم التحديث', 'تم تغيير بياناتك الشخصية بنجاح');
-                    return true;
-                }
-                return false;
-            }
-
-            // تهيئة العناصر
-            initializeElements() {
-                this.elements = {
-                    // عناصر تسجيل الدخول
-                    loginOverlay: document.getElementById('loginOverlay'),
-                    userCodeInput: document.getElementById('userCodeInput'),
-                    userNameInput: document.getElementById('userNameInput'),
-                    loginButton: document.getElementById('loginButton'),
-                    generateCodeButton: document.getElementById('generateCodeButton'),
-                    
-                    // عناصر تأكيد الكود
-                    confirmCodeOverlay: document.getElementById('confirmCodeOverlay'),
-                    confirmCodeDisplay: document.getElementById('confirmCodeDisplay'),
-                    copyCodeButton: document.getElementById('copyCodeButton'),
-                    startChatButton: document.getElementById('startChatButton'),
-                    
-                    // عناصر تغيير المستخدم
-                    changeUserOverlay: document.getElementById('changeUserOverlay'),
-                    changeUserBtn: document.getElementById('changeUserBtn'),
-                    changeUserCodeInput: document.getElementById('changeUserCodeInput'),
-                    changeUserNameInput: document.getElementById('changeUserNameInput'),
-                    saveNewUserButton: document.getElementById('saveNewUserButton'),
-                    cancelChangeUser: document.getElementById('cancelChangeUser'),
-                    
-                    // عناصر التطبيق الرئيسي
-                    myCodeDisplay: document.getElementById('myCodeDisplay'),
-                    peerId: document.getElementById('peerId'),
-                    connectBtn: document.getElementById('connectBtn'),
-                    disconnectBtn: document.getElementById('disconnectBtn'),
-                    clearChatBtn: document.getElementById('clearChatBtn'),
-                    copyMyId: document.getElementById('copyMyId'),
-                    shareCodeBtn: document.getElementById('shareCodeBtn'),
-                    messageInput: document.getElementById('messageInput'),
-                    sendBtn: document.getElementById('sendBtn'),
-                    messagesContainer: document.getElementById('messagesContainer'),
-                    connectionStatus: document.getElementById('connectionStatus'),
-                    connectionInfo: document.getElementById('connectionInfo'),
-                    connState: document.getElementById('connState'),
-                    connType: document.getElementById('connType'),
-                    connSpeed: document.getElementById('connSpeed'),
-                    chatInfo: document.getElementById('chatInfo'),
-                    peerName: document.getElementById('peerName'),
-                    messageCount: document.getElementById('messageCount'),
-                    emojiBtn: document.getElementById('emojiBtn'),
-                    emojiPicker: document.getElementById('emojiPicker'),
-                    reconnectBanner: document.getElementById('reconnectBanner'),
-                    reconnectBtn: document.getElementById('reconnectBtn'),
-                    dismissReconnect: document.getElementById('dismissReconnect')
-                };
-
-                if (this.userCode) {
-                    // تحميل آخر كود اتصال
-                    const lastPeerCode = localStorage.getItem('p2p_last_peer_code');
-                    if (lastPeerCode) {
-                        this.elements.peerId.value = lastPeerCode;
-                    }
-                }
-            }
-
-            // تهيئة PeerJS
-            initializePeer() {
-                const config = {
-                    host: '0.peerjs.com',
-                    port: 443,
-                    path: '/',
-                    secure: true,
-                    debug: 2,
-                    config: {
-                        iceServers: [
-                            { urls: 'stun:stun.l.google.com:19302' },
-                            { urls: 'stun:stun1.l.google.com:19302' },
-                            { urls: 'stun:stun2.l.google.com:19302' },
-                            { urls: 'stun:stun3.l.google.com:19302' },
-                            { urls: 'stun:stun4.l.google.com:19302' }
-                        ],
-                        iceCandidatePoolSize: 10,
-                        iceTransportPolicy: 'all'
-                    }
-                };
-
-                this.peer = new Peer(this.myId, config);
-                this.setupPeerEvents();
-            }
-
-            // إعداد أحداث PeerJS
-            setupPeerEvents() {
-                this.peer.on('open', (id) => {
-                    console.log('✅ PeerJS متصل، المعرف:', id);
-                    this.showNotification('success', 'جاهز للاتصال', `يمكنك الآن مشاركة كودك: ${this.userCode}`);
-                    this.updateConnectionStatus('connected');
-                });
-
-                this.peer.on('connection', (conn) => {
-                    this.handleIncomingConnection(conn);
-                });
-
-                this.peer.on('error', (err) => {
-                    console.error('❌ خطأ في PeerJS:', err);
-                    
-                    if (err.type === 'server-error' || err.type === 'network') {
-                        this.showNotification('warning', 'فقد الاتصال بالسيرفر', 'جاري إعادة المحاولة...');
-                        this.reconnectToServer();
-                    } else if (err.type === 'unavailable-id') {
-                        // إذا كان المعرف مستخدم بالفعل، نضيف جزءاً عشوائياً
-                        this.myId = this.generatePeerId() + '-' + Math.random().toString(36).substr(2, 4);
-                        this.initializePeer();
-                        this.showNotification('info', 'تم تحديث الاتصال', 'تم تحديث اتصالك بالسيرفر');
-                    } else {
-                        this.showNotification('error', 'خطأ في الاتصال', err.message);
-                    }
-                    
-                    this.updateConnectionStatus('disconnected');
-                });
-
-                this.peer.on('disconnected', () => {
-                    console.log('⚠️ تم قطع الاتصال مع سيرفر PeerJS');
-                    this.updateConnectionStatus('disconnected');
-                    
-                    setTimeout(() => {
-                        if (!this.peer.disconnected) return;
-                        this.reconnectToServer();
-                    }, 3000);
-                });
-
-                this.peer.on('close', () => {
-                    console.log('🔒 تم إغلاق PeerJS');
-                    this.updateConnectionStatus('disconnected');
-                });
-            }
-
-            // إعادة الاتصال بالسيرفر
-            reconnectToServer() {
-                if (this.connectionAttempts >= this.maxConnectionAttempts) {
-                    this.showNotification('error', 'فشل الاتصال', 'تعذر الاتصال بالسيرفر بعد عدة محاولات');
-                    return;
-                }
-
-                this.connectionAttempts++;
-                console.log(`🔄 محاولة إعادة الاتصال ${this.connectionAttempts}/${this.maxConnectionAttempts}`);
-                
-                this.showNotification('info', 'إعادة الاتصال', `جاري إعادة الاتصال... (${this.connectionAttempts})`);
-                
-                this.peer.reconnect();
-            }
-
-            // معالجة الاتصالات الواردة
-            handleIncomingConnection(conn) {
-                if (this.connection && this.connection.open) {
-                    conn.close();
-                    this.showNotification('warning', 'اتصال مرفوض', 'لديك اتصال نشط بالفعل');
-                    return;
-                }
-
-                this.connection = conn;
-                this.setupConnectionEvents();
-                
-                const peerCode = this.extractCodeFromId(conn.peer);
-                if (peerCode) {
-                    this.savePeerCode(peerCode);
-                    this.showNotification('info', 'اتصال وارد', `محاولة اتصال من كود: ${peerCode}`);
-                } else {
-                    this.showNotification('info', 'اتصال وارد', 'محاولة اتصال من مستخدم');
-                }
-                
-                this.updateConnectionStatus('connecting');
-            }
-
-            // إعداد أحداث الاتصال
-            setupConnectionEvents() {
-                this.connection.on('open', () => {
-                    this.isConnected = true;
-                    this.connectionAttempts = 0;
-                    this.updateUI();
-                    
-                    // استخراج كود الطرف الآخر
-                    const peerCode = this.extractCodeFromId(this.connection.peer);
-                    if (peerCode) {
-                        this.showNotification('success', 'تم الاتصال!', `تم الاتصال مع كود: ${peerCode}`);
-                        this.updatePeerInfo(peerCode);
-                    } else {
-                        this.showNotification('success', 'تم الاتصال!', 'تم الاتصال مع مستخدم');
-                        this.updatePeerInfo('مستخدم');
-                    }
-                    
-                    this.updateConnectionStatus('connected');
-                    
-                    // إرسال معلومات المستخدم
-                    this.connection.send({
-                        type: 'user-info',
-                        code: this.userCode,
-                        name: this.userName,
-                        timestamp: Date.now()
-                    });
-                    
-                    // بدء مراقبة الاتصال
-                    this.startConnectionMonitor();
-                });
-
-                this.connection.on('data', (data) => {
-                    this.handleIncomingMessage(data);
-                });
-
-                this.connection.on('close', () => {
-                    this.handleDisconnection();
-                });
-
-                this.connection.on('error', (err) => {
-                    console.error('❌ خطأ في الاتصال:', err);
-                    this.showNotification('error', 'خطأ في الاتصال', err.message);
-                });
-
-                this.connection.on('iceStateChanged', (state) => {
-                    console.log('🔄 حالة ICE تغيرت:', state);
-                    this.elements.connState.textContent = this.translateIceState(state);
-                });
-            }
-
-            // بدء مراقبة الاتصال
-            startConnectionMonitor() {
-                clearInterval(this.connectionMonitor);
-                
-                this.connectionMonitor = setInterval(() => {
-                    if (this.connection && this.connection.open) {
-                        const startTime = Date.now();
-                        this.connection.send({ 
-                            type: 'ping', 
-                            timestamp: startTime 
-                        });
-                    } else {
-                        clearInterval(this.connectionMonitor);
-                    }
-                }, 5000);
-            }
-
-            // تهيئة مستمعي الأحداث
-            initializeEventListeners() {
-                // زر تسجيل الدخول
-                this.elements.loginButton.addEventListener('click', () => {
-                    const userCode = this.elements.userCodeInput.value.trim();
-                    const userName = this.elements.userNameInput.value.trim() || 'مستخدم';
-                    
-                    if (!userCode) {
-                        this.showNotification('warning', 'كود مطلوب', 'الرجاء إدخال كود شخصي');
-                        return;
-                    }
-                    
-                    if (!/^\d+$/.test(userCode)) {
-                        this.showNotification('warning', 'كود غير صالح', 'الكود يجب أن يحتوي على أرقام فقط');
-                        return;
-                    }
-                    
-                    if (userCode.length < 3) {
-                        this.showNotification('warning', 'كود قصير', 'الكود يجب أن يكون 3 أرقام على الأقل');
-                        return;
-                    }
-                    
-                    this.confirmCode(userCode, userName);
-                });
-                
-                // السماح فقط بأرقام في حقل كود الآخر
-                this.elements.peerId.addEventListener('input', (e) => {
-                    e.target.value = e.target.value.replace(/\D/g, '');
-                });
-                
-                // زر تغيير المستخدم
-                this.elements.changeUserBtn.addEventListener('click', () => {
-                    this.elements.changeUserOverlay.classList.add('show');
-                    this.elements.changeUserCodeInput.value = this.userCode;
-                    this.elements.changeUserNameInput.value = this.userName;
-                    setTimeout(() => {
-                        this.elements.changeUserCodeInput.focus();
-                        this.elements.changeUserCodeInput.select();
-                    }, 100);
-                });
-                
-                // السماح فقط بأرقام في حقل تغيير الكود
-                this.elements.changeUserCodeInput.addEventListener('input', (e) => {
-                    e.target.value = e.target.value.replace(/\D/g, '');
-                });
-                
-                // حفظ المستخدم الجديد
-                this.elements.saveNewUserButton.addEventListener('click', () => {
-                    const newCode = this.elements.changeUserCodeInput.value.trim();
-                    const newName = this.elements.changeUserNameInput.value.trim() || 'مستخدم';
-                    
-                    if (!newCode || !/^\d+$/.test(newCode)) {
-                        this.showNotification('warning', 'كود غير صالح', 'الرجاء إدخال كود صحيح (أرقام فقط)');
-                        return;
-                    }
-                    
-                    if (newCode.length < 3) {
-                        this.showNotification('warning', 'كود قصير', 'الكود يجب أن يكون 3 أرقام على الأقل');
-                        return;
-                    }
-                    
-                    if (this.changeUserData(newCode, newName)) {
-                        this.elements.changeUserOverlay.classList.remove('show');
-                    }
-                });
-                
-                // إلغاء تغيير المستخدم
-                this.elements.cancelChangeUser.addEventListener('click', () => {
-                    this.elements.changeUserOverlay.classList.remove('show');
-                });
-                
-                // إغلاق نافذة تغيير المستخدم بالضغط على ESC
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && this.elements.changeUserOverlay.classList.contains('show')) {
-                        this.elements.changeUserOverlay.classList.remove('show');
-                    }
-                });
-                
-                // زر الاتصال
-                this.elements.connectBtn.addEventListener('click', () => this.connectToPeer());
-                
-                // زر قطع الاتصال
-                this.elements.disconnectBtn.addEventListener('click', () => this.disconnect());
-                
-                // مسح المحادثة
-                this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
-                
-                // نسخ الكود
-                this.elements.copyMyId.addEventListener('click', () => this.copyMyCode());
-                
-                // مشاركة الكود
-                this.elements.shareCodeBtn.addEventListener('click', () => this.shareCode());
-                
-                // إرسال الرسالة
-                this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
-                
-                // إرسال بالإنتر
-                this.elements.messageInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        this.sendMessage();
-                    }
-                });
-                
-                // فتح/إغلاق الإيموجي
-                this.elements.emojiBtn.addEventListener('click', () => this.toggleEmojiPicker());
-                
-                // إغلاق الإيموجي عند النقر خارجها
-                document.addEventListener('click', (e) => {
-                    if (this.elements.emojiPicker && 
-                        !this.elements.emojiPicker.contains(e.target) && 
-                        !this.elements.emojiBtn.contains(e.target)) {
-                        this.elements.emojiPicker.classList.remove('show');
-                    }
-                });
-                
-                // إعادة الاتصال
-                this.elements.reconnectBtn.addEventListener('click', () => {
-                    this.elements.reconnectBanner.style.display = 'none';
-                    this.connectToPeer();
-                });
-                
-                // تجاهل إعادة الاتصال
-                this.elements.dismissReconnect.addEventListener('click', () => {
-                    this.elements.reconnectBanner.style.display = 'none';
-                });
-            }
-
-            // تهيئة منتقي الإيموجي
-            initializeEmojiPicker() {
-                const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇',
-                              '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚',
-                              '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩',
-                              '🥳', '😏', '😒', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣',
-                              '😖', '😫', '😩', '🥺', '😢', '😭', '😤', '😠', '😡', '🤬',
-                              '🤯', '😳', '🥵', '🥶', '😱', '😨', '😰', '😥', '😓', '🤗',
-                              '🤔', '🤭', '🤫', '🤥', '😶', '😐', '😑', '😬', '🙄', '😯',
-                              '😦', '😧', '😮', '😲', '🥱', '😴', '🤤', '😪', '😵', '🤐',
-                              '🥴', '🤢', '🤮', '🤧', '😷', '🤒', '🤕', '🤑', '🤠', '😈',
-                              '👿', '👹', '👺', '🤡', '💩', '👻', '💀', '☠️', '👽', '👾',
-                              '🤖', '🎃', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿',
-                              '😾', '👋', '🤚', '🖐', '✋', '🖖', '👌', '🤏', '✌️', '🤞',
-                              '🤟', '🤘', '🤙', '👈', '👉', '👆', '🖕', '👇', '☝️', '👍',
-                              '👎', '✊', '👊', '🤛', '🤜', '👏', '🙌', '👐', '🤲', '🤝',
-                              '🙏', '✍️', '💅', '🤳', '💪', '🦾', '🦵', '🦿', '🦶', '👂',
-                              '🦻', '👃', '🧠', '🦷', '🦴', '👀', '👁️', '👅', '👄', '💋',
-                              '❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔'];
-
-                const emojiGrid = this.elements.emojiPicker.querySelector('.emoji-grid');
-                emojis.forEach(emoji => {
-                    const emojiItem = document.createElement('div');
-                    emojiItem.className = 'emoji-item';
-                    emojiItem.textContent = emoji;
-                    emojiItem.addEventListener('click', () => this.insertEmoji(emoji));
-                    emojiGrid.appendChild(emojiItem);
-                });
-
-                // زر إغلاق الإيموجي
-                this.elements.emojiPicker.querySelector('.close-emoji').addEventListener('click', () => {
-                    this.elements.emojiPicker.classList.remove('show');
-                });
-            }
-
-            // محاولة إعادة الاتصال التلقائي
-            attemptAutoReconnect() {
-                const lastPeerCode = localStorage.getItem('p2p_last_peer_code');
-                const wasConnected = localStorage.getItem('p2p_was_connected') === 'true';
-                
-                if (lastPeerCode && wasConnected) {
-                    setTimeout(() => {
-                        this.elements.reconnectBanner.style.display = 'flex';
-                        this.elements.peerId.value = lastPeerCode;
-                    }, 1000);
-                }
-            }
-
-            // الاتصال بالشخص الآخر
-            async connectToPeer() {
-                const peerCode = this.elements.peerId.value.trim();
-                
-                if (!peerCode) {
-                    this.showNotification('warning', 'كود مطلوب', 'الرجاء إدخال كود الشخص الآخر');
-                    return;
-                }
-                
-                if (!/^\d+$/.test(peerCode)) {
-                    this.showNotification('warning', 'كود غير صالح', 'الكود يجب أن يحتوي على أرقام فقط');
-                    return;
-                }
-                
-                if (peerCode === this.userCode) {
-                    this.showNotification('warning', 'خطأ', 'لا يمكنك الاتصال بنفسك');
-                    return;
-                }
-                
-                if (this.connection && this.connection.open) {
-                    this.showNotification('warning', 'اتصال نشط', 'لديك اتصال نشط بالفعل');
-                    return;
-                }
-
-                this.showNotification('info', 'جاري الاتصال...', `محاولة الاتصال بكود: ${peerCode}`);
-                this.updateConnectionStatus('connecting');
-                
-                try {
-                    // بناء المعرف المستهدف بناءً على الكود
-                    const targetId = `code-${peerCode}`;
-                    
-                    this.connection = this.peer.connect(targetId, {
-                        reliable: true,
-                        serialization: 'json',
-                        metadata: {
-                            client: 'P2P Messenger',
-                            version: '1.0',
-                            code: this.userCode,
-                            name: this.userName,
-                            timestamp: Date.now()
-                        }
-                    });
-                    
-                    this.savePeerCode(peerCode);
-                    this.setupConnectionEvents();
-                    
-                    // مهلة الاتصال
-                    this.reconnectTimeout = setTimeout(() => {
-                        if (!this.isConnected) {
-                            this.showNotification('error', 'فشل الاتصال', 'انتهت مهلة الاتصال أو الكود غير صحيح');
-                            this.disconnect();
-                            this.updateConnectionStatus('disconnected');
-                        }
-                    }, 15000);
-                    
-                } catch (error) {
-                    console.error('❌ خطأ في الاتصال:', error);
-                    this.showNotification('error', 'فشل الاتصال', error.message);
-                    this.updateConnectionStatus('disconnected');
-                }
-            }
-
-            // حفظ كود الطرف الآخر
-            savePeerCode(peerCode) {
-                localStorage.setItem('p2p_last_peer_code', peerCode);
-                localStorage.setItem('p2p_was_connected', 'true');
-            }
-
-            // قطع الاتصال
-            disconnect() {
-                if (this.connection) {
-                    this.connection.close();
-                }
-                this.handleDisconnection();
-            }
-
-            // معالجة قطع الاتصال
-            handleDisconnection() {
-                this.isConnected = false;
-                this.connection = null;
-                clearTimeout(this.reconnectTimeout);
-                clearInterval(this.connectionMonitor);
-                this.updateUI();
-                this.showNotification('info', 'تم قطع الاتصال', 'تم إنهاء الاتصال مع الطرف الآخر');
-                this.updateConnectionStatus('disconnected');
-                localStorage.setItem('p2p_was_connected', 'false');
-            }
-
-            // إرسال رسالة
-            sendMessage() {
-                const messageText = this.elements.messageInput.value.trim();
-                
-                if (!messageText) {
-                    this.showNotification('warning', 'رسالة فارغة', 'الرجاء كتابة رسالة');
-                    return;
-                }
-                
-                if (!this.isConnected || !this.connection || !this.connection.open) {
-                    this.showNotification('error', 'غير متصل', 'لا يوجد اتصال نشط');
-                    return;
-                }
-
-                const message = {
-                    type: 'message',
-                    text: messageText,
-                    timestamp: new Date().toISOString(),
-                    sender: this.userName,
-                    senderCode: this.userCode,
-                    messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
-                };
-
-                try {
-                    this.connection.send(message);
-                    this.addMessage(message, 'sent');
-                    this.elements.messageInput.value = '';
-                    this.elements.messageInput.style.height = 'auto';
-                    
-                    // حفظ الرسائل
-                    this.saveMessages();
-                } catch (error) {
-                    console.error('❌ خطأ في إرسال الرسالة:', error);
-                    this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة');
-                }
-            }
-
-            // معالجة الرسائل الواردة
-            handleIncomingMessage(data) {
-                if (data.type === 'message') {
-                    this.addMessage(data, 'received');
-                    this.saveMessages();
-                } else if (data.type === 'ping') {
-                    this.connection.send({ type: 'pong', timestamp: data.timestamp });
-                } else if (data.type === 'pong') {
-                    const latency = Date.now() - data.timestamp;
-                    this.elements.connSpeed.textContent = `${latency}ms`;
-                } else if (data.type === 'user-info') {
-                    // تحديث معلومات الطرف الآخر
-                    this.updatePeerInfo(data.code, data.name);
-                }
-            }
-
-            // تحديث معلومات الطرف الآخر
-            updatePeerInfo(code, name) {
-                if (code && name) {
-                    this.elements.peerName.textContent = `كود: ${code} (${name})`;
-                } else if (code) {
-                    this.elements.peerName.textContent = `كود: ${code}`;
-                } else {
-                    this.elements.peerName.textContent = 'مستخدم متصل';
-                }
-            }
-
-            // إضافة رسالة إلى الواجهة
-            addMessage(messageData, type) {
-                // تجنب الرسائل المكررة
-                if (this.messages.some(msg => msg.messageId === messageData.messageId)) {
-                    return;
-                }
-                
-                const message = {
-                    ...messageData,
-                    id: Date.now() + Math.random(),
-                    type: type,
-                    localTimestamp: new Date().toISOString()
+                // حفظ العرض في localStorage (نظام بسيط للتواصل)
+                const connectionData = {
+                    type: 'offer',
+                    offer: offer,
+                    fromCode: myCode,
+                    fromName: myName,
+                    timestamp: Date.now()
                 };
                 
-                this.messages.push(message);
-                this.renderMessage(message);
-                this.updateMessageCount();
-                this.scrollToBottom();
+                localStorage.setItem(`offer_${peerCode}`, JSON.stringify(connectionData));
                 
-                // إشعار عند استلام رسالة جديدة
-                if (type === 'received') {
-                    const shortMessage = messageData.text.length > 50 ? 
-                        messageData.text.substring(0, 50) + '...' : 
-                        messageData.text;
-                    this.showNotification('info', `رسالة من ${messageData.sender}`, shortMessage);
-                }
-            }
-
-            // عرض الرسالة
-            renderMessage(message) {
-                const messageElement = document.createElement('div');
-                messageElement.className = `message ${message.type}`;
-                messageElement.dataset.id = message.id;
+                // محاولة العثور على رد
+                checkForAnswer(peerCode);
                 
-                const time = new Date(message.timestamp).toLocaleTimeString('ar-EG', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                // إضافة رمز الكود إذا كان متاحاً
-                let senderInfo = this.escapeHtml(message.sender);
-                if (message.senderCode) {
-                    senderInfo += ` (#${message.senderCode})`;
-                }
-                
-                messageElement.innerHTML = `
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-sender">${senderInfo}</span>
-                            <span class="message-time">
-                                <i class="far fa-clock"></i>
-                                ${time}
-                            </span>
-                        </div>
-                        ${this.escapeHtml(message.text)}
-                    </div>
-                `;
-                
-                // إزالة رسالة الترحيب إذا كانت موجودة
-                const welcomeMessage = this.elements.messagesContainer.querySelector('.welcome-message');
-                if (welcomeMessage) {
-                    welcomeMessage.remove();
-                }
-                
-                this.elements.messagesContainer.appendChild(messageElement);
-            }
-
-            // استعادة المحادثة من التخزين المحلي
-            restoreChat() {
-                try {
-                    const savedMessages = localStorage.getItem('p2p_messages');
-                    if (savedMessages) {
-                        this.messages = JSON.parse(savedMessages);
-                        this.messages.forEach(msg => this.renderMessage(msg));
-                        this.updateMessageCount();
-                    }
-                } catch (error) {
-                    console.error('❌ خطأ في استعادة المحادثة:', error);
-                    localStorage.removeItem('p2p_messages');
-                }
-            }
-
-            // حفظ الرسائل في التخزين المحلي
-            saveMessages() {
-                try {
-                    // حفظ آخر 100 رسالة فقط
-                    const messagesToSave = this.messages.slice(-100);
-                    localStorage.setItem('p2p_messages', JSON.stringify(messagesToSave));
-                } catch (error) {
-                    console.error('❌ خطأ في حفظ الرسائل:', error);
-                }
-            }
-
-            // تحديث واجهة المستخدم
-            updateUI() {
-                const isConnected = this.isConnected && this.connection && this.connection.open;
-                
-                // تحديث حالة الأزرار
-                this.elements.connectBtn.disabled = isConnected;
-                this.elements.disconnectBtn.disabled = !isConnected;
-                this.elements.messageInput.disabled = !isConnected;
-                this.elements.sendBtn.disabled = !isConnected;
-                
-                // تحديث معلومات الاتصال
-                this.elements.connectionInfo.style.display = isConnected ? 'block' : 'none';
-                
-                if (isConnected) {
-                    this.updateConnectionMetrics();
-                }
-            }
-
-            // تحديث حالة الاتصال
-            updateConnectionStatus(status) {
-                const statusDot = this.elements.connectionStatus.querySelector('.status-dot');
-                const statusText = this.elements.connectionStatus.querySelector('.status-text');
-                
-                statusDot.className = 'status-dot';
-                
-                switch(status) {
-                    case 'connected':
-                        statusDot.classList.add('connected');
-                        statusText.textContent = 'متصل';
-                        break;
-                    case 'connecting':
-                        statusDot.classList.add('connecting');
-                        statusText.textContent = 'جاري الاتصال...';
-                        break;
-                    case 'disconnected':
-                        statusText.textContent = 'غير متصل';
-                        break;
-                }
-            }
-
-            // تحديث معلومات الاتصال
-            updateConnectionMetrics() {
-                if (this.connection && this.peer) {
-                    this.elements.connType.textContent = this.connection.type || 'P2P';
-                    this.elements.connState.textContent = 'نشط';
-                }
-            }
-
-            // تحديث عداد الرسائل
-            updateMessageCount() {
-                const count = this.messages.length;
-                this.elements.messageCount.textContent = `${count} رسالة`;
-            }
-
-            // مسح المحادثة
-            clearChat() {
-                if (this.messages.length === 0) return;
-                
-                if (confirm('هل تريد مسح جميع الرسائل؟')) {
-                    this.messages = [];
-                    this.elements.messagesContainer.innerHTML = `
-                        <div class="welcome-message">
-                            <i class="fas fa-handshake"></i>
-                            <h3>مرحبًا في منصة المراسلة المباشرة</h3>
-                            <p>قم بالاتصال بشخص آخر لبدء المحادثة</p>
-                        </div>
-                    `;
-                    this.updateMessageCount();
-                    localStorage.removeItem('p2p_messages');
-                    this.showNotification('success', 'تم المسح', 'تم مسح جميع الرسائل');
-                }
-            }
-
-            // نسخ الكود
-            copyMyCode() {
-                navigator.clipboard.writeText(this.userCode)
-                    .then(() => {
-                        this.showNotification('success', 'تم النسخ', 'تم نسخ الكود إلى الحافظة');
-                    })
-                    .catch(err => {
-                        console.error('❌ خطأ في النسخ:', err);
-                        this.showNotification('error', 'خطأ', 'تعذر نسخ الكود');
-                    });
-            }
-
-            // مشاركة الكود
-            shareCode() {
-                const shareData = {
-                    title: 'كود المراسلة المباشرة',
-                    text: `كودي الشخصي للمراسلة المباشرة هو: ${this.userCode}`,
-                    url: window.location.href
-                };
-                
-                if (navigator.share) {
-                    navigator.share(shareData)
-                        .then(() => console.log('✅ تمت المشاركة بنجاح'))
-                        .catch(err => console.log('❌ خطأ في المشاركة:', err));
-                } else {
-                    this.copyMyCode();
-                }
-            }
-
-            // عرض الإشعارات
-            showNotification(type, title, message) {
-                const notificationArea = document.getElementById('notificationArea');
-                
-                const notification = document.createElement('div');
-                notification.className = `notification ${type}`;
-                
-                const icons = {
-                    success: 'fas fa-check-circle',
-                    error: 'fas fa-exclamation-circle',
-                    warning: 'fas fa-exclamation-triangle',
-                    info: 'fas fa-info-circle'
-                };
-                
-                notification.innerHTML = `
-                    <i class="${icons[type]}"></i>
-                    <div class="notification-content">
-                        <h4>${title}</h4>
-                        <p>${message}</p>
-                    </div>
-                `;
-                
-                notificationArea.appendChild(notification);
-                
-                // إزالة الإشعار بعد 3 ثوانٍ
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.remove();
-                    }
-                }, 3000);
-            }
-
-            // التمرير للأسفل
-            scrollToBottom() {
-                this.elements.messagesContainer.scrollTop = this.elements.messagesContainer.scrollHeight;
-            }
-
-            // تحويل حالة ICE
-            translateIceState(state) {
-                const states = {
-                    'new': 'جديد',
-                    'checking': 'جاري التحقق',
-                    'connected': 'متصل',
-                    'completed': 'مكتمل',
-                    'failed': 'فشل',
-                    'disconnected': 'منقطع',
-                    'closed': 'مغلق'
-                };
-                return states[state] || state;
-            }
-
-            // منع الثغرات الأمنية (HTML escaping)
-            escapeHtml(text) {
-                const div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
-            }
-
-            // إدراج إيموجي
-            insertEmoji(emoji) {
-                const input = this.elements.messageInput;
-                const start = input.selectionStart;
-                const end = input.selectionEnd;
-                const text = input.value;
-                
-                input.value = text.substring(0, start) + emoji + text.substring(end);
-                input.focus();
-                input.selectionStart = input.selectionEnd = start + emoji.length;
-                
-                this.elements.emojiPicker.classList.remove('show');
-            }
-
-            // تبديل منتقي الإيموجي
-            toggleEmojiPicker() {
-                this.elements.emojiPicker.classList.toggle('show');
+            } catch (error) {
+                console.error('❌ خطأ في الاتصال:', error);
+                showNotification('error', 'فشل الاتصال', 'تعذر إنشاء الاتصال');
+                updateStatus('disconnected');
             }
         }
 
-        // تهيئة التطبيق عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', () => {
-            const app = new P2PMessenger();
-            window.p2pMessenger = app;
-            console.log('🚀 P2P Messenger جاهز للاستخدام!');
+        // ========== التحقق من الرد ==========
+        async function checkForAnswer(peerCode) {
+            let attempts = 0;
+            const maxAttempts = 30; // 30 ثانية
             
-            // التحذير عند إغلاق الصفحة
-            window.addEventListener('beforeunload', (e) => {
-                if (app.isConnected) {
+            const checkInterval = setInterval(async () => {
+                attempts++;
+                
+                if (attempts > maxAttempts) {
+                    clearInterval(checkInterval);
+                    showNotification('error', 'انتهت المهلة', 'لم يتم الرد على طلب الاتصال');
+                    disconnect();
+                    return;
+                }
+                
+                const answerData = localStorage.getItem(`answer_${myCode}`);
+                if (answerData) {
+                    clearInterval(checkInterval);
+                    
+                    try {
+                        const data = JSON.parse(answerData);
+                        if (data.type === 'answer' && data.toCode === myCode) {
+                            await peerConnection.setRemoteDescription(data.answer);
+                            
+                            // مسح البيانات المؤقتة
+                            localStorage.removeItem(`answer_${myCode}`);
+                            localStorage.removeItem(`offer_${peerCode}`);
+                            
+                            showNotification('success', 'تم الاتصال!', `تم الاتصال مع ${data.fromName || peerCode}`);
+                            updateStatus('connected');
+                            isConnected = true;
+                            updateUI();
+                        }
+                    } catch (error) {
+                        console.error('❌ خطأ في معالجة الرد:', error);
+                        disconnect();
+                    }
+                }
+                
+                // أيضًا التحقق من العروض الواردة (إذا كان الطرف الآخر يحاول الاتصال)
+                const incomingOffer = localStorage.getItem(`offer_${myCode}`);
+                if (incomingOffer && !isCaller) {
+                    clearInterval(checkInterval);
+                    handleIncomingOffer(JSON.parse(incomingOffer));
+                }
+                
+            }, 1000);
+        }
+
+        // ========== معالجة العروض الواردة ==========
+        async function handleIncomingOffer(offerData) {
+            if (isConnected) {
+                showNotification('warning', 'اتصال مرفوض', 'لديك اتصال نشط بالفعل');
+                return;
+            }
+            
+            showNotification('info', 'اتصال وارد', `طلب اتصال من ${offerData.fromName || offerData.fromCode}`);
+            
+            try {
+                peerConnection = new RTCPeerConnection(configuration);
+                
+                // إعداد معالج لقناة البيانات الواردة
+                peerConnection.ondatachannel = (event) => {
+                    dataChannel = event.channel;
+                    setupDataChannel();
+                };
+                
+                await peerConnection.setRemoteDescription(offerData.offer);
+                
+                // إنشاء الرد
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+                
+                // حفظ الرد في localStorage
+                const answerData = {
+                    type: 'answer',
+                    answer: answer,
+                    toCode: offerData.fromCode,
+                    fromCode: myCode,
+                    fromName: myName,
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem(`answer_${offerData.fromCode}`, JSON.stringify(answerData));
+                
+                // مسح العرض بعد المعالجة
+                localStorage.removeItem(`offer_${myCode}`);
+                
+                showNotification('success', 'تم الاتصال!', `تم قبول الاتصال من ${offerData.fromName || offerData.fromCode}`);
+                updateStatus('connected');
+                isConnected = true;
+                updateUI();
+                
+            } catch (error) {
+                console.error('❌ خطأ في معالجة العرض:', error);
+                showNotification('error', 'فشل الاتصال', 'تعذر معالجة طلب الاتصال');
+                disconnect();
+            }
+        }
+
+        // ========== إعداد قناة البيانات ==========
+        function setupDataChannel() {
+            dataChannel.onopen = () => {
+                console.log('✅ قناة البيانات مفتوحة');
+                updateStatus('connected');
+                isConnected = true;
+                updateUI();
+            };
+            
+            dataChannel.onclose = () => {
+                console.log('🔒 قناة البيانات مغلقة');
+                handleDisconnection();
+            };
+            
+            dataChannel.onerror = (error) => {
+                console.error('❌ خطأ في قناة البيانات:', error);
+                handleDisconnection();
+            };
+            
+            dataChannel.onmessage = (event) => {
+                try {
+                    const message = JSON.parse(event.data);
+                    addMessage(message, 'received');
+                } catch (error) {
+                    console.error('❌ خطأ في معالجة الرسالة:', error);
+                }
+            };
+        }
+
+        // ========== إرسال رسالة ==========
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const messageText = input.value.trim();
+            
+            if (!messageText) {
+                showNotification('warning', 'رسالة فارغة', 'الرجاء كتابة رسالة');
+                return;
+            }
+            
+            if (!isConnected || !dataChannel || dataChannel.readyState !== 'open') {
+                showNotification('error', 'غير متصل', 'لا يوجد اتصال نشط');
+                return;
+            }
+            
+            const message = {
+                type: 'message',
+                text: messageText,
+                sender: myName,
+                senderCode: myCode,
+                timestamp: new Date().toISOString(),
+                messageId: Date.now() + Math.random()
+            };
+            
+            try {
+                dataChannel.send(JSON.stringify(message));
+                addMessage(message, 'sent');
+                input.value = '';
+                input.focus();
+                
+                // حفظ الرسائل
+                saveMessages();
+                
+            } catch (error) {
+                console.error('❌ خطأ في إرسال الرسالة:', error);
+                showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة');
+            }
+        }
+
+        // ========== إضافة رسالة للعرض ==========
+        function addMessage(messageData, type) {
+            // تجنب الرسائل المكررة
+            if (messages.some(msg => msg.messageId === messageData.messageId)) {
+                return;
+            }
+            
+            const message = {
+                ...messageData,
+                id: Date.now() + Math.random(),
+                type: type
+            };
+            
+            messages.push(message);
+            renderMessage(message);
+            updateMessageCount();
+            
+            // إشعار عند استلام رسالة جديدة
+            if (type === 'received') {
+                const shortText = messageData.text.length > 30 ? 
+                    messageData.text.substring(0, 30) + '...' : 
+                    messageData.text;
+                showNotification('info', `رسالة من ${messageData.sender}`, shortText);
+            }
+        }
+
+        // ========== عرض الرسالة ==========
+        function renderMessage(message) {
+            const container = document.getElementById('messagesContainer');
+            
+            // إزالة رسالة الترحيب إذا كانت موجودة
+            const welcomeMsg = container.querySelector('div[style*="text-align: center"]');
+            if (welcomeMsg) {
+                welcomeMsg.remove();
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${message.type}`;
+            
+            const time = new Date(message.timestamp).toLocaleTimeString('ar-EG', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            let senderInfo = message.sender;
+            if (message.senderCode && message.senderCode !== myCode) {
+                senderInfo += ` (#${message.senderCode})`;
+            }
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${message.text}
+                </div>
+                <div class="message-time">
+                    ${senderInfo} - ${time}
+                </div>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ========== قطع الاتصال ==========
+        function disconnect() {
+            if (dataChannel) {
+                dataChannel.close();
+            }
+            
+            if (peerConnection) {
+                peerConnection.close();
+            }
+            
+            handleDisconnection();
+            showNotification('info', 'تم قطع الاتصال', 'تم إنهاء الاتصال');
+        }
+
+        // ========== معالجة قطع الاتصال ==========
+        function handleDisconnection() {
+            peerConnection = null;
+            dataChannel = null;
+            isConnected = false;
+            isCaller = false;
+            
+            updateStatus('disconnected');
+            updateUI();
+            
+            // مسح البيانات المؤقتة
+            const myCode = localStorage.getItem('p2p_code');
+            if (myCode) {
+                localStorage.removeItem(`answer_${myCode}`);
+                localStorage.removeItem(`offer_${myCode}`);
+            }
+        }
+
+        // ========== تحديث حالة الاتصال ==========
+        function updateStatus(status) {
+            const statusDot = document.querySelector('.status-dot');
+            const statusText = document.getElementById('statusText');
+            
+            statusDot.className = 'status-dot';
+            
+            switch(status) {
+                case 'connected':
+                    statusDot.classList.add('connected');
+                    statusText.textContent = 'متصل';
+                    break;
+                case 'connecting':
+                    statusText.textContent = 'جاري الاتصال...';
+                    break;
+                case 'disconnected':
+                    statusText.textContent = 'غير متصل';
+                    break;
+            }
+        }
+
+        // ========== تحديث واجهة المستخدم ==========
+        function updateUI() {
+            const connectBtn = document.getElementById('connectBtn');
+            const disconnectBtn = document.getElementById('disconnectBtn');
+            const sendBtn = document.getElementById('sendBtn');
+            const messageInput = document.getElementById('messageInput');
+            
+            connectBtn.disabled = isConnected;
+            disconnectBtn.disabled = !isConnected;
+            sendBtn.disabled = !isConnected;
+            messageInput.disabled = !isConnected;
+        }
+
+        // ========== نسخ الكود ==========
+        function copyMyCode() {
+            navigator.clipboard.writeText(myCode)
+                .then(() => {
+                    showNotification('success', 'تم النسخ', 'تم نسخ الكود إلى الحافظة');
+                })
+                .catch(err => {
+                    console.error('❌ خطأ في النسخ:', err);
+                });
+        }
+
+        // ========== مسح المحادثة ==========
+        function clearChat() {
+            if (messages.length === 0) return;
+            
+            if (confirm('هل تريد مسح جميع الرسائل؟')) {
+                messages = [];
+                localStorage.removeItem('p2p_messages');
+                
+                const container = document.getElementById('messagesContainer');
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #6c757d;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">💬</div>
+                        <h3>مرحباً في المراسلة المباشرة</h3>
+                        <p>قم بالاتصال بشخص آخر لبدء المحادثة</p>
+                    </div>
+                `;
+                
+                showNotification('success', 'تم المسح', 'تم مسح جميع الرسائل');
+            }
+        }
+
+        // ========== تغيير المستخدم ==========
+        function changeUser() {
+            if (isConnected) {
+                if (!confirm('لديك اتصال نشط. هل تريد قطع الاتصال وتغيير المستخدم؟')) {
+                    return;
+                }
+                disconnect();
+            }
+            
+            localStorage.removeItem('p2p_code');
+            localStorage.removeItem('p2p_name');
+            
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            
+            document.getElementById('userCodeInput').value = '';
+            document.getElementById('userNameInput').value = '';
+            document.getElementById('userCodeInput').focus();
+        }
+
+        // ========== حفظ واستعادة الرسائل ==========
+        function saveMessages() {
+            try {
+                localStorage.setItem('p2p_messages', JSON.stringify(messages.slice(-100)));
+            } catch (error) {
+                console.error('❌ خطأ في حفظ الرسائل:', error);
+            }
+        }
+
+        function loadMessages() {
+            try {
+                const savedMessages = localStorage.getItem('p2p_messages');
+                if (savedMessages) {
+                    messages = JSON.parse(savedMessages);
+                    messages.forEach(msg => renderMessage(msg));
+                }
+            } catch (error) {
+                console.error('❌ خطأ في تحميل الرسائل:', error);
+            }
+        }
+
+        // ========== عرض الإشعارات ==========
+        function showNotification(type, title, message) {
+            const notificationArea = document.getElementById('notificationArea');
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: '💡'
+            };
+            
+            notification.innerHTML = `
+                <div>${icons[type]}</div>
+                <div style="flex: 1;">
+                    <strong>${title}</strong>
+                    <div style="font-size: 0.9rem; color: #666;">${message}</div>
+                </div>
+            `;
+            
+            notificationArea.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+
+        // ========== تحديث عداد الرسائل ==========
+        function updateMessageCount() {
+            // يمكن إضافة عداد إذا أردت
+        }
+
+        // ========== تهيئة التطبيق ==========
+        function init() {
+            // تحميل بيانات المستخدم المحفوظة
+            const savedCode = localStorage.getItem('p2p_code');
+            const savedName = localStorage.getItem('p2p_name');
+            
+            if (savedCode) {
+                myCode = savedCode;
+                myName = savedName || 'مستخدم';
+                
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+                
+                updateUserDisplay();
+                loadMessages();
+                
+                // تحميل آخر كود اتصال
+                const lastPeerCode = localStorage.getItem('last_peer_code');
+                if (lastPeerCode) {
+                    document.getElementById('peerCodeInput').value = lastPeerCode;
+                }
+            }
+            
+            // إرسال الرسالة بالإنتر
+            document.getElementById('messageInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    e.returnValue = 'لديك اتصال نشط. هل تريد مغادرة الصفحة؟';
+                    sendMessage();
                 }
             });
-        });
+            
+            // التركيز على حقل الرسالة عند الاتصال
+            document.getElementById('connectBtn').addEventListener('click', () => {
+                setTimeout(() => {
+                    document.getElementById('messageInput').focus();
+                }, 1000);
+            });
+            
+            // التحقق من العروض الواردة دورياً
+            setInterval(() => {
+                if (!isConnected) {
+                    const myCode = localStorage.getItem('p2p_code');
+                    if (myCode) {
+                        const incomingOffer = localStorage.getItem(`offer_${myCode}`);
+                        if (incomingOffer) {
+                            handleIncomingOffer(JSON.parse(incomingOffer));
+                        }
+                    }
+                }
+            }, 2000);
+            
+            console.log('🚀 تطبيق المراسلة المباشرة جاهز!');
+        }
+
+        // بدء التطبيق عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
