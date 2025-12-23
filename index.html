@@ -99,7 +99,7 @@
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: right;
         }
 
@@ -119,14 +119,31 @@
             border: 2px solid var(--border-color);
             border-radius: 8px;
             font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 2px;
             transition: all 0.3s ease;
+        }
+
+        .form-group input.code-input {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
         .form-group input:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .form-group .input-hint {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .login-button {
@@ -141,12 +158,24 @@
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .login-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
+        }
+
+        .login-button.secondary {
+            background: var(--light-color);
+            color: var(--dark-color);
+            border: 2px solid var(--border-color);
+            margin-top: 15px;
+        }
+
+        .login-button.secondary:hover {
+            background: #e9ecef;
+            border-color: var(--primary-color);
         }
 
         .login-tips {
@@ -172,6 +201,30 @@
         .login-tips li {
             margin-bottom: 8px;
             color: var(--gray-color);
+        }
+
+        .code-display {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px dashed var(--primary-color);
+        }
+
+        .code-display .code {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            letter-spacing: 3px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        .code-display .label {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-bottom: 5px;
         }
 
         .container {
@@ -263,9 +316,23 @@
             font-size: 1.2rem;
         }
 
-        .user-name {
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .user-code {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            font-family: monospace;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 2px;
         }
 
         .change-user-btn {
@@ -277,6 +344,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            margin-top: 5px;
         }
 
         .change-user-btn:hover {
@@ -409,7 +477,9 @@
             border: 2px solid var(--border-color);
             border-radius: 8px;
             font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 2px;
             transition: all 0.3s ease;
         }
 
@@ -1068,6 +1138,41 @@
             animation: fadeIn 0.3s ease;
         }
 
+        /* كود تسجيل الدخول */
+        .login-code-container {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .your-code {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 30px 0;
+            letter-spacing: 5px;
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px dashed var(--primary-color);
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .code-actions button {
+            flex: 1;
+            padding: 15px;
+        }
+
         /* مخصص للشاشات الصغيرة */
         @media (max-width: 768px) {
             .container {
@@ -1124,6 +1229,11 @@
             .login-container {
                 padding: 30px 20px;
             }
+            
+            .your-code {
+                font-size: 2rem;
+                letter-spacing: 3px;
+            }
         }
 
         /* تأثيرات التحميل */
@@ -1157,37 +1267,99 @@
                 <i class="fas fa-comments"></i>
             </div>
             <h1 class="login-title">منصة المراسلة المباشرة</h1>
-            <p class="login-subtitle">ادخل معرفك الشخصي لبدء الاستخدام</p>
+            <p class="login-subtitle">اختر كودك الشخصي للبدء</p>
             
             <div class="login-form">
                 <div class="form-group">
-                    <label for="usernameInput">
-                        <i class="fas fa-user"></i>
-                        معرفك الشخصي
+                    <label for="userCodeInput">
+                        <i class="fas fa-hashtag"></i>
+                        الكود الشخصي
                     </label>
                     <input 
                         type="text" 
-                        id="usernameInput" 
-                        placeholder="مثال: أحمد، محمد، خالد..."
+                        id="userCodeInput" 
+                        placeholder="مثال: 184512"
+                        class="code-input"
                         autocomplete="off"
                         autofocus
+                        maxlength="10"
+                        pattern="[0-9]*"
+                        inputmode="numeric"
                     >
+                    <div class="input-hint">
+                        <i class="fas fa-info-circle"></i>
+                        أدخل أرقام فقط (يمكنك تغييره لاحقاً)
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 30px;">
+                    <label for="userNameInput">
+                        <i class="fas fa-user"></i>
+                        اسمك (اختياري)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="userNameInput" 
+                        placeholder="مثال: أحمد"
+                        autocomplete="off"
+                    >
+                    <div class="input-hint">
+                        <i class="fas fa-info-circle"></i>
+                        سيظهر هذا الاسم في الرسائل
+                    </div>
                 </div>
                 
                 <button id="loginButton" class="login-button">
-                    <i class="fas fa-sign-in-alt"></i>
-                    حفظ والدخول
+                    <i class="fas fa-save"></i>
+                    حفظ والبدء
+                </button>
+                
+                <button id="generateCodeButton" class="login-button secondary">
+                    <i class="fas fa-random"></i>
+                    توليد كود عشوائي
                 </button>
             </div>
             
             <div class="login-tips">
-                <h4><i class="fas fa-lightbulb"></i> نصائح مهمة:</h4>
+                <h4><i class="fas fa-lightbulb"></i> كيف تعمل؟</h4>
                 <ul>
-                    <li>اختر اسماً تعرفه أنت وأصدقاؤك</li>
-                    <li>المعرف سيتم حفظه على هذا الجهاز فقط</li>
-                    <li>يمكنك تغيير المعرف لاحقاً من الأعلى</li>
-                    <li>شارك هذا المعرف مع من تريد التواصل معهم</li>
+                    <li>اختر كوداً شخصياً مثل: 123456 أو 184512</li>
+                    <li>أرسل هذا الكود للشخص الذي تريد التواصل معه</li>
+                    <li>سيتم حفظ الكود على هذا الجهاز</li>
+                    <li>يمكنك تغيير الكود لاحقاً من الأعلى</li>
                 </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تأكيد الكود -->
+    <div id="confirmCodeOverlay" class="login-overlay" style="display: none;">
+        <div class="login-code-container">
+            <div class="login-logo">
+                <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+            </div>
+            <h1 class="login-title">تم إنشاء كودك الشخصي!</h1>
+            <p class="login-subtitle">شارك هذا الكود مع من تريد التواصل معهم</p>
+            
+            <div class="your-code" id="confirmCodeDisplay">184512</div>
+            
+            <div class="login-tips">
+                <h4><i class="fas fa-share-alt"></i> شارك الكود:</h4>
+                <ul>
+                    <li>انسخ الكود وأرسله لصديقك</li>
+                    <li>اطلب منه إدخال هذا الكود في حقل "الكود الشخصي للآخر"</li>
+                    <li>انقر على زر "الاتصال"</li>
+                    <li>ابدأ المحادثة!</li>
+                </ul>
+            </div>
+            
+            <div class="code-actions">
+                <button id="copyCodeButton" class="login-button">
+                    <i class="fas fa-copy"></i> نسخ الكود
+                </button>
+                <button id="startChatButton" class="login-button" style="background: var(--success-color);">
+                    <i class="fas fa-comments"></i> بدء المحادثة
+                </button>
             </div>
         </div>
     </div>
@@ -1198,20 +1370,37 @@
             <div class="login-logo">
                 <i class="fas fa-user-edit"></i>
             </div>
-            <h1 class="login-title">تغيير المعرف الشخصي</h1>
+            <h1 class="login-title">تغيير الإعدادات الشخصية</h1>
             
             <div class="login-form">
                 <div class="form-group">
-                    <label for="changeUsernameInput">
-                        <i class="fas fa-user"></i>
-                        المعرف الجديد
+                    <label for="changeUserCodeInput">
+                        <i class="fas fa-hashtag"></i>
+                        الكود الشخصي الجديد
                     </label>
                     <input 
                         type="text" 
-                        id="changeUsernameInput" 
-                        placeholder="أدخل معرفك الجديد..."
+                        id="changeUserCodeInput" 
+                        class="code-input"
+                        placeholder="أدخل كودك الجديد..."
+                        maxlength="10"
+                        pattern="[0-9]*"
+                        inputmode="numeric"
                         autocomplete="off"
                         autofocus
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="changeUserNameInput">
+                        <i class="fas fa-user"></i>
+                        اسمك (اختياري)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="changeUserNameInput" 
+                        placeholder="اسمك..."
+                        autocomplete="off"
                     >
                 </div>
                 
@@ -1240,8 +1429,9 @@
                 </div>
                 
                 <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">م</div>
-                    <div>
+                    <div class="user-avatar" id="userAvatar">#</div>
+                    <div class="user-details">
+                        <div class="user-code" id="userCodeDisplay">000000</div>
                         <div class="user-name" id="userNameDisplay">مستخدم</div>
                         <button class="change-user-btn" id="changeUserBtn">
                             <i class="fas fa-edit"></i> تغيير
@@ -1276,32 +1466,46 @@
                     <h2><i class="fas fa-cogs"></i> إعدادات الاتصال</h2>
                     
                     <div class="connection-controls">
-                        <!-- عرض المعرف -->
+                        <!-- عرض الكود -->
                         <div class="control-group">
-                            <label for="myId"><i class="fas fa-fingerprint"></i> معرفك الخاص</label>
-                            <div class="input-with-button">
-                                <input type="text" id="myId" readonly>
-                                <button id="copyMyId" class="btn-icon" title="نسخ المعرف">
-                                    <i class="fas fa-copy"></i>
+                            <label for="myId"><i class="fas fa-hashtag"></i> كودك الشخصي</label>
+                            <div class="code-display">
+                                <div class="label">الكود الخاص بك:</div>
+                                <div class="code" id="myCodeDisplay">184512</div>
+                                <div class="input-hint">
+                                    <i class="fas fa-share-alt"></i> شارك هذا الكود مع من تريد التواصل معهم
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button id="copyMyId" class="btn-secondary">
+                                    <i class="fas fa-copy"></i> نسخ الكود
+                                </button>
+                                <button id="shareCodeBtn" class="btn-secondary">
+                                    <i class="fas fa-share-alt"></i> مشاركة
                                 </button>
                             </div>
-                            <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-share-alt"></i> شارك هذا المعرف مع من تريد التواصل معهم
-                            </small>
                         </div>
 
-                        <!-- إدخال معرف الجهة الأخرى -->
+                        <!-- إدخال كود الجهة الأخرى -->
                         <div class="control-group">
-                            <label for="peerId"><i class="fas fa-user-plus"></i> معرف الشخص الآخر</label>
+                            <label for="peerId"><i class="fas fa-user-plus"></i> الكود الشخصي للآخر</label>
                             <div class="input-with-button">
-                                <input type="text" id="peerId" placeholder="أدخل معرف الشخص الآخر">
+                                <input 
+                                    type="text" 
+                                    id="peerId" 
+                                    placeholder="أدخل كود الشخص الآخر"
+                                    class="code-input"
+                                    maxlength="10"
+                                    pattern="[0-9]*"
+                                    inputmode="numeric"
+                                >
                                 <button id="connectBtn" class="btn-primary">
                                     <i class="fas fa-plug"></i> الاتصال
                                 </button>
                             </div>
-                            <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-history"></i> سيتم حفظ آخر معرف للاتصال السريع
-                            </small>
+                            <div class="input-hint">
+                                <i class="fas fa-history"></i> سيتم حفظ آخر كود للاتصال السريع
+                            </div>
                         </div>
 
                         <!-- إجراءات -->
@@ -1339,9 +1543,9 @@
                 <div class="panel-card instructions">
                     <h3><i class="fas fa-lightbulb"></i> كيف تعمل؟</h3>
                     <ol>
-                        <li>ادخل اسمك في بداية الاستخدام</li>
-                        <li>انسخ معرفك من الأعلى وأرسله للطرف الآخر</li>
-                        <li>أدخل معرف الشخص الآخر في الحقل المخصص</li>
+                        <li>اختر كوداً شخصياً وحفظه</li>
+                        <li>انسخ كودك وأرسله للطرف الآخر</li>
+                        <li>أدخل كود الشخص الآخر في الحقل المخصص</li>
                         <li>انقر على زر "الاتصال"</li>
                         <li>ابدأ المراسلة الفورية!</li>
                     </ol>
@@ -1349,7 +1553,7 @@
                         <span class="feature-tag"><i class="fas fa-shield-alt"></i> مشفر</span>
                         <span class="feature-tag"><i class="fas fa-bolt"></i> فوري</span>
                         <span class="feature-tag"><i class="fas fa-server"></i> لا سيرفرات</span>
-                        <span class="feature-tag"><i class="fas fa-user-lock"></i> معرف شخصي</span>
+                        <span class="feature-tag"><i class="fas fa-hashtag"></i> نظام كود</span>
                     </div>
                 </div>
             </section>
@@ -1412,7 +1616,7 @@
                     <span class="badge">P2P</span>
                     <span class="badge">End-to-End</span>
                     <span class="badge">No Server</span>
-                    <span class="badge">Your Identity</span>
+                    <span class="badge">Code System</span>
                 </p>
             </div>
         </footer>
@@ -1444,7 +1648,8 @@
             constructor() {
                 this.peer = null;
                 this.connection = null;
-                this.username = this.getSavedUsername();
+                this.userCode = this.getSavedUserCode();
+                this.userName = this.getSavedUserName();
                 this.myId = this.generatePeerId();
                 this.messages = [];
                 this.isConnected = false;
@@ -1455,76 +1660,145 @@
                 this.initializeElements();
                 this.initializeEventListeners();
                 
-                // إذا كان هناك معرف مستخدم، نبدأ التطبيق
-                if (this.username) {
+                // إذا كان هناك كود مستخدم، نبدأ التطبيق
+                if (this.userCode) {
                     this.startApp();
                 } else {
                     this.showLoginScreen();
                 }
             }
 
-            // الحصول على اسم المستخدم المحفوظ
-            getSavedUsername() {
-                return localStorage.getItem('p2p_username');
+            // توليد كود عشوائي
+            generateRandomCode() {
+                // توليد كود مكون من 6 أرقام
+                return Math.floor(100000 + Math.random() * 900000).toString();
             }
 
-            // حفظ اسم المستخدم
-            saveUsername(username) {
-                if (username && username.trim()) {
-                    localStorage.setItem('p2p_username', username.trim());
-                    this.username = username.trim();
+            // الحصول على كود المستخدم المحفوظ
+            getSavedUserCode() {
+                return localStorage.getItem('p2p_user_code');
+            }
+
+            // الحصول على اسم المستخدم المحفوظ
+            getSavedUserName() {
+                return localStorage.getItem('p2p_user_name') || 'مستخدم';
+            }
+
+            // حفظ كود المستخدم
+            saveUserCode(code) {
+                if (code && code.trim() && /^\d+$/.test(code.trim())) {
+                    localStorage.setItem('p2p_user_code', code.trim());
+                    this.userCode = code.trim();
                     return true;
                 }
                 return false;
             }
 
-            // توليد معرف فريد
+            // حفظ اسم المستخدم
+            saveUserName(name) {
+                if (name && name.trim()) {
+                    localStorage.setItem('p2p_user_name', name.trim());
+                    this.userName = name.trim();
+                    return true;
+                }
+                return false;
+            }
+
+            // توليد معرف فريد بناءً على الكود
             generatePeerId() {
-                // استخدام اسم المستخدم كجزء من المعرف
-                const usernamePart = this.username ? 
-                    encodeURIComponent(this.username).substring(0, 20) : 
-                    'user';
-                
-                const timestamp = Date.now().toString(36);
-                const randomStr = Math.random().toString(36).substr(2, 5);
-                
-                return `${usernamePart}-${timestamp}-${randomStr}`;
+                return `code-${this.userCode}-${Date.now().toString(36)}`;
+            }
+
+            // استخراج الكود من المعرف
+            extractCodeFromId(peerId) {
+                try {
+                    const parts = peerId.split('-');
+                    if (parts.length > 1 && parts[0] === 'code') {
+                        return parts[1];
+                    }
+                } catch (e) {
+                    console.log('❌ خطأ في فك تشفير الكود:', e);
+                }
+                return null;
+            }
+
+            // استخراج الاسم من الرسالة
+            extractNameFromData(data) {
+                return data.sender || 'مستخدم';
             }
 
             // عرض شاشة تسجيل الدخول
             showLoginScreen() {
                 const loginOverlay = document.getElementById('loginOverlay');
-                const usernameInput = document.getElementById('usernameInput');
-                const loginButton = document.getElementById('loginButton');
+                const userCodeInput = document.getElementById('userCodeInput');
+                const generateCodeButton = document.getElementById('generateCodeButton');
                 
                 loginOverlay.style.display = 'flex';
-                usernameInput.focus();
+                userCodeInput.focus();
                 
                 // التركيز على حقل الإدخال
                 setTimeout(() => {
-                    usernameInput.focus();
+                    userCodeInput.focus();
                 }, 100);
                 
-                // تسجيل الدخول عند الضغط على Enter
-                usernameInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        loginButton.click();
+                // توليد كود عشوائي
+                generateCodeButton.addEventListener('click', () => {
+                    const randomCode = this.generateRandomCode();
+                    userCodeInput.value = randomCode;
+                    userCodeInput.focus();
+                    userCodeInput.select();
+                });
+                
+                // السماح فقط بأرقام في حقل الكود
+                userCodeInput.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
+
+            // تأكيد الكود
+            confirmCode(code, name) {
+                const loginOverlay = document.getElementById('loginOverlay');
+                const confirmOverlay = document.getElementById('confirmCodeOverlay');
+                const confirmCodeDisplay = document.getElementById('confirmCodeDisplay');
+                const copyCodeButton = document.getElementById('copyCodeButton');
+                const startChatButton = document.getElementById('startChatButton');
+                
+                // عرض الكود
+                confirmCodeDisplay.textContent = code;
+                
+                // نسخ الكود
+                copyCodeButton.addEventListener('click', () => {
+                    navigator.clipboard.writeText(code)
+                        .then(() => {
+                            this.showNotification('success', 'تم النسخ', 'تم نسخ الكود إلى الحافظة');
+                        })
+                        .catch(err => {
+                            console.error('❌ خطأ في النسخ:', err);
+                        });
+                });
+                
+                // بدء المحادثة
+                startChatButton.addEventListener('click', () => {
+                    if (this.saveUserCode(code) && this.saveUserName(name)) {
+                        confirmOverlay.style.display = 'none';
+                        this.startApp();
+                        this.showNotification('success', 'مرحباً!', `تم تسجيل دخولك باستخدام الكود: ${code}`);
                     }
                 });
+                
+                // الانتقال لشاشة التأكيد
+                loginOverlay.style.display = 'none';
+                confirmOverlay.style.display = 'flex';
             }
 
             // بدء التطبيق
             startApp() {
-                const loginOverlay = document.getElementById('loginOverlay');
                 const mainApp = document.getElementById('mainApp');
-                
-                // إخفاء شاشة تسجيل الدخول
-                loginOverlay.style.display = 'none';
                 
                 // عرض التطبيق الرئيسي
                 mainApp.style.display = 'flex';
                 
-                // تحديث عرض اسم المستخدم
+                // تحديث عرض بيانات المستخدم
                 this.updateUserDisplay();
                 
                 // تهيئة باقي التطبيق
@@ -1539,30 +1813,33 @@
 
             // تحديث عرض بيانات المستخدم
             updateUserDisplay() {
-                if (this.username) {
-                    // عرض اسم المستخدم
-                    document.getElementById('userNameDisplay').textContent = this.username;
+                if (this.userCode) {
+                    // عرض الكود
+                    document.getElementById('userCodeDisplay').textContent = this.userCode;
+                    document.getElementById('myCodeDisplay').textContent = this.userCode;
                     
-                    // إنشاء صورة رمزية (Avatar) من الحرف الأول
+                    // عرض الاسم
+                    document.getElementById('userNameDisplay').textContent = this.userName;
+                    
+                    // إنشاء صورة رمزية من الرقم الأول من الكود
                     const avatarElement = document.getElementById('userAvatar');
-                    const firstLetter = this.username.charAt(0).toUpperCase();
-                    avatarElement.textContent = firstLetter;
+                    const firstDigit = this.userCode.charAt(0);
+                    avatarElement.textContent = `#${firstDigit}`;
                     
-                    // تلوين الصورة الرمزية بناءً على اسم المستخدم
+                    // تلوين الصورة الرمزية بناءً على الكود
                     const colors = ['#4361ee', '#3a0ca3', '#4cc9f0', '#f72585', '#f8961e', '#2a9d8f'];
-                    const colorIndex = this.username.length % colors.length;
+                    const colorIndex = parseInt(firstDigit) % colors.length;
                     avatarElement.style.background = colors[colorIndex];
                     avatarElement.style.color = 'white';
                     
                     // تحديث المعرف
                     this.myId = this.generatePeerId();
-                    this.elements.myId.value = this.myId;
                 }
             }
 
-            // تغيير اسم المستخدم
-            changeUsername(newUsername) {
-                if (this.saveUsername(newUsername)) {
+            // تغيير بيانات المستخدم
+            changeUserData(newCode, newName) {
+                if (this.saveUserCode(newCode) && this.saveUserName(newName || this.userName)) {
                     this.updateUserDisplay();
                     
                     // إعادة إنشاء Peer مع المعرف الجديد
@@ -1572,7 +1849,7 @@
                     
                     this.initializePeer();
                     
-                    this.showNotification('success', 'تم التحديث', 'تم تغيير معرفك الشخصي بنجاح');
+                    this.showNotification('success', 'تم التحديث', 'تم تغيير بياناتك الشخصية بنجاح');
                     return true;
                 }
                 return false;
@@ -1583,23 +1860,33 @@
                 this.elements = {
                     // عناصر تسجيل الدخول
                     loginOverlay: document.getElementById('loginOverlay'),
-                    usernameInput: document.getElementById('usernameInput'),
+                    userCodeInput: document.getElementById('userCodeInput'),
+                    userNameInput: document.getElementById('userNameInput'),
                     loginButton: document.getElementById('loginButton'),
+                    generateCodeButton: document.getElementById('generateCodeButton'),
+                    
+                    // عناصر تأكيد الكود
+                    confirmCodeOverlay: document.getElementById('confirmCodeOverlay'),
+                    confirmCodeDisplay: document.getElementById('confirmCodeDisplay'),
+                    copyCodeButton: document.getElementById('copyCodeButton'),
+                    startChatButton: document.getElementById('startChatButton'),
                     
                     // عناصر تغيير المستخدم
                     changeUserOverlay: document.getElementById('changeUserOverlay'),
                     changeUserBtn: document.getElementById('changeUserBtn'),
-                    changeUsernameInput: document.getElementById('changeUsernameInput'),
+                    changeUserCodeInput: document.getElementById('changeUserCodeInput'),
+                    changeUserNameInput: document.getElementById('changeUserNameInput'),
                     saveNewUserButton: document.getElementById('saveNewUserButton'),
                     cancelChangeUser: document.getElementById('cancelChangeUser'),
                     
                     // عناصر التطبيق الرئيسي
-                    myId: document.getElementById('myId'),
+                    myCodeDisplay: document.getElementById('myCodeDisplay'),
                     peerId: document.getElementById('peerId'),
                     connectBtn: document.getElementById('connectBtn'),
                     disconnectBtn: document.getElementById('disconnectBtn'),
                     clearChatBtn: document.getElementById('clearChatBtn'),
                     copyMyId: document.getElementById('copyMyId'),
+                    shareCodeBtn: document.getElementById('shareCodeBtn'),
                     messageInput: document.getElementById('messageInput'),
                     sendBtn: document.getElementById('sendBtn'),
                     messagesContainer: document.getElementById('messagesContainer'),
@@ -1618,13 +1905,11 @@
                     dismissReconnect: document.getElementById('dismissReconnect')
                 };
 
-                if (this.username) {
-                    this.elements.myId.value = this.myId;
-                    
-                    // تحميل آخر معرف اتصال
-                    const lastPeerId = localStorage.getItem('p2p_last_peer');
-                    if (lastPeerId) {
-                        this.elements.peerId.value = lastPeerId;
+                if (this.userCode) {
+                    // تحميل آخر كود اتصال
+                    const lastPeerCode = localStorage.getItem('p2p_last_peer_code');
+                    if (lastPeerCode) {
+                        this.elements.peerId.value = lastPeerCode;
                     }
                 }
             }
@@ -1658,7 +1943,7 @@
             setupPeerEvents() {
                 this.peer.on('open', (id) => {
                     console.log('✅ PeerJS متصل، المعرف:', id);
-                    this.showNotification('success', 'جاهز للاتصال', 'يمكنك الآن مشاركة معرفك أو الاتصال بشخص آخر');
+                    this.showNotification('success', 'جاهز للاتصال', `يمكنك الآن مشاركة كودك: ${this.userCode}`);
                     this.updateConnectionStatus('connected');
                 });
 
@@ -1673,11 +1958,10 @@
                         this.showNotification('warning', 'فقد الاتصال بالسيرفر', 'جاري إعادة المحاولة...');
                         this.reconnectToServer();
                     } else if (err.type === 'unavailable-id') {
-                        // إذا كان المعرف مستخدم بالفعل، نولد معرفاً جديداً
-                        this.myId = this.generatePeerId();
-                        this.elements.myId.value = this.myId;
+                        // إذا كان المعرف مستخدم بالفعل، نضيف جزءاً عشوائياً
+                        this.myId = this.generatePeerId() + '-' + Math.random().toString(36).substr(2, 4);
                         this.initializePeer();
-                        this.showNotification('info', 'تم تحديث المعرف', 'تم توليد معرف جديد لك');
+                        this.showNotification('info', 'تم تحديث الاتصال', 'تم تحديث اتصالك بالسيرفر');
                     } else {
                         this.showNotification('error', 'خطأ في الاتصال', err.message);
                     }
@@ -1726,23 +2010,16 @@
 
                 this.connection = conn;
                 this.setupConnectionEvents();
-                this.savePeerId(conn.peer);
-                this.showNotification('info', 'اتصال وارد', `تم الاتصال من ${this.extractUsernameFromId(conn.peer)}`);
-                this.updateConnectionStatus('connecting');
-            }
-
-            // استخراج اسم المستخدم من المعرف
-            extractUsernameFromId(peerId) {
-                try {
-                    const parts = peerId.split('-');
-                    if (parts.length > 0) {
-                        const username = decodeURIComponent(parts[0]);
-                        return username || 'مستخدم مجهول';
-                    }
-                } catch (e) {
-                    console.log('❌ خطأ في فك تشفير اسم المستخدم:', e);
+                
+                const peerCode = this.extractCodeFromId(conn.peer);
+                if (peerCode) {
+                    this.savePeerCode(peerCode);
+                    this.showNotification('info', 'اتصال وارد', `محاولة اتصال من كود: ${peerCode}`);
+                } else {
+                    this.showNotification('info', 'اتصال وارد', 'محاولة اتصال من مستخدم');
                 }
-                return 'مستخدم مجهول';
+                
+                this.updateConnectionStatus('connecting');
             }
 
             // إعداد أحداث الاتصال
@@ -1751,14 +2028,24 @@
                     this.isConnected = true;
                     this.connectionAttempts = 0;
                     this.updateUI();
-                    this.showNotification('success', 'تم الاتصال!', `تم الاتصال بـ ${this.extractUsernameFromId(this.connection.peer)}`);
-                    this.updatePeerInfo();
+                    
+                    // استخراج كود الطرف الآخر
+                    const peerCode = this.extractCodeFromId(this.connection.peer);
+                    if (peerCode) {
+                        this.showNotification('success', 'تم الاتصال!', `تم الاتصال مع كود: ${peerCode}`);
+                        this.updatePeerInfo(peerCode);
+                    } else {
+                        this.showNotification('success', 'تم الاتصال!', 'تم الاتصال مع مستخدم');
+                        this.updatePeerInfo('مستخدم');
+                    }
+                    
                     this.updateConnectionStatus('connected');
                     
                     // إرسال معلومات المستخدم
                     this.connection.send({
                         type: 'user-info',
-                        username: this.username,
+                        code: this.userCode,
+                        name: this.userName,
                         timestamp: Date.now()
                     });
                     
@@ -1806,44 +2093,64 @@
             initializeEventListeners() {
                 // زر تسجيل الدخول
                 this.elements.loginButton.addEventListener('click', () => {
-                    const username = this.elements.usernameInput.value.trim();
+                    const userCode = this.elements.userCodeInput.value.trim();
+                    const userName = this.elements.userNameInput.value.trim() || 'مستخدم';
                     
-                    if (!username) {
-                        this.showNotification('warning', 'اسم مطلوب', 'الرجاء إدخال اسمك الشخصي');
+                    if (!userCode) {
+                        this.showNotification('warning', 'كود مطلوب', 'الرجاء إدخال كود شخصي');
                         return;
                     }
                     
-                    if (username.length < 2) {
-                        this.showNotification('warning', 'اسم قصير', 'الرجاء إدخال اسم مكون من حرفين على الأقل');
+                    if (!/^\d+$/.test(userCode)) {
+                        this.showNotification('warning', 'كود غير صالح', 'الكود يجب أن يحتوي على أرقام فقط');
                         return;
                     }
                     
-                    if (this.saveUsername(username)) {
-                        this.startApp();
-                        this.showNotification('success', 'مرحباً!', `تم تسجيل دخولك كـ ${username}`);
+                    if (userCode.length < 3) {
+                        this.showNotification('warning', 'كود قصير', 'الكود يجب أن يكون 3 أرقام على الأقل');
+                        return;
                     }
+                    
+                    this.confirmCode(userCode, userName);
+                });
+                
+                // السماح فقط بأرقام في حقل كود الآخر
+                this.elements.peerId.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\D/g, '');
                 });
                 
                 // زر تغيير المستخدم
                 this.elements.changeUserBtn.addEventListener('click', () => {
                     this.elements.changeUserOverlay.classList.add('show');
-                    this.elements.changeUsernameInput.value = this.username;
+                    this.elements.changeUserCodeInput.value = this.userCode;
+                    this.elements.changeUserNameInput.value = this.userName;
                     setTimeout(() => {
-                        this.elements.changeUsernameInput.focus();
-                        this.elements.changeUsernameInput.select();
+                        this.elements.changeUserCodeInput.focus();
+                        this.elements.changeUserCodeInput.select();
                     }, 100);
+                });
+                
+                // السماح فقط بأرقام في حقل تغيير الكود
+                this.elements.changeUserCodeInput.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\D/g, '');
                 });
                 
                 // حفظ المستخدم الجديد
                 this.elements.saveNewUserButton.addEventListener('click', () => {
-                    const newUsername = this.elements.changeUsernameInput.value.trim();
+                    const newCode = this.elements.changeUserCodeInput.value.trim();
+                    const newName = this.elements.changeUserNameInput.value.trim() || 'مستخدم';
                     
-                    if (!newUsername || newUsername.length < 2) {
-                        this.showNotification('warning', 'اسم غير صالح', 'الرجاء إدخال اسم مكون من حرفين على الأقل');
+                    if (!newCode || !/^\d+$/.test(newCode)) {
+                        this.showNotification('warning', 'كود غير صالح', 'الرجاء إدخال كود صحيح (أرقام فقط)');
                         return;
                     }
                     
-                    if (this.changeUsername(newUsername)) {
+                    if (newCode.length < 3) {
+                        this.showNotification('warning', 'كود قصير', 'الكود يجب أن يكون 3 أرقام على الأقل');
+                        return;
+                    }
+                    
+                    if (this.changeUserData(newCode, newName)) {
                         this.elements.changeUserOverlay.classList.remove('show');
                     }
                 });
@@ -1869,8 +2176,11 @@
                 // مسح المحادثة
                 this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
                 
-                // نسخ المعرف
-                this.elements.copyMyId.addEventListener('click', () => this.copyMyId());
+                // نسخ الكود
+                this.elements.copyMyId.addEventListener('click', () => this.copyMyCode());
+                
+                // مشاركة الكود
+                this.elements.shareCodeBtn.addEventListener('click', () => this.shareCode());
                 
                 // إرسال الرسالة
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
@@ -1944,26 +2254,32 @@
 
             // محاولة إعادة الاتصال التلقائي
             attemptAutoReconnect() {
-                const lastPeerId = localStorage.getItem('p2p_last_peer');
+                const lastPeerCode = localStorage.getItem('p2p_last_peer_code');
                 const wasConnected = localStorage.getItem('p2p_was_connected') === 'true';
                 
-                if (lastPeerId && wasConnected) {
+                if (lastPeerCode && wasConnected) {
                     setTimeout(() => {
                         this.elements.reconnectBanner.style.display = 'flex';
+                        this.elements.peerId.value = lastPeerCode;
                     }, 1000);
                 }
             }
 
             // الاتصال بالشخص الآخر
             async connectToPeer() {
-                const peerId = this.elements.peerId.value.trim();
+                const peerCode = this.elements.peerId.value.trim();
                 
-                if (!peerId) {
-                    this.showNotification('warning', 'معرف مطلوب', 'الرجاء إدخال معرف الشخص الآخر');
+                if (!peerCode) {
+                    this.showNotification('warning', 'كود مطلوب', 'الرجاء إدخال كود الشخص الآخر');
                     return;
                 }
                 
-                if (peerId === this.myId) {
+                if (!/^\d+$/.test(peerCode)) {
+                    this.showNotification('warning', 'كود غير صالح', 'الكود يجب أن يحتوي على أرقام فقط');
+                    return;
+                }
+                
+                if (peerCode === this.userCode) {
                     this.showNotification('warning', 'خطأ', 'لا يمكنك الاتصال بنفسك');
                     return;
                 }
@@ -1973,28 +2289,32 @@
                     return;
                 }
 
-                this.showNotification('info', 'جاري الاتصال...', `محاولة الاتصال بـ ${this.extractUsernameFromId(peerId)}`);
+                this.showNotification('info', 'جاري الاتصال...', `محاولة الاتصال بكود: ${peerCode}`);
                 this.updateConnectionStatus('connecting');
                 
                 try {
-                    this.connection = this.peer.connect(peerId, {
+                    // بناء المعرف المستهدف بناءً على الكود
+                    const targetId = `code-${peerCode}`;
+                    
+                    this.connection = this.peer.connect(targetId, {
                         reliable: true,
                         serialization: 'json',
                         metadata: {
                             client: 'P2P Messenger',
                             version: '1.0',
-                            username: this.username,
+                            code: this.userCode,
+                            name: this.userName,
                             timestamp: Date.now()
                         }
                     });
                     
-                    this.savePeerId(peerId);
+                    this.savePeerCode(peerCode);
                     this.setupConnectionEvents();
                     
                     // مهلة الاتصال
                     this.reconnectTimeout = setTimeout(() => {
                         if (!this.isConnected) {
-                            this.showNotification('error', 'فشل الاتصال', 'انتهت مهلة الاتصال');
+                            this.showNotification('error', 'فشل الاتصال', 'انتهت مهلة الاتصال أو الكود غير صحيح');
                             this.disconnect();
                             this.updateConnectionStatus('disconnected');
                         }
@@ -2007,9 +2327,9 @@
                 }
             }
 
-            // حفظ معرف الطرف الآخر
-            savePeerId(peerId) {
-                localStorage.setItem('p2p_last_peer', peerId);
+            // حفظ كود الطرف الآخر
+            savePeerCode(peerCode) {
+                localStorage.setItem('p2p_last_peer_code', peerCode);
                 localStorage.setItem('p2p_was_connected', 'true');
             }
 
@@ -2051,8 +2371,8 @@
                     type: 'message',
                     text: messageText,
                     timestamp: new Date().toISOString(),
-                    sender: this.username,
-                    senderId: this.myId,
+                    sender: this.userName,
+                    senderCode: this.userCode,
                     messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
                 };
 
@@ -2081,14 +2401,20 @@
                     const latency = Date.now() - data.timestamp;
                     this.elements.connSpeed.textContent = `${latency}ms`;
                 } else if (data.type === 'user-info') {
-                    // تحديث اسم المستخدم للطرف الآخر
-                    this.updatePeerName(data.username);
+                    // تحديث معلومات الطرف الآخر
+                    this.updatePeerInfo(data.code, data.name);
                 }
             }
 
-            // تحديث اسم الطرف الآخر
-            updatePeerName(username) {
-                this.elements.peerName.textContent = `مستخدم: ${username}`;
+            // تحديث معلومات الطرف الآخر
+            updatePeerInfo(code, name) {
+                if (code && name) {
+                    this.elements.peerName.textContent = `كود: ${code} (${name})`;
+                } else if (code) {
+                    this.elements.peerName.textContent = `كود: ${code}`;
+                } else {
+                    this.elements.peerName.textContent = 'مستخدم متصل';
+                }
             }
 
             // إضافة رسالة إلى الواجهة
@@ -2130,10 +2456,16 @@
                     minute: '2-digit'
                 });
                 
+                // إضافة رمز الكود إذا كان متاحاً
+                let senderInfo = this.escapeHtml(message.sender);
+                if (message.senderCode) {
+                    senderInfo += ` (#${message.senderCode})`;
+                }
+                
                 messageElement.innerHTML = `
                     <div class="message-content">
                         <div class="message-header">
-                            <span class="message-sender">${this.escapeHtml(message.sender)}</span>
+                            <span class="message-sender">${senderInfo}</span>
                             <span class="message-time">
                                 <i class="far fa-clock"></i>
                                 ${time}
@@ -2226,14 +2558,6 @@
                 }
             }
 
-            // تحديث معلومات الطرف الآخر
-            updatePeerInfo() {
-                if (this.connection) {
-                    const username = this.extractUsernameFromId(this.connection.peer);
-                    this.elements.peerName.textContent = `مستخدم: ${username}`;
-                }
-            }
-
             // تحديث عداد الرسائل
             updateMessageCount() {
                 const count = this.messages.length;
@@ -2259,16 +2583,33 @@
                 }
             }
 
-            // نسخ المعرف
-            copyMyId() {
-                navigator.clipboard.writeText(this.myId)
+            // نسخ الكود
+            copyMyCode() {
+                navigator.clipboard.writeText(this.userCode)
                     .then(() => {
-                        this.showNotification('success', 'تم النسخ', 'تم نسخ المعرف إلى الحافظة');
+                        this.showNotification('success', 'تم النسخ', 'تم نسخ الكود إلى الحافظة');
                     })
                     .catch(err => {
                         console.error('❌ خطأ في النسخ:', err);
-                        this.showNotification('error', 'خطأ', 'تعذر نسخ المعرف');
+                        this.showNotification('error', 'خطأ', 'تعذر نسخ الكود');
                     });
+            }
+
+            // مشاركة الكود
+            shareCode() {
+                const shareData = {
+                    title: 'كود المراسلة المباشرة',
+                    text: `كودي الشخصي للمراسلة المباشرة هو: ${this.userCode}`,
+                    url: window.location.href
+                };
+                
+                if (navigator.share) {
+                    navigator.share(shareData)
+                        .then(() => console.log('✅ تمت المشاركة بنجاح'))
+                        .catch(err => console.log('❌ خطأ في المشاركة:', err));
+                } else {
+                    this.copyMyCode();
+                }
             }
 
             // عرض الإشعارات
