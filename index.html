@@ -859,6 +859,118 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        /* قائمة الاقتراحات */
+        .suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .suggestions-dropdown.show {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f5f7fb;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .input-with-suggestions {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* إدارة المعرفات */
+        .id-management {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .id-management h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .id-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .id-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .id-item.active {
+            background: #e8f4ff;
+            border-right-color: var(--success-color);
+        }
+
+        .id-name {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .id-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .id-btn {
+            padding: 4px 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--gray-color);
+            transition: color 0.2s;
+        }
+
+        .id-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .id-btn.use {
+            color: var(--success-color);
+        }
+
+        .id-btn.delete {
+            color: var(--danger-color);
+        }
+
         /* مخصص للشاشات الصغيرة */
         @media (max-width: 768px) {
             .container {
@@ -964,37 +1076,47 @@
             <!-- لوحة التحكم -->
             <section class="control-panel">
                 <div class="panel-card">
-                    <h2><i class="fas fa-cogs"></i> إعدادات الاتصال</h2>
+                    <h2><i class="fas fa-cogs"></i> إدارة المعرفات</h2>
                     
                     <div class="connection-controls">
-                        <!-- توليد المعرف -->
+                        <!-- معرفك الخاص -->
                         <div class="control-group">
                             <label for="myId"><i class="fas fa-fingerprint"></i> معرفك الخاص</label>
                             <div class="input-with-button">
-                                <input type="text" id="myId" readonly>
-                                <button id="copyMyId" class="btn-icon" title="نسخ المعرف">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                                <button id="generateId" class="btn-icon" title="توليد معرف جديد">
-                                    <i class="fas fa-redo"></i>
+                                <input type="text" id="myId" placeholder="أدخل معرفك المفضل">
+                                <button id="saveMyId" class="btn-primary">
+                                    <i class="fas fa-save"></i> حفظ
                                 </button>
                             </div>
                             <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-info-circle"></i> يتم حفظ المعرف تلقائياً على هذا الجهاز
+                                <i class="fas fa-info-circle"></i> أدخل أي اسم أو رمز تريد (مثال: أحمد، خالد123، room1)
                             </small>
+                        </div>
+
+                        <!-- قائمة معرفاتك السابقة -->
+                        <div class="id-management" id="myIdManagement" style="display: none;">
+                            <h4><i class="fas fa-history"></i> معرفاتك السابقة</h4>
+                            <div class="id-list" id="myIdList">
+                                <!-- سيتم ملؤها بواسطة JavaScript -->
+                            </div>
                         </div>
 
                         <!-- إدخال معرف الجهة الأخرى -->
                         <div class="control-group">
                             <label for="peerId"><i class="fas fa-user-plus"></i> معرف الشخص الآخر</label>
-                            <div class="input-with-button">
-                                <input type="text" id="peerId" placeholder="أدخل المعرف هنا">
-                                <button id="connectBtn" class="btn-primary">
-                                    <i class="fas fa-plug"></i> الاتصال
-                                </button>
+                            <div class="input-with-suggestions">
+                                <div class="input-with-button">
+                                    <input type="text" id="peerId" placeholder="أدخل معرف الشخص الآخر">
+                                    <button id="connectBtn" class="btn-primary">
+                                        <i class="fas fa-plug"></i> الاتصال
+                                    </button>
+                                </div>
+                                <div class="suggestions-dropdown" id="peerSuggestions">
+                                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                                </div>
                             </div>
                             <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-history"></i> سيتم حفظ آخر معرف للاتصال السريع
+                                <i class="fas fa-history"></i> سيتم حفظ جميع المعرفات للاتصال السريع
                             </small>
                         </div>
 
@@ -1033,17 +1155,17 @@
                 <div class="panel-card instructions">
                     <h3><i class="fas fa-lightbulb"></i> كيف تعمل؟</h3>
                     <ol>
-                        <li>المعرف الخاص بك محفوظ على هذا الجهاز</li>
-                        <li>انسخ معرفك من الأعلى وأرسله للطرف الآخر</li>
+                        <li>اختر معرفك المفضل واحفظه (يمكنك تغييره متى شئت)</li>
+                        <li>أرسل معرفك للطرف الآخر عبر أي وسيلة (واتساب، إلخ)</li>
                         <li>أدخل معرف الشخص الآخر في الحقل المخصص</li>
                         <li>انقر على زر "الاتصال"</li>
-                        <li>يمكنك إعادة الاتصال تلقائياً بعد التحديث</li>
+                        <li>يمكنك حفظ معرفات متعددة لإعادة الاتصال لاحقاً</li>
                     </ol>
                     <div class="features">
                         <span class="feature-tag"><i class="fas fa-shield-alt"></i> مشفر</span>
                         <span class="feature-tag"><i class="fas fa-bolt"></i> فوري</span>
                         <span class="feature-tag"><i class="fas fa-server"></i> لا سيرفرات</span>
-                        <span class="feature-tag"><i class="fas fa-save"></i> محفوظ محلياً</span>
+                        <span class="feature-tag"><i class="fas fa-save"></i> معرفات مخصصة</span>
                     </div>
                 </div>
             </section>
@@ -1106,7 +1228,7 @@
                     <span class="badge">P2P</span>
                     <span class="badge">End-to-End</span>
                     <span class="badge">No Server</span>
-                    <span class="badge">Persistent ID</span>
+                    <span class="badge">Custom IDs</span>
                 </p>
             </div>
         </footer>
@@ -1144,6 +1266,8 @@
                 this.connectionAttempts = 0;
                 this.maxConnectionAttempts = 5;
                 this.reconnectTimeout = null;
+                this.savedMyIds = this.getSavedMyIds();
+                this.savedPeerIds = this.getSavedPeerIds();
                 
                 this.initializeElements();
                 this.initializeEventListeners();
@@ -1158,22 +1282,84 @@
 
             // الحصول على المعرف المخزن أو إنشاء جديد
             getOrCreateId() {
-                let savedId = localStorage.getItem('p2p_messenger_id');
+                let savedId = localStorage.getItem('p2p_messenger_current_id');
                 
-                // إذا لم يوجد معرف مخزن، إنشاء جديد وحفظه
+                // إذا لم يوجد معرف مخزن، استخدام معرف افتراضي
                 if (!savedId) {
-                    savedId = this.generatePeerId();
-                    localStorage.setItem('p2p_messenger_id', savedId);
+                    savedId = 'user-' + Math.random().toString(36).substr(2, 8);
+                    localStorage.setItem('p2p_messenger_current_id', savedId);
+                    this.saveMyId(savedId);
                 }
                 
                 return savedId;
             }
 
-            // توليد معرف عشوائي
-            generatePeerId() {
-                const timestamp = Date.now().toString(36);
-                const randomStr = Math.random().toString(36).substr(2, 5);
-                return `user-${timestamp}-${randomStr}`;
+            // الحصول على معرفاتي المحفوظة
+            getSavedMyIds() {
+                try {
+                    const ids = JSON.parse(localStorage.getItem('p2p_messenger_my_ids') || '[]');
+                    return ids;
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            // الحصول على معرفات الأطراف المحفوظة
+            getSavedPeerIds() {
+                try {
+                    const ids = JSON.parse(localStorage.getItem('p2p_messenger_peer_ids') || '[]');
+                    return ids;
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            // حفظ معرفي
+            saveMyId(id) {
+                if (!id || id.trim() === '') return false;
+                
+                id = id.trim();
+                
+                // التحقق من عدم تكرار المعرف
+                if (!this.savedMyIds.includes(id)) {
+                    this.savedMyIds.unshift(id); // إضافة في البداية
+                    
+                    // الاحتفاظ بـ 10 معرفات فقط
+                    if (this.savedMyIds.length > 10) {
+                        this.savedMyIds = this.savedMyIds.slice(0, 10);
+                    }
+                    
+                    localStorage.setItem('p2p_messenger_my_ids', JSON.stringify(this.savedMyIds));
+                }
+                
+                // حفظ المعرف الحالي
+                localStorage.setItem('p2p_messenger_current_id', id);
+                this.myId = id;
+                this.elements.myId.value = id;
+                
+                return true;
+            }
+
+            // حفظ معرف الطرف الآخر
+            savePeerId(peerId) {
+                if (!peerId || peerId.trim() === '') return;
+                
+                peerId = peerId.trim();
+                
+                // التحقق من عدم تكرار المعرف
+                if (!this.savedPeerIds.includes(peerId)) {
+                    this.savedPeerIds.unshift(peerId); // إضافة في البداية
+                    
+                    // الاحتفاظ بـ 15 معرفاً فقط
+                    if (this.savedPeerIds.length > 15) {
+                        this.savedPeerIds = this.savedPeerIds.slice(0, 15);
+                    }
+                    
+                    localStorage.setItem('p2p_messenger_peer_ids', JSON.stringify(this.savedPeerIds));
+                }
+                
+                localStorage.setItem('p2p_last_peer', peerId);
+                localStorage.setItem('p2p_was_connected', 'true');
             }
 
             // تهيئة العناصر
@@ -1181,11 +1367,10 @@
                 this.elements = {
                     myId: document.getElementById('myId'),
                     peerId: document.getElementById('peerId'),
+                    saveMyId: document.getElementById('saveMyId'),
                     connectBtn: document.getElementById('connectBtn'),
                     disconnectBtn: document.getElementById('disconnectBtn'),
                     clearChatBtn: document.getElementById('clearChatBtn'),
-                    copyMyId: document.getElementById('copyMyId'),
-                    generateId: document.getElementById('generateId'),
                     messageInput: document.getElementById('messageInput'),
                     sendBtn: document.getElementById('sendBtn'),
                     messagesContainer: document.getElementById('messagesContainer'),
@@ -1201,15 +1386,205 @@
                     emojiPicker: document.getElementById('emojiPicker'),
                     reconnectBanner: document.getElementById('reconnectBanner'),
                     reconnectBtn: document.getElementById('reconnectBtn'),
-                    dismissReconnect: document.getElementById('dismissReconnect')
+                    dismissReconnect: document.getElementById('dismissReconnect'),
+                    myIdManagement: document.getElementById('myIdManagement'),
+                    myIdList: document.getElementById('myIdList'),
+                    peerSuggestions: document.getElementById('peerSuggestions')
                 };
 
                 this.elements.myId.value = this.myId;
+                this.renderMyIdList();
+                this.renderPeerSuggestions();
                 
                 // تحميل آخر معرف اتصال
                 const lastPeerId = localStorage.getItem('p2p_last_peer');
                 if (lastPeerId) {
                     this.elements.peerId.value = lastPeerId;
+                }
+
+                // إظهار إدارة المعرفات إذا كان هناك معرفات محفوظة
+                if (this.savedMyIds.length > 1) {
+                    this.elements.myIdManagement.style.display = 'block';
+                }
+
+                // إضافة أحداث للاقتراحات
+                this.elements.peerId.addEventListener('input', () => this.updatePeerSuggestions());
+                this.elements.peerId.addEventListener('focus', () => this.showPeerSuggestions());
+                this.elements.peerId.addEventListener('blur', () => {
+                    setTimeout(() => this.hidePeerSuggestions(), 200);
+                });
+            }
+
+            // عرض قائمة معرفاتي
+            renderMyIdList() {
+                if (this.savedMyIds.length === 0) return;
+                
+                this.elements.myIdList.innerHTML = '';
+                
+                this.savedMyIds.forEach((id, index) => {
+                    const isActive = id === this.myId;
+                    const item = document.createElement('div');
+                    item.className = `id-item ${isActive ? 'active' : ''}`;
+                    
+                    item.innerHTML = `
+                        <span class="id-name">${this.escapeHtml(id)}</span>
+                        <div class="id-actions">
+                            ${!isActive ? `<button class="id-btn use" data-id="${index}" title="استخدم هذا المعرف"><i class="fas fa-check"></i></button>` : ''}
+                            <button class="id-btn delete" data-id="${index}" title="حذف هذا المعرف"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    
+                    this.elements.myIdList.appendChild(item);
+                });
+
+                // إضافة أحداث للأزرار
+                this.elements.myIdList.querySelectorAll('.id-btn.use').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.closest('.id-btn').dataset.id);
+                        this.useMyId(index);
+                    });
+                });
+
+                this.elements.myIdList.querySelectorAll('.id-btn.delete').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.closest('.id-btn').dataset.id);
+                        this.deleteMyId(index);
+                    });
+                });
+            }
+
+            // عرض اقتراحات معرفات الأطراف
+            renderPeerSuggestions() {
+                if (this.savedPeerIds.length === 0) return;
+                
+                this.elements.peerSuggestions.innerHTML = '';
+                
+                this.savedPeerIds.forEach((id, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.textContent = id;
+                    item.dataset.id = id;
+                    
+                    item.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        this.elements.peerId.value = id;
+                        this.hidePeerSuggestions();
+                    });
+                    
+                    this.elements.peerSuggestions.appendChild(item);
+                });
+            }
+
+            // تحديث اقتراحات الأطراف أثناء الكتابة
+            updatePeerSuggestions() {
+                const searchTerm = this.elements.peerId.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    this.renderPeerSuggestions();
+                    return;
+                }
+                
+                const filteredIds = this.savedPeerIds.filter(id => 
+                    id.toLowerCase().includes(searchTerm)
+                );
+                
+                this.elements.peerSuggestions.innerHTML = '';
+                
+                if (filteredIds.length === 0) {
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.textContent = 'لا توجد اقتراحات';
+                    item.style.color = 'var(--gray-color)';
+                    item.style.fontStyle = 'italic';
+                    this.elements.peerSuggestions.appendChild(item);
+                    return;
+                }
+                
+                filteredIds.forEach((id, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    
+                    // تمييز النص المتطابق
+                    const startIndex = id.toLowerCase().indexOf(searchTerm);
+                    if (startIndex !== -1) {
+                        const before = this.escapeHtml(id.substring(0, startIndex));
+                        const match = this.escapeHtml(id.substring(startIndex, startIndex + searchTerm.length));
+                        const after = this.escapeHtml(id.substring(startIndex + searchTerm.length));
+                        item.innerHTML = `${before}<strong>${match}</strong>${after}`;
+                    } else {
+                        item.textContent = id;
+                    }
+                    
+                    item.dataset.id = id;
+                    
+                    item.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        this.elements.peerId.value = id;
+                        this.hidePeerSuggestions();
+                    });
+                    
+                    this.elements.peerSuggestions.appendChild(item);
+                });
+            }
+
+            // إظهار اقتراحات الأطراف
+            showPeerSuggestions() {
+                if (this.savedPeerIds.length > 0) {
+                    this.elements.peerSuggestions.classList.add('show');
+                }
+            }
+
+            // إخفاء اقتراحات الأطراف
+            hidePeerSuggestions() {
+                this.elements.peerSuggestions.classList.remove('show');
+            }
+
+            // استخدام معرف من قائمة معرفاتي
+            useMyId(index) {
+                const id = this.savedMyIds[index];
+                if (!id) return;
+                
+                if (this.isConnected) {
+                    this.showNotification('warning', 'اتصال نشط', 'لا يمكن تغيير المعرف أثناء الاتصال');
+                    return;
+                }
+                
+                if (confirm(`هل تريد استخدام المعرف "${id}"؟`)) {
+                    this.myId = id;
+                    this.elements.myId.value = id;
+                    localStorage.setItem('p2p_messenger_current_id', id);
+                    
+                    // إعادة تهيئة Peer
+                    if (this.peer) {
+                        this.peer.destroy();
+                    }
+                    this.initializePeer();
+                    
+                    this.showNotification('success', 'تم التغيير', `تم تعيين المعرف "${id}"`);
+                    this.renderMyIdList();
+                }
+            }
+
+            // حذف معرف من قائمة معرفاتي
+            deleteMyId(index) {
+                const id = this.savedMyIds[index];
+                if (!id) return;
+                
+                if (id === this.myId) {
+                    this.showNotification('warning', 'لا يمكن الحذف', 'لا يمكن حذف المعرف الحالي النشط');
+                    return;
+                }
+                
+                if (confirm(`هل تريد حذف المعرف "${id}"؟`)) {
+                    this.savedMyIds.splice(index, 1);
+                    localStorage.setItem('p2p_messenger_my_ids', JSON.stringify(this.savedMyIds));
+                    this.renderMyIdList();
+                    this.showNotification('success', 'تم الحذف', `تم حذف المعرف "${id}"`);
+                    
+                    // إخفاء قسم إدارة المعرفات إذا لم يعد هناك معرفات
+                    if (this.savedMyIds.length <= 1) {
+                        this.elements.myIdManagement.style.display = 'none';
+                    }
                 }
             }
 
@@ -1250,7 +1625,7 @@
             setupPeerEvents() {
                 this.peer.on('open', (id) => {
                     console.log('✅ PeerJS متصل، المعرف:', id);
-                    this.showNotification('success', 'جاهز للاتصال', 'يمكنك الآن مشاركة معرفك أو الاتصال بشخص آخر');
+                    this.showNotification('success', 'جاهز للاتصال', `معرفك الحالي: ${id}`);
                     this.updateConnectionStatus('connected');
                 });
 
@@ -1260,6 +1635,12 @@
 
                 this.peer.on('error', (err) => {
                     console.error('❌ خطأ في PeerJS:', err);
+                    
+                    // معالجة أخطاء المعرف المكرر
+                    if (err.type === 'unavailable-id') {
+                        this.showNotification('error', 'المعرف مستخدم', 'هذا المعرف مستخدم بالفعل، اختر معرفاً آخر');
+                        return;
+                    }
                     
                     // محاولة إعادة الاتصال في حالة فشل
                     if (err.type === 'server-error' || err.type === 'network') {
@@ -1368,6 +1749,9 @@
 
             // تهيئة مستمعي الأحداث
             initializeEventListeners() {
+                // حفظ المعرف الخاص
+                this.elements.saveMyId.addEventListener('click', () => this.saveCurrentId());
+                
                 // زر الاتصال
                 this.elements.connectBtn.addEventListener('click', () => this.connectToPeer());
                 
@@ -1376,12 +1760,6 @@
                 
                 // مسح المحادثة
                 this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
-                
-                // نسخ المعرف
-                this.elements.copyMyId.addEventListener('click', () => this.copyMyId());
-                
-                // توليد معرف جديد
-                this.elements.generateId.addEventListener('click', () => this.generateNewId());
                 
                 // إرسال الرسالة
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
@@ -1416,6 +1794,40 @@
                 this.elements.dismissReconnect.addEventListener('click', () => {
                     this.elements.reconnectBanner.style.display = 'none';
                 });
+            }
+
+            // حفظ المعرف الحالي
+            saveCurrentId() {
+                const newId = this.elements.myId.value.trim();
+                
+                if (!newId || newId === '') {
+                    this.showNotification('warning', 'معرف مطلوب', 'الرجاء إدخال معرف');
+                    return;
+                }
+                
+                if (newId === this.myId) {
+                    this.showNotification('info', 'المعرف نفسه', 'هذا هو المعرف الحالي بالفعل');
+                    return;
+                }
+                
+                if (this.isConnected) {
+                    this.showNotification('warning', 'اتصال نشط', 'لا يمكن تغيير المعرف أثناء الاتصال');
+                    return;
+                }
+                
+                if (this.saveMyId(newId)) {
+                    // إعادة تهيئة Peer
+                    if (this.peer) {
+                        this.peer.destroy();
+                    }
+                    this.initializePeer();
+                    
+                    this.showNotification('success', 'تم الحفظ', `تم حفظ المعرف "${newId}"`);
+                    this.renderMyIdList();
+                    
+                    // إظهار قسم إدارة المعرفات
+                    this.elements.myIdManagement.style.display = 'block';
+                }
             }
 
             // تهيئة منتقي الإيموجي
@@ -1494,7 +1906,8 @@
                         metadata: {
                             client: 'P2P Messenger',
                             version: '1.0',
-                            timestamp: Date.now()
+                            timestamp: Date.now(),
+                            myName: this.myId
                         }
                     });
                     
@@ -1515,12 +1928,6 @@
                     this.showNotification('error', 'فشل الاتصال', error.message);
                     this.updateConnectionStatus('disconnected');
                 }
-            }
-
-            // حفظ معرف الطرف الآخر
-            savePeerId(peerId) {
-                localStorage.setItem('p2p_last_peer', peerId);
-                localStorage.setItem('p2p_was_connected', 'true');
             }
 
             // قطع الاتصال
@@ -1682,6 +2089,8 @@
                 this.elements.disconnectBtn.disabled = !isConnected;
                 this.elements.messageInput.disabled = !isConnected;
                 this.elements.sendBtn.disabled = !isConnected;
+                this.elements.saveMyId.disabled = isConnected;
+                this.elements.myId.disabled = isConnected;
                 
                 // تحديث معلومات الاتصال
                 this.elements.connectionInfo.style.display = isConnected ? 'block' : 'none';
@@ -1724,7 +2133,7 @@
             // تحديث معلومات الطرف الآخر
             updatePeerInfo() {
                 if (this.connection) {
-                    this.elements.peerName.textContent = `مستخدم: ${this.connection.peer.substring(0, 15)}...`;
+                    this.elements.peerName.textContent = `مستخدم: ${this.connection.peer.substring(0, 20)}`;
                 }
             }
 
@@ -1751,38 +2160,6 @@
                     localStorage.removeItem('p2p_messages');
                     this.showNotification('success', 'تم المسح', 'تم مسح جميع الرسائل');
                 }
-            }
-
-            // نسخ المعرف
-            copyMyId() {
-                navigator.clipboard.writeText(this.myId)
-                    .then(() => {
-                        this.showNotification('success', 'تم النسخ', 'تم نسخ المعرف إلى الحافظة');
-                    })
-                    .catch(err => {
-                        console.error('❌ خطأ في النسخ:', err);
-                        this.showNotification('error', 'خطأ', 'تعذر نسخ المعرف');
-                    });
-            }
-
-            // توليد معرف جديد
-            generateNewId() {
-                if (this.isConnected) {
-                    this.showNotification('warning', 'اتصال نشط', 'لا يمكن تغيير المعرف أثناء الاتصال');
-                    return;
-                }
-                
-                this.myId = this.generatePeerId();
-                this.elements.myId.value = this.myId;
-                localStorage.setItem('p2p_messenger_id', this.myId);
-                
-                // إعادة تهيئة Peer
-                if (this.peer) {
-                    this.peer.destroy();
-                }
-                this.initializePeer();
-                
-                this.showNotification('success', 'تم التوليد', 'تم توليد معرف جديد');
             }
 
             // عرض الإشعارات
