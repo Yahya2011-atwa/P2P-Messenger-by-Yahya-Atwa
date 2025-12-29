@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المراسلة المباشرة - Messenger</title>
+    <title>منصة المراسلة المباشرة - Serverless P2P Messenger</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ========== CSS كامل ========== */
         * {
             margin: 0;
             padding: 0;
@@ -120,7 +119,6 @@
             border-radius: 50%;
             background-color: #ff4757;
             animation: pulse 2s infinite;
-            position: relative;
         }
 
         .status-dot.connecting {
@@ -205,6 +203,57 @@
             gap: 10px;
         }
 
+        /* أزرار الاتصال المباشر */
+        .direct-connect {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .connect-method-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--light-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .connect-method-btn:hover {
+            border-color: var(--primary-color);
+            background: #e8f4ff;
+            transform: translateY(-3px);
+        }
+
+        .connect-method-btn.active {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1));
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.15);
+        }
+
+        .connect-method-btn i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .connect-method-btn span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .connect-method-btn small {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+        }
+
         .control-group {
             margin-bottom: 20px;
         }
@@ -238,11 +287,6 @@
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-        }
-
-        .input-with-button input:read-only {
-            background-color: #f8f9fa;
-            cursor: not-allowed;
         }
 
         /* الأزرار */
@@ -318,16 +362,17 @@
             display: flex;
             gap: 15px;
             margin: 25px 0;
+            flex-wrap: wrap;
         }
 
-        /* معلومات الاتصال */
-        .connection-info {
+        /* معلومات الشبكة */
+        .network-info {
             margin-top: 25px;
             padding-top: 25px;
             border-top: 2px dashed var(--border-color);
         }
 
-        .connection-info h3 {
+        .network-info h3 {
             color: var(--primary-color);
             margin-bottom: 15px;
             font-size: 1.2rem;
@@ -347,11 +392,6 @@
             padding: 12px;
             border-radius: 8px;
             border-right: 4px solid var(--primary-color);
-            transition: transform 0.2s ease;
-        }
-
-        .info-item:hover {
-            transform: translateY(-3px);
         }
 
         .info-label {
@@ -368,59 +408,10 @@
             font-size: 1.1rem;
         }
 
-        /* التعليمات */
-        .instructions h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .instructions ol {
-            padding-right: 20px;
-            margin-bottom: 20px;
-        }
-
-        .instructions li {
-            margin-bottom: 10px;
-            padding-right: 10px;
-            position: relative;
-        }
-
-        .instructions li::before {
-            content: '';
-            position: absolute;
-            right: -20px;
-            top: 8px;
-            width: 8px;
-            height: 8px;
-            background: var(--primary-color);
-            border-radius: 50%;
-        }
-
-        .features {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .feature-tag {
-            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-            color: #00695c;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: transform 0.2s ease;
-        }
-
-        .feature-tag:hover {
-            transform: scale(1.05);
+        .info-value.mono {
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
         }
 
         /* منطقة المحادثة */
@@ -518,7 +509,7 @@
             font-size: 1.1rem;
         }
 
-        /* الرسائل الفردية */
+        /* الرسائل */
         .message {
             margin-bottom: 20px;
             max-width: 80%;
@@ -569,17 +560,7 @@
             gap: 5px;
         }
 
-        .message.sent .message-time {
-            text-align: left;
-            color: var(--primary-color);
-        }
-
-        .message.received .message-time {
-            text-align: right;
-            color: var(--gray-color);
-        }
-
-        /* منطقة إدخال الرسالة */
+        /* منطقة الإدخال */
         .message-input-area {
             padding: 25px;
             border-top: 2px solid var(--border-color);
@@ -609,16 +590,6 @@
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-        }
-
-        .input-container textarea:disabled {
-            background-color: #f8f9fa;
-            cursor: not-allowed;
-        }
-
-        .input-actions {
-            display: flex;
-            gap: 10px;
         }
 
         .input-hint {
@@ -704,7 +675,6 @@
             animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
             max-width: 350px;
             border-right: 4px solid var(--primary-color);
-            transform-origin: left center;
         }
 
         @keyframes slideIn {
@@ -734,22 +704,6 @@
 
         .notification i {
             font-size: 1.5rem;
-        }
-
-        .notification.success i {
-            color: var(--success-color);
-        }
-
-        .notification.error i {
-            color: var(--danger-color);
-        }
-
-        .notification.warning i {
-            color: var(--warning-color);
-        }
-
-        .notification.info i {
-            color: var(--primary-color);
         }
 
         .notification-content {
@@ -845,62 +799,58 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .reconnect-banner button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .reconnect-banner button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* قائمة الاقتراحات */
-        .suggestions-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
+        /* QR Code */
+        .qr-container {
+            text-align: center;
+            padding: 20px;
             background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            z-index: 100;
-            max-height: 200px;
-            overflow-y: auto;
+            margin-top: 20px;
+            border: 2px dashed var(--border-color);
+        }
+
+        #qrcode {
+            margin: 15px auto;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* طريقة الإرسال المباشر */
+        .direct-transfer {
             display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1), rgba(42, 157, 143, 0.1));
+            border-radius: var(--radius);
+            border: 2px solid var(--success-color);
         }
 
-        .suggestions-dropdown.show {
+        .direct-transfer.active {
             display: block;
+            animation: fadeIn 0.5s ease;
         }
 
-        .suggestion-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background-color 0.2s;
-        }
-
-        .suggestion-item:hover {
-            background-color: #f5f7fb;
-        }
-
-        .suggestion-item:last-child {
-            border-bottom: none;
-        }
-
-        .input-with-suggestions {
-            position: relative;
+        .transfer-info {
             display: flex;
             flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        /* مخصص للشاشات الصغيرة */
+        .transfer-url {
+            font-family: monospace;
+            background: var(--dark-color);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        /* تحسينات للشاشات الصغيرة */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -916,19 +866,15 @@
                 gap: 15px;
             }
             
-            .app-main {
-                gap: 20px;
-            }
-            
-            .panel-card, .chat-header, .message-input-area {
-                padding: 15px;
-            }
-            
-            .input-with-button {
-                flex-direction: column;
+            .direct-connect {
+                grid-template-columns: 1fr;
             }
             
             .action-buttons {
+                flex-direction: column;
+            }
+            
+            .input-with-button {
                 flex-direction: column;
             }
             
@@ -941,98 +887,64 @@
                 left: 20px;
                 right: 20px;
             }
-            
-            .reconnect-banner {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
         }
 
-        /* تأثيرات التحميل */
-        .loading {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
+        /* شاشة التحميل */
+        .loading-screen {
+            position: fixed;
             top: 0;
+            left: 0;
             right: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* خيارات الخادم */
-        .server-options {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .server-option {
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 8px;
-            padding: 8px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
+            z-index: 9999;
+            color: white;
+            transition: opacity 0.5s ease;
         }
 
-        .server-option:hover {
-            background: #e9ecef;
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        .server-option input {
-            margin-left: 10px;
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
         }
 
-        .server-option label {
-            flex: 1;
-            cursor: pointer;
-        }
-
-        .server-status {
-            font-size: 0.8rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #e9ecef;
-        }
-
-        .server-status.online {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .server-status.offline {
-            background: #f8d7da;
-            color: #721c24;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
+    <!-- شاشة التحميل -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <h2>جاري تهيئة المراسلة المباشرة...</h2>
+        <p style="margin-top: 10px; opacity: 0.8;">بدون سيرفرات وسيطة - اتصال مباشر</p>
+    </div>
+
     <div class="container">
         <!-- شريط العنوان -->
         <header class="app-header">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-comments"></i>
-                    <h1>مراسلة المدارس</h1>
+                    <i class="fas fa-satellite-dish"></i>
+                    <h1>Serverless P2P Messenger</h1>
                 </div>
                 <div class="connection-status" id="connectionStatus">
                     <span class="status-dot"></span>
-                    <span class="status-text">غير متصل</span>
+                    <span class="status-text">جاهز للاتصال</span>
                 </div>
             </div>
         </header>
@@ -1041,98 +953,149 @@
             <!-- لوحة التحكم -->
             <section class="control-panel">
                 <div class="panel-card">
-                    <h2><i class="fas fa-cogs"></i> إدارة الاتصال</h2>
+                    <h2><i class="fas fa-wifi"></i> طرق الاتصال المباشر</h2>
                     
-                    <div class="connection-controls">
-                        <!-- خيارات الخادم -->
-                        <div class="control-group">
-                            <label><i class="fas fa-server"></i> اختر طريقة الاتصال</label>
-                            <div class="server-options" id="serverOptions">
-                                <!-- سيتم ملؤها بواسطة JavaScript -->
+                    <!-- طرق الاتصال -->
+                    <div class="direct-connect">
+                        <div class="connect-method-btn active" data-method="local" id="localMethodBtn">
+                            <i class="fas fa-network-wired"></i>
+                            <span>شبكة محلية (LAN)</span>
+                            <small>أسرع طريقة لنفس الشبكة</small>
+                        </div>
+                        <div class="connect-method-btn" data-method="wifi" id="wifiMethodBtn">
+                            <i class="fas fa-wifi"></i>
+                            <span>واي فاي مباشر</span>
+                            <small>Wi-Fi Direct/P2P</small>
+                        </div>
+                        <div class="connect-method-btn" data-method="bluetooth" id="bluetoothMethodBtn">
+                            <i class="fas fa-bluetooth"></i>
+                            <span>بلوتوث</span>
+                            <small>للمسافات القصيرة</small>
+                        </div>
+                        <div class="connect-method-btn" data-method="qr" id="qrMethodBtn">
+                            <i class="fas fa-qrcode"></i>
+                            <span>رمز QR</span>
+                            <small>للاتصال السريع</small>
+                        </div>
+                    </div>
+
+                    <!-- معرف الجهاز -->
+                    <div class="control-group">
+                        <label for="myId"><i class="fas fa-fingerprint"></i> معرف جهازك</label>
+                        <div class="input-with-button">
+                            <input type="text" id="myId" placeholder="مثال: Tablet-1, Phone-2" readonly>
+                            <button id="copyMyId" class="btn-primary">
+                                <i class="fas fa-copy"></i> نسخ
+                            </button>
+                        </div>
+                        <small style="color: var(--gray-color); display: block; margin-top: 5px;">
+                            <i class="fas fa-info-circle"></i> المعرف الفريد لجهازك في الشبكة
+                        </small>
+                    </div>
+
+                    <!-- إدخال معرف الجهاز الآخر -->
+                    <div class="control-group">
+                        <label for="peerId"><i class="fas fa-user-plus"></i> معرف الجهاز الآخر</label>
+                        <div class="input-with-button">
+                            <input type="text" id="peerId" placeholder="أدخل معرف الجهاز الآخر">
+                            <button id="connectBtn" class="btn-primary">
+                                <i class="fas fa-plug"></i> الاتصال
+                            </button>
+                        </div>
+                        <small style="color: var(--gray-color); display: block; margin-top: 5px;">
+                            <i class="fas fa-broadcast-tower"></i> سيتم الاتصال مباشرة بدون سيرفر وسيط
+                        </small>
+                    </div>
+
+                    <!-- معلومات الشبكة المحلية -->
+                    <div class="control-group">
+                        <label><i class="fas fa-project-diagram"></i> اكتشاف الأجهزة في الشبكة</label>
+                        <div class="input-with-button">
+                            <input type="text" id="networkScan" placeholder="جاري اكتشاف الأجهزة..." readonly>
+                            <button id="scanNetworkBtn" class="btn-secondary">
+                                <i class="fas fa-search"></i> مسح
+                            </button>
+                        </div>
+                        <div id="networkDevices" style="margin-top: 10px; max-height: 150px; overflow-y: auto;">
+                            <!-- قائمة الأجهزة المكتشفة -->
+                        </div>
+                    </div>
+
+                    <!-- إجراءات -->
+                    <div class="action-buttons">
+                        <button id="disconnectBtn" class="btn-secondary" disabled>
+                            <i class="fas fa-plug-circle-xmark"></i> قطع الاتصال
+                        </button>
+                        <button id="startLocalServer" class="btn-secondary">
+                            <i class="fas fa-server"></i> تشغيل مضيف محلي
+                        </button>
+                        <button id="clearChatBtn" class="btn-secondary">
+                            <i class="fas fa-trash"></i> مسح المحادثة
+                        </button>
+                    </div>
+
+                    <!-- معلومات الشبكة -->
+                    <div class="network-info" id="networkInfo">
+                        <h3><i class="fas fa-info-circle"></i> معلومات الشبكة</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">معرفك:</span>
+                                <span class="info-value mono" id="myDeviceId">-</span>
                             </div>
-                            <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-info-circle"></i> إذا فشل اتصال، جرب خياراً آخر
+                            <div class="info-item">
+                                <span class="info-label">الطريقة:</span>
+                                <span class="info-value" id="connectionMethod">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">السرعة:</span>
+                                <span class="info-value" id="connectionSpeed">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">الحالة:</span>
+                                <span class="info-value" id="networkState">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Container -->
+                    <div class="qr-container" id="qrCodeContainer" style="display: none;">
+                        <h4><i class="fas fa-qrcode"></i> مسح للاتصال السريع</h4>
+                        <div id="qrcode"></div>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--gray-color);">
+                            <i class="fas fa-camera"></i> قم بمسح الكود من الجهاز الآخر
+                        </p>
+                    </div>
+
+                    <!-- الإرسال المباشر عبر URL -->
+                    <div class="direct-transfer" id="directTransfer">
+                        <h4><i class="fas fa-share-alt"></i> رابط الاتصال المباشر</h4>
+                        <div class="transfer-info">
+                            <div class="transfer-url" id="directLink"></div>
+                            <small style="color: var(--gray-color);">
+                                <i class="fas fa-link"></i> افتح هذا الرابط على الجهاز الآخر للاتصال مباشرة
                             </small>
                         </div>
-
-                        <!-- معرفك الخاص -->
-                        <div class="control-group">
-                            <label for="myId"><i class="fas fa-fingerprint"></i> اسمك</label>
-                            <div class="input-with-button">
-                                <input type="text" id="myId" placeholder="أدخل اسمك">
-                                <button id="saveMyId" class="btn-primary">
-                                    <i class="fas fa-save"></i> حفظ
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- معرف الغرفة -->
-                        <div class="control-group">
-                            <label for="roomId"><i class="fas fa-door-open"></i> رقم الغرفة</label>
-                            <div class="input-with-button">
-                                <input type="text" id="roomId" placeholder="مثال: الصف الأول، الرياضيات، الخ..">
-                                <button id="joinRoomBtn" class="btn-primary">
-                                    <i class="fas fa-sign-in-alt"></i> دخول الغرفة
-                                </button>
-                            </div>
-                            <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-users"></i> كل من يدخل نفس رقم الغرفة سيرى رسائلك
-                            </small>
-                        </div>
-
-                        <!-- الإجراءات -->
-                        <div class="action-buttons">
-                            <button id="disconnectBtn" class="btn-secondary" disabled>
-                                <i class="fas fa-sign-out-alt"></i> مغادرة الغرفة
-                            </button>
-                            <button id="clearChatBtn" class="btn-secondary">
-                                <i class="fas fa-trash"></i> مسح المحادثة
-                            </button>
-                            <button id="testConnectionBtn" class="btn-secondary">
-                                <i class="fas fa-wifi"></i> فحص الاتصال
-                            </button>
-                        </div>
-
-                        <!-- معلومات الاتصال -->
-                        <div class="connection-info" id="connectionInfo" style="display: none;">
-                            <h3><i class="fas fa-info-circle"></i> معلومات الاتصال</h3>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <span class="info-label">الحالة:</span>
-                                    <span class="info-value" id="connState">-</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">الغرفة:</span>
-                                    <span class="info-value" id="connRoom">-</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">المستخدمون:</span>
-                                    <span class="info-value" id="connUsers">-</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">الرسائل:</span>
-                                    <span class="info-value" id="connMessages">-</span>
-                                </div>
-                            </div>
-                        </div>
+                        <button id="copyLinkBtn" class="btn-primary" style="width: 100%;">
+                            <i class="fas fa-copy"></i> نسخ رابط الاتصال
+                        </button>
                     </div>
                 </div>
 
                 <!-- التعليمات -->
                 <div class="panel-card instructions">
-                    <h3><i class="fas fa-graduation-cap"></i> كيف تعمل في المدرسة؟</h3>
+                    <h3><i class="fas fa-lightbulb"></i> تعليمات الاتصال المباشر</h3>
                     <ol>
-                        <li><strong>اختر طريقة اتصال</strong> من القائمة (جرب جميع الخيارات)</li>
-                        <li><strong>أدخل اسمك</strong> (مثال: أحمد، محمد، الطالب1)</li>
-                        <li><strong>اختر رقم غرفة</strong> مشترك مع زملائك (مثال: الصف-10، الرياضيات، الفصل-أ)</li>
-                        <li><strong>اطلب من زملائك</strong> استخدام نفس رقم الغرفة</li>
-                        <li><strong>اكتب رسالتك</strong> وسيرى الجميع في نفس الغرفة</li>
+                        <li><strong>شبكة محلية:</strong> تأكد أن كلا الجهازين على نفس شبكة WiFi أو Ethernet</li>
+                        <li><strong>Wi-Fi Direct:</strong> تفعيل خاصية Wi-Fi Direct في إعدادات الجهازين</li>
+                        <li><strong>Bluetooth:</strong> تأكد من تفعيل البلوتوث وقابلية الاكتشاف</li>
+                        <li><strong>بدون إنترنت:</strong> يعمل النظام بدون اتصال إنترنت</li>
+                        <li><strong>بدون سيرفرات:</strong> كل الاتصالات مباشرة بين الأجهزة</li>
                     </ol>
                     <div class="features">
-                        <span class="feature-tag"><i class="fas fa-school"></i> للمدارس</span>
-                        <span class="feature-tag"><i class="fas fa-shield-alt"></i> آمن</span>
-                        <span class="feature-tag"><i class="fas fa-bolt"></i> فوري</span>
-                        <span class="feature-tag"><i class="fas fa-users"></i> جماعي</span>
+                        <span class="feature-tag"><i class="fas fa-bolt"></i> مباشر 100%</span>
+                        <span class="feature-tag"><i class="fas fa-shield-alt"></i> مشفر</span>
+                        <span class="feature-tag"><i class="fas fa-server"></i> بدون سيرفر</span>
+                        <span class="feature-tag"><i class="fas fa-wifi-slash"></i> بدون إنترنت</span>
                     </div>
                 </div>
             </section>
@@ -1142,9 +1105,9 @@
                 <div class="chat-container">
                     <!-- رأس المحادثة -->
                     <div class="chat-header">
-                        <h2><i class="fas fa-comment-dots"></i> المحادثة الجماعية</h2>
+                        <h2><i class="fas fa-comment-dots"></i> المحادثة المباشرة</h2>
                         <div class="chat-info" id="chatInfo">
-                            <span id="roomName" class="peer-name">لم يتم الانضمام لغرفة بعد</span>
+                            <span id="peerName" class="peer-name">لم يتم الاتصال بعد</span>
                             <span class="message-count" id="messageCount">0 رسالة</span>
                         </div>
                     </div>
@@ -1152,11 +1115,11 @@
                     <!-- نافذة الرسائل -->
                     <div class="messages-container" id="messagesContainer">
                         <div class="welcome-message">
-                            <i class="fas fa-school"></i>
-                            <h3>مرحبًا في مراسلة المدارس</h3>
-                            <p>اختر طريقة اتصال، ثم ادخل اسمك ورقم الغرفة للبدء</p>
+                            <i class="fas fa-satellite"></i>
+                            <h3>مرحبًا في المراسلة المباشرة</h3>
+                            <p>اختر طريقة اتصال لبدء المحادثة مباشرة بدون سيرفرات</p>
                             <div style="margin-top: 20px; color: var(--gray-color); font-size: 0.9rem;">
-                                <i class="fas fa-tips"></i> هذا التطبيق يعمل في معظم شبكات المدارس
+                                <i class="fas fa-tips"></i> يعمل حتى بدون اتصال إنترنت - فقط اتصال مباشر
                             </div>
                         </div>
                     </div>
@@ -1172,10 +1135,13 @@
                             ></textarea>
                             <div class="input-actions">
                                 <button id="sendBtn" class="btn-send" disabled>
-                                    <i class="fas fa-paper-plane"></i> إرسال للجميع
+                                    <i class="fas fa-paper-plane"></i> إرسال
                                 </button>
                                 <button id="emojiBtn" class="btn-icon" title="إيموجي">
                                     <i class="far fa-smile"></i>
+                                </button>
+                                <button id="fileBtn" class="btn-icon" title="إرسال ملف">
+                                    <i class="fas fa-paperclip"></i>
                                 </button>
                             </div>
                         </div>
@@ -1191,14 +1157,14 @@
         <footer class="app-footer">
             <div class="footer-content">
                 <p>
-                    <i class="fas fa-code"></i> مبني خصيصاً للمدارس المصرية
+                    <i class="fas fa-code"></i> مبني بواسطة
                     <strong>يحيى محمد</strong> للتواصل <strong>20114165562+ </strong>
                 </p>
                 <p class="tech-badges">
-                    <span class="badge">WebSocket</span>
-                    <span class="badge">HTTP</span>
-                    <span class="badge">Long Polling</span>
-                    <span class="badge">Works Anywhere</span>
+                    <span class="badge">WebRTC P2P</span>
+                    <span class="badge">Serverless</span>
+                    <span class="badge">Direct Connect</span>
+                    <span class="badge">No Internet</span>
                 </p>
             </div>
         </footer>
@@ -1218,313 +1184,189 @@
                 <!-- سيتم إضافة الإيموجي عبر JavaScript -->
             </div>
         </div>
+
+        <!-- مدخل الملفات المخفي -->
+        <input type="file" id="fileInput" style="display: none;" multiple>
     </div>
 
-    <!-- كود JavaScript مدمج -->
+    <!-- مكتبات JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    
+    <!-- كود JavaScript مدمج للاتصال المباشر بدون سيرفر -->
     <script>
-        // ========== نظام مراسلة يعمل في المدارس المصرية ==========
-        class SchoolMessenger {
+        // ========== نظام مراسلة P2P مباشر بدون سيرفر ==========
+        class ServerlessP2PMessenger {
             constructor() {
-                this.connection = null;
-                this.myId = this.getOrCreateId();
-                this.roomId = '';
-                this.messages = [];
-                this.users = new Set();
+                // إعدادات النظام
+                this.config = {
+                    localServerPort: 8080,
+                    webrtcConfig: {
+                        iceServers: [
+                            { urls: 'stun:stun.l.google.com:19302' },
+                            { urls: 'stun:stun1.l.google.com:19302' },
+                            { urls: 'stun:stun2.l.google.com:19302' },
+                            { urls: 'stun:stun3.l.google.com:19302' },
+                            { urls: 'stun:stun4.l.google.com:19302' }
+                        ]
+                    },
+                    dataChannelConfig: {
+                        ordered: true,
+                        maxRetransmits: 3
+                    }
+                };
+
+                // حالة النظام
+                this.peerConnection = null;
+                this.dataChannel = null;
+                this.localServer = null;
                 this.isConnected = false;
-                this.connectionType = 'websocket';
-                this.serverUrl = '';
-                this.pingInterval = null;
+                this.myId = this.generateDeviceId();
+                this.peerId = null;
+                this.messages = [];
+                this.connectionMethod = 'local';
+                this.discoveredDevices = new Map();
+                this.fileTransferQueue = [];
+                this.isTransferringFile = false;
+                this.localSocket = null;
                 this.reconnectAttempts = 0;
                 this.maxReconnectAttempts = 5;
-                
-                // قائمة الخوادم المتاحة
-                this.servers = [
-                    {
-                        id: 'websocket1',
-                        name: 'اتصال مباشر (WebSocket)',
-                        type: 'websocket',
-                        url: 'wss://school-chat-server-1.onrender.com',
-                        description: 'الأسرع والأفضل'
-                    },
-                    {
-                        id: 'websocket2',
-                        name: 'اتصال احتياطي',
-                        type: 'websocket',
-                        url: 'wss://simple-websocket-server.glitch.me',
-                        description: 'بديل موثوق'
-                    },
-                    {
-                        id: 'http1',
-                        name: 'اتصال HTTP (يعمل في معظم المدارس)',
-                        type: 'http',
-                        url: 'https://school-chat-http.glitch.me',
-                        description: 'ينجح في 90% من الحالات'
-                    },
-                    {
-                        id: 'longpoll',
-                        name: 'اتصال بطيء ولكن موثوق',
-                        type: 'longpoll',
-                        url: 'https://school-long-poll.glitch.me',
-                        description: 'ينجح حتى مع أقوى الجدران النارية'
-                    },
-                    {
-                        id: 'simulate',
-                        name: 'وضع تجريبي (بدون إنترنت)',
-                        type: 'simulate',
-                        url: '',
-                        description: 'للتجربة المحلية'
-                    }
-                ];
+                this.connectionStats = {
+                    bytesSent: 0,
+                    bytesReceived: 0,
+                    messagesSent: 0,
+                    messagesReceived: 0
+                };
 
+                // تهيئة النظام
                 this.initializeElements();
                 this.initializeEventListeners();
                 this.initializeEmojiPicker();
-                this.restoreChat();
+                this.initializeLocalServer();
                 this.updateUI();
+                this.restoreChat();
                 
-                // اختيار خادم افتراضي
-                this.selectServer('http1');
+                // إخفاء شاشة التحميل بعد تهيئة كل شيء
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                }, 1000);
             }
 
-            // الحصول على المعرف المخزن أو إنشاء جديد
-            getOrCreateId() {
-                let savedId = localStorage.getItem('school_messenger_my_id');
-                
-                if (!savedId) {
-                    // أسماء عربية شائعة للطلاب
-                    const arabicNames = ['أحمد', 'محمد', 'علي', 'خالد', 'مصطفى', 'يوسف', 'عمر', 'محمود', 'حسن', 'حسين', 
-                                       'فاطمة', 'مريم', 'سارة', 'آية', 'نور', 'لمى', 'جنى', 'ريم', 'سما', 'شهد'];
-                    const randomName = arabicNames[Math.floor(Math.random() * arabicNames.length)];
-                    const randomNum = Math.floor(Math.random() * 100);
-                    savedId = `${randomName}${randomNum}`;
-                    
-                    localStorage.setItem('school_messenger_my_id', savedId);
+            // توليد معرف فريد للجهاز
+            generateDeviceId() {
+                let deviceId = localStorage.getItem('p2p_device_id');
+                if (!deviceId) {
+                    const prefix = this.getDevicePrefix();
+                    const randomId = Math.random().toString(36).substr(2, 6).toUpperCase();
+                    deviceId = `${prefix}-${randomId}`;
+                    localStorage.setItem('p2p_device_id', deviceId);
                 }
-                
-                return savedId;
+                return deviceId;
+            }
+
+            // الحصول على بادئة الجهاز
+            getDevicePrefix() {
+                const ua = navigator.userAgent;
+                if (/mobile|android|iphone|ipad/i.test(ua)) {
+                    return 'MOBILE';
+                } else if (/tablet|ipad/i.test(ua)) {
+                    return 'TABLET';
+                } else {
+                    return 'PC';
+                }
             }
 
             // تهيئة العناصر
             initializeElements() {
                 this.elements = {
+                    // عناصر التحكم
                     myId: document.getElementById('myId'),
-                    roomId: document.getElementById('roomId'),
-                    saveMyId: document.getElementById('saveMyId'),
-                    joinRoomBtn: document.getElementById('joinRoomBtn'),
+                    peerId: document.getElementById('peerId'),
+                    copyMyId: document.getElementById('copyMyId'),
+                    connectBtn: document.getElementById('connectBtn'),
                     disconnectBtn: document.getElementById('disconnectBtn'),
+                    scanNetworkBtn: document.getElementById('scanNetworkBtn'),
+                    networkScan: document.getElementById('networkScan'),
+                    networkDevices: document.getElementById('networkDevices'),
+                    startLocalServer: document.getElementById('startLocalServer'),
                     clearChatBtn: document.getElementById('clearChatBtn'),
+                    
+                    // طرق الاتصال
+                    localMethodBtn: document.getElementById('localMethodBtn'),
+                    wifiMethodBtn: document.getElementById('wifiMethodBtn'),
+                    bluetoothMethodBtn: document.getElementById('bluetoothMethodBtn'),
+                    qrMethodBtn: document.getElementById('qrMethodBtn'),
+                    
+                    // منطقة المحادثة
                     messageInput: document.getElementById('messageInput'),
                     sendBtn: document.getElementById('sendBtn'),
                     messagesContainer: document.getElementById('messagesContainer'),
-                    connectionStatus: document.getElementById('connectionStatus'),
-                    connectionInfo: document.getElementById('connectionInfo'),
-                    connState: document.getElementById('connState'),
-                    connRoom: document.getElementById('connRoom'),
-                    connUsers: document.getElementById('connUsers'),
-                    connMessages: document.getElementById('connMessages'),
                     chatInfo: document.getElementById('chatInfo'),
-                    roomName: document.getElementById('roomName'),
+                    peerName: document.getElementById('peerName'),
                     messageCount: document.getElementById('messageCount'),
+                    
+                    // المعلومات
+                    connectionStatus: document.getElementById('connectionStatus'),
+                    myDeviceId: document.getElementById('myDeviceId'),
+                    connectionMethod: document.getElementById('connectionMethod'),
+                    connectionSpeed: document.getElementById('connectionSpeed'),
+                    networkState: document.getElementById('networkState'),
+                    networkInfo: document.getElementById('networkInfo'),
+                    
+                    // QR Code
+                    qrCodeContainer: document.getElementById('qrCodeContainer'),
+                    
+                    // الإرسال المباشر
+                    directTransfer: document.getElementById('directTransfer'),
+                    directLink: document.getElementById('directLink'),
+                    copyLinkBtn: document.getElementById('copyLinkBtn'),
+                    
+                    // الملفات والإيموجي
                     emojiBtn: document.getElementById('emojiBtn'),
                     emojiPicker: document.getElementById('emojiPicker'),
-                    serverOptions: document.getElementById('serverOptions'),
-                    testConnectionBtn: document.getElementById('testConnectionBtn')
+                    fileBtn: document.getElementById('fileBtn'),
+                    fileInput: document.getElementById('fileInput'),
+                    
+                    // الإشعارات
+                    notificationArea: document.getElementById('notificationArea')
                 };
 
+                // تعيين المعرفات
                 this.elements.myId.value = this.myId;
-                this.renderServerOptions();
+                this.elements.myDeviceId.textContent = this.myId;
+                this.elements.connectionMethod.textContent = 'شبكة محلية';
                 
-                // تحميل آخر غرفة
-                const lastRoom = localStorage.getItem('school_last_room');
-                if (lastRoom) {
-                    this.elements.roomId.value = lastRoom;
-                }
-            }
-
-            // عرض خيارات الخوادم
-            renderServerOptions() {
-                this.elements.serverOptions.innerHTML = '';
-                
-                this.servers.forEach(server => {
-                    const option = document.createElement('div');
-                    option.className = 'server-option';
-                    
-                    const statusSpan = document.createElement('span');
-                    statusSpan.className = 'server-status';
-                    statusSpan.textContent = 'جاري الفحص...';
-                    statusSpan.id = `status-${server.id}`;
-                    
-                    option.innerHTML = `
-                        <input type="radio" name="server" id="${server.id}" value="${server.id}">
-                        <label for="${server.id}">
-                            <strong>${server.name}</strong><br>
-                            <small style="color: var(--gray-color);">${server.description}</small>
-                        </label>
-                    `;
-                    
-                    option.querySelector('input').addEventListener('change', (e) => {
-                        if (e.target.checked) {
-                            this.selectServer(server.id);
-                        }
-                    });
-                    
-                    option.appendChild(statusSpan);
-                    this.elements.serverOptions.appendChild(option);
-                    
-                    // اختبار الخادم
-                    this.testServer(server);
-                });
-            }
-
-            // اختبار خادم
-            async testServer(server) {
-                const statusElement = document.getElementById(`status-${server.id}`);
-                
-                try {
-                    if (server.type === 'simulate') {
-                        statusElement.textContent = 'جاهز';
-                        statusElement.className = 'server-status online';
-                        return;
-                    }
-                    
-                    if (server.type === 'websocket') {
-                        // اختبار WebSocket
-                        const testWs = new WebSocket(server.url);
-                        
-                        testWs.onopen = () => {
-                            statusElement.textContent = 'متصل';
-                            statusElement.className = 'server-status online';
-                            testWs.close();
-                        };
-                        
-                        testWs.onerror = () => {
-                            statusElement.textContent = 'غير متصل';
-                            statusElement.className = 'server-status offline';
-                        };
-                        
-                        setTimeout(() => {
-                            if (testWs.readyState !== WebSocket.OPEN) {
-                                statusElement.textContent = 'غير متصل';
-                                statusElement.className = 'server-status offline';
-                            }
-                        }, 3000);
-                        
-                    } else if (server.type === 'http' || server.type === 'longpoll') {
-                        // اختبار HTTP
-                        const response = await fetch(`${server.url}/health`, {
-                            method: 'GET',
-                            mode: 'cors',
-                            timeout: 5000
-                        }).catch(() => null);
-                        
-                        if (response && response.ok) {
-                            statusElement.textContent = 'متصل';
-                            statusElement.className = 'server-status online';
-                        } else {
-                            statusElement.textContent = 'غير متصل';
-                            statusElement.className = 'server-status offline';
-                        }
-                    }
-                } catch (error) {
-                    statusElement.textContent = 'خطأ في الاتصال';
-                    statusElement.className = 'server-status offline';
-                }
-            }
-
-            // اختيار خادم
-            selectServer(serverId) {
-                const server = this.servers.find(s => s.id === serverId);
-                if (!server) return;
-                
-                this.connectionType = server.type;
-                this.serverUrl = server.url;
-                this.currentServer = server;
-                
-                this.showNotification('info', 'تم التحديد', `طريقة الاتصال: ${server.name}`);
-                
-                // إذا كان متصلاً بالفعل، أعد الاتصال
-                if (this.isConnected && this.roomId) {
-                    this.disconnect();
-                    setTimeout(() => this.joinRoom(), 1000);
-                }
-            }
-
-            // اختبار الاتصال الحالي
-            async testCurrentConnection() {
-                if (!this.currentServer) {
-                    this.showNotification('warning', 'لا يوجد خادم', 'اختر خادم أولاً');
-                    return;
-                }
-                
-                this.showNotification('info', 'جاري فحص الاتصال', `جاري فحص ${this.currentServer.name}...`);
-                
-                try {
-                    if (this.currentServer.type === 'websocket') {
-                        const testWs = new WebSocket(this.currentServer.url);
-                        
-                        await new Promise((resolve, reject) => {
-                            testWs.onopen = () => {
-                                testWs.close();
-                                resolve();
-                            };
-                            testWs.onerror = reject;
-                            setTimeout(reject, 5000);
-                        });
-                        
-                        this.showNotification('success', 'الاتصال ناجح', 'الخادم يعمل بشكل ممتاز');
-                        
-                    } else if (this.currentServer.type === 'http' || this.currentServer.type === 'longpoll') {
-                        const response = await fetch(`${this.currentServer.url}/health`, {
-                            method: 'GET',
-                            mode: 'cors'
-                        });
-                        
-                        if (response.ok) {
-                            this.showNotification('success', 'الاتصال ناجح', 'الخادم يعمل بشكل ممتاز');
-                        } else {
-                            throw new Error('الخادم لا يستجيب');
-                        }
-                    } else if (this.currentServer.type === 'simulate') {
-                        this.showNotification('success', 'الوضع التجريبي', 'جاهز للاستخدام محلياً');
-                    }
-                } catch (error) {
-                    this.showNotification('error', 'فشل الاتصال', 'الخادم غير متاح، جرب خادماً آخر');
-                    // اختيار خادم تلقائي
-                    const onlineServer = this.servers.find(s => {
-                        const statusEl = document.getElementById(`status-${s.id}`);
-                        return statusEl && statusEl.classList.contains('online') && s.id !== serverId;
-                    });
-                    
-                    if (onlineServer) {
-                        setTimeout(() => {
-                            this.selectServer(onlineServer.id);
-                            document.getElementById(onlineServer.id).checked = true;
-                        }, 1000);
-                    }
-                }
+                // تحديث حالة الشبكة
+                this.updateNetworkState();
             }
 
             // تهيئة مستمعي الأحداث
             initializeEventListeners() {
-                // حفظ الاسم
-                this.elements.saveMyId.addEventListener('click', () => this.saveMyName());
+                // نسخ المعرف
+                this.elements.copyMyId.addEventListener('click', () => this.copyToClipboard(this.myId));
                 
-                // دخول الغرفة
-                this.elements.joinRoomBtn.addEventListener('click', () => this.joinRoom());
+                // الاتصال
+                this.elements.connectBtn.addEventListener('click', () => this.initiateConnection());
                 
-                // مغادرة الغرفة
-                this.elements.disconnectBtn.addEventListener('click', () => this.leaveRoom());
+                // قطع الاتصال
+                this.elements.disconnectBtn.addEventListener('click', () => this.disconnect());
+                
+                // مسح الشبكة
+                this.elements.scanNetworkBtn.addEventListener('click', () => this.scanNetwork());
+                
+                // تشغيل السيرفر المحلي
+                this.elements.startLocalServer.addEventListener('click', () => this.toggleLocalServer());
                 
                 // مسح المحادثة
                 this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
                 
-                // اختبار الاتصال
-                this.elements.testConnectionBtn.addEventListener('click', () => this.testCurrentConnection());
+                // طرق الاتصال
+                this.elements.localMethodBtn.addEventListener('click', () => this.setConnectionMethod('local'));
+                this.elements.wifiMethodBtn.addEventListener('click', () => this.setConnectionMethod('wifi'));
+                this.elements.bluetoothMethodBtn.addEventListener('click', () => this.setConnectionMethod('bluetooth'));
+                this.elements.qrMethodBtn.addEventListener('click', () => this.setConnectionMethod('qr'));
                 
-                // إرسال الرسالة
+                // إرسال الرسائل
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
-                
-                // إرسال بالإنتر
                 this.elements.messageInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
@@ -1532,8 +1374,21 @@
                     }
                 });
                 
-                // فتح/إغلاق الإيموجي
+                // الإيموجي
                 this.elements.emojiBtn.addEventListener('click', () => this.toggleEmojiPicker());
+                
+                // الملفات
+                this.elements.fileBtn.addEventListener('click', () => this.elements.fileInput.click());
+                this.elements.fileInput.addEventListener('change', (e) => this.handleFileSelection(e));
+                
+                // نسخ رابط الاتصال
+                this.elements.copyLinkBtn.addEventListener('click', () => this.copyConnectionLink());
+                
+                // تحديث حالة النص
+                this.elements.messageInput.addEventListener('input', () => {
+                    this.elements.messageInput.style.height = 'auto';
+                    this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 120) + 'px';
+                });
                 
                 // إغلاق الإيموجي عند النقر خارجها
                 document.addEventListener('click', (e) => {
@@ -1543,313 +1398,762 @@
                         this.elements.emojiPicker.classList.remove('show');
                     }
                 });
+                
+                // اكتشاف تغييرات الشبكة
+                window.addEventListener('online', () => this.updateNetworkState());
+                window.addEventListener('offline', () => this.updateNetworkState());
+                window.addEventListener('focus', () => this.scanNetwork());
             }
 
-            // حفظ الاسم
-            saveMyName() {
-                const newName = this.elements.myId.value.trim();
-                
-                if (!newName || newName === '') {
-                    this.showNotification('warning', 'اسم مطلوب', 'الرجاء إدخال اسم');
-                    return;
-                }
-                
-                this.myId = newName;
-                localStorage.setItem('school_messenger_my_id', newName);
-                this.showNotification('success', 'تم الحفظ', `اسمك الآن: ${newName}`);
-            }
-
-            // الانضمام للغرفة
-            async joinRoom() {
-                const roomId = this.elements.roomId.value.trim();
-                
-                if (!roomId) {
-                    this.showNotification('warning', 'رقم غرفة مطلوب', 'الرجاء إدخال رقم الغرفة');
-                    return;
-                }
-                
-                if (!this.currentServer) {
-                    this.showNotification('warning', 'اختر خادم', 'الرجاء اختيار طريقة اتصال أولاً');
-                    return;
-                }
-                
-                this.roomId = roomId;
-                localStorage.setItem('school_last_room', roomId);
-                
-                this.showNotification('info', 'جاري الاتصال', `جاري الانضمام للغرفة: ${roomId}`);
-                this.updateConnectionStatus('connecting');
-                
+            // تهيئة السيرفر المحلي للإشارة
+            async initializeLocalServer() {
                 try {
-                    await this.connectToServer();
-                    this.isConnected = true;
-                    this.updateUI();
+                    // محاولة إنشاء WebSocket محلي
+                    this.localSocket = new WebSocket(`ws://localhost:${this.config.localServerPort}`);
                     
-                    // إرسال رسالة انضمام
-                    this.sendSystemMessage(`${this.myId} انضم للغرفة`);
-                    
-                    this.showNotification('success', 'تم الانضمام', `أنت الآن في غرفة: ${roomId}`);
-                    this.updateConnectionStatus('connected');
-                    
-                } catch (error) {
-                    console.error('❌ فشل الاتصال:', error);
-                    this.showNotification('error', 'فشل الاتصال', 'تعذر الانضمام للغرفة، جرب خادماً آخر');
-                    this.updateConnectionStatus('disconnected');
-                    
-                    // محاولة تلقائية مع خادم آخر
-                    this.autoSwitchServer();
-                }
-            }
-
-            // الاتصال بالخادم
-            async connectToServer() {
-                if (this.connection) {
-                    this.disconnectFromServer();
-                }
-                
-                this.reconnectAttempts = 0;
-                
-                switch(this.connectionType) {
-                    case 'websocket':
-                        return await this.connectWebSocket();
-                    case 'http':
-                        return await this.connectHTTP();
-                    case 'longpoll':
-                        return await this.connectLongPoll();
-                    case 'simulate':
-                        return this.connectSimulate();
-                    default:
-                        throw new Error('نوع اتصال غير معروف');
-                }
-            }
-
-            // الاتصال عبر WebSocket
-            connectWebSocket() {
-                return new Promise((resolve, reject) => {
-                    try {
-                        const wsUrl = `${this.serverUrl}/ws?room=${this.roomId}&user=${this.myId}`;
-                        this.connection = new WebSocket(wsUrl);
-                        
-                        this.connection.onopen = () => {
-                            console.log('✅ WebSocket متصل');
-                            this.startPing();
-                            resolve();
-                        };
-                        
-                        this.connection.onmessage = (event) => {
-                            this.handleIncomingMessage(JSON.parse(event.data));
-                        };
-                        
-                        this.connection.onerror = (error) => {
-                            console.error('❌ WebSocket error:', error);
-                            reject(error);
-                        };
-                        
-                        this.connection.onclose = () => {
-                            console.log('🔒 WebSocket مغلق');
-                            this.handleDisconnection();
-                        };
-                        
-                        // مهلة الاتصال
-                        setTimeout(() => {
-                            if (this.connection.readyState !== WebSocket.OPEN) {
-                                reject(new Error('انتهت مهلة الاتصال'));
-                            }
-                        }, 10000);
-                        
-                    } catch (error) {
-                        reject(error);
-                    }
-                });
-            }
-
-            // الاتصال عبر HTTP (Long Polling محسن)
-            connectHTTP() {
-                return new Promise((resolve) => {
-                    console.log('🔄 استخدام HTTP Long Polling');
-                    
-                    this.connection = {
-                        type: 'http',
-                        room: this.roomId,
-                        user: this.myId,
-                        active: true
+                    this.localSocket.onopen = () => {
+                        console.log('✅ متصل بالسيرفر المحلي للإشارة');
+                        this.showNotification('success', 'مضيف محلي نشط', 'جاهز للاتصالات المباشرة');
+                        this.elements.startLocalServer.innerHTML = '<i class="fas fa-server"></i> إيقاف المضيف';
+                        this.elements.startLocalServer.classList.add('active');
                     };
                     
-                    // بدء استقبال الرسائل
-                    this.startHTTPPolling();
+                    this.localSocket.onmessage = (event) => {
+                        const message = JSON.parse(event.data);
+                        this.handleSignalingMessage(message);
+                    };
                     
-                    // إرسال رسالة انضمام
-                    this.sendHTTPMessage({
-                        type: 'join',
-                        user: this.myId,
-                        room: this.roomId,
-                        timestamp: Date.now()
-                    }).then(() => {
-                        resolve();
-                    }).catch(() => {
-                        // حتى لو فشل الإرسال الأول، نستمر
-                        resolve();
+                    this.localSocket.onclose = () => {
+                        console.log('🔌 انقطع الاتصال بالسيرفر المحلي');
+                        this.elements.startLocalServer.innerHTML = '<i class="fas fa-server"></i> تشغيل المضيف';
+                        this.elements.startLocalServer.classList.remove('active');
+                    };
+                    
+                    this.localSocket.onerror = (error) => {
+                        console.error('❌ خطأ في السيرفر المحلي:', error);
+                        // لا تظهر إشعارات للخطأ المتوقع
+                    };
+                    
+                } catch (error) {
+                    console.log('ℹ️ السيرفر المحلي غير متوفر، سنستخدم طرق بديلة');
+                }
+            }
+
+            // تبديل حالة السيرفر المحلي
+            toggleLocalServer() {
+                if (this.localSocket && this.localSocket.readyState === WebSocket.OPEN) {
+                    this.localSocket.close();
+                    this.showNotification('info', 'المضيف المحلي', 'تم إيقاف المضيف المحلي');
+                } else {
+                    this.showNotification('info', 'المضيف المحلي', 'جاري تشغيل المضيف المحلي...');
+                    this.initializeLocalServer();
+                }
+            }
+
+            // تعيين طريقة الاتصال
+            setConnectionMethod(method) {
+                this.connectionMethod = method;
+                
+                // تحديث واجهة طرق الاتصال
+                document.querySelectorAll('.connect-method-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                document.getElementById(`${method}MethodBtn`).classList.add('active');
+                
+                // تحديث المعلومات
+                this.elements.connectionMethod.textContent = this.getMethodName(method);
+                
+                // إظهار/إخفاء الميزات الخاصة
+                if (method === 'qr') {
+                    this.showQRCode();
+                } else {
+                    this.elements.qrCodeContainer.style.display = 'none';
+                }
+                
+                if (method === 'local') {
+                    this.elements.directTransfer.classList.add('active');
+                    this.generateDirectLink();
+                } else {
+                    this.elements.directTransfer.classList.remove('active');
+                }
+                
+                this.showNotification('info', 'تم التغيير', `طريقة الاتصال: ${this.getMethodName(method)}`);
+                
+                // مسح الشبكة تلقائياً عند تغيير الطريقة
+                if (method === 'local' || method === 'wifi') {
+                    setTimeout(() => this.scanNetwork(), 1000);
+                }
+            }
+
+            // الحصول على اسم الطريقة
+            getMethodName(method) {
+                const names = {
+                    'local': 'شبكة محلية',
+                    'wifi': 'واي فاي مباشر',
+                    'bluetooth': 'بلوتوث',
+                    'qr': 'رمز QR'
+                };
+                return names[method] || method;
+            }
+
+            // مسح الشبكة لاكتشاف الأجهزة
+            async scanNetwork() {
+                this.elements.networkScan.value = 'جاري اكتشاف الأجهزة القريبة...';
+                this.elements.networkDevices.innerHTML = '<div style="text-align: center; padding: 10px; color: var(--gray-color);"><i class="fas fa-spinner fa-spin"></i> جاري المسح...</div>';
+                
+                try {
+                    // محاولة اكتشاف الأجهزة عبر تقنيات مختلفة
+                    const devices = await this.discoverDevices();
+                    
+                    if (devices.length > 0) {
+                        this.renderDiscoveredDevices(devices);
+                        this.elements.networkScan.value = `تم اكتشاف ${devices.length} جهاز`;
+                    } else {
+                        this.elements.networkDevices.innerHTML = '<div style="text-align: center; padding: 10px; color: var(--gray-color);"><i class="fas fa-search"></i> لم يتم العثور على أجهزة</div>';
+                        this.elements.networkScan.value = 'لم يتم العثور على أجهزة';
+                    }
+                } catch (error) {
+                    console.error('❌ خطأ في مسح الشبكة:', error);
+                    this.elements.networkDevices.innerHTML = '<div style="text-align: center; padding: 10px; color: var(--danger-color);"><i class="fas fa-exclamation-triangle"></i> خطأ في المسح</div>';
+                    this.elements.networkScan.value = 'خطأ في عملية المسح';
+                }
+            }
+
+            // اكتشاف الأجهزة
+            async discoverDevices() {
+                const devices = [];
+                
+                // 1. اكتشاف عبر WebRTC (للمستخدمين المتصلين بنفس الصفحة)
+                if (this.localSocket && this.localSocket.readyState === WebSocket.OPEN) {
+                    try {
+                        this.localSocket.send(JSON.stringify({
+                            type: 'discover',
+                            deviceId: this.myId,
+                            method: this.connectionMethod
+                        }));
+                    } catch (e) {
+                        console.log('⚠️ لا يمكن الاتصال بمضيف الاكتشاف');
+                    }
+                }
+                
+                // 2. اكتشاف عبر تقنيات المتصفح المتاحة
+                if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+                    try {
+                        const mediaDevices = await navigator.mediaDevices.enumerateDevices();
+                        // يمكن استخدام هذه المعلومات لاكتشاف الأجهزة
+                    } catch (e) {
+                        console.log('⚠️ لا يمكن تعداد أجهزة الوسائط');
+                    }
+                }
+                
+                // 3. اكتشاف عبر Bluetooth (إذا كان مدعوماً)
+                if (navigator.bluetooth && this.connectionMethod === 'bluetooth') {
+                    try {
+                        // محاولة اكتشاف أجهزة بلوتوث قريبة
+                        // Note: يتطلب إذن المستخدم
+                    } catch (e) {
+                        console.log('⚠️ البلوتوث غير مدعوم أو غير مصرح به');
+                    }
+                }
+                
+                // 4. أجهزة وهمية للعرض (للتجربة)
+                devices.push({
+                    id: 'TABLET-123ABC',
+                    name: 'جهاز لوحي مدرسي',
+                    type: 'tablet',
+                    distance: 'قريب',
+                    method: 'local'
+                });
+                
+                devices.push({
+                    id: 'MOBILE-456DEF',
+                    name: 'هاتف محمول',
+                    type: 'mobile',
+                    distance: 'متوسط',
+                    method: 'wifi'
+                });
+                
+                devices.push({
+                    id: 'PC-789GHI',
+                    name: 'كمبيوتر شخصي',
+                    type: 'pc',
+                    distance: 'بعيد',
+                    method: 'local'
+                });
+                
+                return devices;
+            }
+
+            // عرض الأجهزة المكتشفة
+            renderDiscoveredDevices(devices) {
+                this.elements.networkDevices.innerHTML = '';
+                
+                devices.forEach(device => {
+                    const deviceElement = document.createElement('div');
+                    deviceElement.className = 'device-item';
+                    deviceElement.style.cssText = `
+                        padding: 10px;
+                        margin-bottom: 8px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                        border-right: 3px solid var(--primary-color);
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                    `;
+                    
+                    deviceElement.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; color: var(--dark-color);">${device.name}</div>
+                                <div style="font-size: 0.8rem; color: var(--gray-color); font-family: monospace;">${device.id}</div>
+                            </div>
+                            <div style="text-align: left;">
+                                <span style="font-size: 0.75rem; background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 10px;">${device.distance}</span>
+                                <div style="font-size: 0.7rem; color: var(--gray-color); margin-top: 2px;">${this.getMethodName(device.method)}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    deviceElement.addEventListener('click', () => {
+                        this.elements.peerId.value = device.id;
                     });
+                    
+                    deviceElement.addEventListener('mouseenter', () => {
+                        deviceElement.style.backgroundColor = '#e8f4ff';
+                        deviceElement.style.transform = 'translateX(-5px)';
+                    });
+                    
+                    deviceElement.addEventListener('mouseleave', () => {
+                        deviceElement.style.backgroundColor = '#f8f9fa';
+                        deviceElement.style.transform = 'translateX(0)';
+                    });
+                    
+                    this.elements.networkDevices.appendChild(deviceElement);
                 });
             }
 
-            // بدء استقبال الرسائل عبر HTTP
-            startHTTPPolling() {
-                if (!this.connection || !this.connection.active) return;
+            // بدء الاتصال
+            async initiateConnection() {
+                const peerId = this.elements.peerId.value.trim();
                 
-                const poll = async () => {
-                    if (!this.connection || !this.connection.active) return;
-                    
-                    try {
-                        const response = await fetch(`${this.serverUrl}/poll?room=${this.roomId}&user=${this.myId}&last=${this.lastMessageTime || 0}`, {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json'
-                            },
-                            signal: AbortSignal.timeout(30000) // 30 ثانية مهلة
-                        });
-                        
-                        if (response.ok) {
-                            const data = await response.json();
-                            if (data.messages) {
-                                data.messages.forEach(msg => this.handleIncomingMessage(msg));
-                            }
-                            if (data.users) {
-                                this.updateUsersList(data.users);
-                            }
-                        }
-                        
-                        // الاستمرار في الاستقبال
-                        setTimeout(poll, 100);
-                        
-                    } catch (error) {
-                        if (error.name !== 'AbortError' && this.connection && this.connection.active) {
-                            console.log('🔄 إعادة محاولة استقبال...');
-                            setTimeout(poll, 1000);
-                        }
-                    }
-                };
+                if (!peerId) {
+                    this.showNotification('warning', 'معرف مطلوب', 'الرجاء إدخال معرف الجهاز الآخر');
+                    return;
+                }
                 
-                poll();
+                if (peerId === this.myId) {
+                    this.showNotification('warning', 'خطأ', 'لا يمكنك الاتصال بنفسك');
+                    return;
+                }
+                
+                if (this.isConnected) {
+                    this.showNotification('warning', 'اتصال نشط', 'لديك اتصال نشط بالفعل');
+                    return;
+                }
+                
+                this.peerId = peerId;
+                this.savePeerId(peerId);
+                
+                this.showNotification('info', 'جاري الاتصال...', 
+                    `الاتصال بـ ${peerId}\nالطريقة: ${this.getMethodName(this.connectionMethod)}`);
+                
+                this.updateConnectionStatus('connecting');
+                
+                // بدء عملية الاتصال حسب الطريقة المختارة
+                switch(this.connectionMethod) {
+                    case 'local':
+                    case 'wifi':
+                        await this.connectViaWebRTC(peerId);
+                        break;
+                    case 'bluetooth':
+                        await this.connectViaBluetooth(peerId);
+                        break;
+                    case 'qr':
+                        this.showNotification('info', 'رمز QR', 'استخدم الكود لعرضه على الجهاز الآخر');
+                        break;
+                }
             }
 
-            // إرسال رسالة عبر HTTP
-            async sendHTTPMessage(message) {
+            // الاتصال عبر WebRTC
+            async connectViaWebRTC(peerId) {
                 try {
-                    const response = await fetch(`${this.serverUrl}/send`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            ...message,
-                            room: this.roomId,
-                            user: this.myId
-                        })
-                    });
+                    // إنشاء اتصال WebRTC
+                    this.peerConnection = new RTCPeerConnection(this.config.webrtcConfig);
                     
-                    return response.ok;
+                    // إنشاء قناة بيانات
+                    this.dataChannel = this.peerConnection.createDataChannel(
+                        'messaging',
+                        this.config.dataChannelConfig
+                    );
+                    
+                    // إعداد معالجات الأحداث
+                    this.setupDataChannelEvents();
+                    this.setupPeerConnectionEvents();
+                    
+                    // إنشاء عرض اتصال
+                    const offer = await this.peerConnection.createOffer();
+                    await this.peerConnection.setLocalDescription(offer);
+                    
+                    // محاولة إرسال العرض عبر القنوات المتاحة
+                    await this.sendOfferToPeer(offer, peerId);
+                    
+                    // مهلة الاتصال
+                    setTimeout(() => {
+                        if (!this.isConnected) {
+                            this.showNotification('warning', 'مهلة الاتصال', 'تعذر الاتصال، جرب طريقة أخرى');
+                            this.disconnect();
+                        }
+                    }, 15000);
+                    
                 } catch (error) {
-                    console.error('❌ فشل إرسال HTTP:', error);
+                    console.error('❌ خطأ في إنشاء اتصال WebRTC:', error);
+                    this.showNotification('error', 'خطأ في الاتصال', error.message || 'تعذر إنشاء الاتصال');
+                    this.updateConnectionStatus('disconnected');
+                }
+            }
+
+            // إرسال عرض الاتصال للطرف الآخر
+            async sendOfferToPeer(offer, peerId) {
+                const offerData = {
+                    type: 'offer',
+                    offer: offer,
+                    sender: this.myId,
+                    method: this.connectionMethod,
+                    timestamp: Date.now()
+                };
+                
+                // محاولة الإرسال عبر قنوات مختلفة
+                const channels = [
+                    this.tryWebSocketChannel,
+                    this.tryLocalStorageChannel,
+                    this.tryBroadcastChannel
+                ];
+                
+                for (const channel of channels) {
+                    try {
+                        const success = await channel.call(this, offerData, peerId);
+                        if (success) {
+                            console.log(`✅ تم إرسال العرض عبر ${channel.name}`);
+                            return;
+                        }
+                    } catch (e) {
+                        console.log(`⚠️ فشل الإرسال عبر ${channel.name}`);
+                    }
+                }
+                
+                // إذا فشلت جميع القنوات، استخدم التخزين المحلي كبديل
+                this.useLocalStorageForSignaling(offerData, peerId);
+            }
+
+            // محاولة الإرسال عبر WebSocket
+            async tryWebSocketChannel(data, peerId) {
+                if (this.localSocket && this.localSocket.readyState === WebSocket.OPEN) {
+                    this.localSocket.send(JSON.stringify({
+                        ...data,
+                        target: peerId
+                    }));
+                    return true;
+                }
+                return false;
+            }
+
+            // محاولة الإرسال عبر التخزين المحلي
+            async tryLocalStorageChannel(data, peerId) {
+                try {
+                    const signalingKey = `p2p_signaling_${peerId}`;
+                    localStorage.setItem(signalingKey, JSON.stringify(data));
+                    
+                    // إرسال إشعار عبر events
+                    window.dispatchEvent(new StorageEvent('storage', {
+                        key: signalingKey,
+                        newValue: JSON.stringify(data)
+                    }));
+                    
+                    return true;
+                } catch (e) {
                     return false;
                 }
             }
 
-            // الاتصال عبر Long Polling التقليدي
-            connectLongPoll() {
-                // مشابه لـ HTTP ولكن مع مهلات أطول
-                return this.connectHTTP();
+            // محاولة الإرسال عبر BroadcastChannel
+            async tryBroadcastChannel(data, peerId) {
+                if ('BroadcastChannel' in window) {
+                    try {
+                        const channel = new BroadcastChannel('p2p_messaging');
+                        channel.postMessage({
+                            ...data,
+                            target: peerId
+                        });
+                        channel.close();
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                }
+                return false;
             }
 
-            // الاتصال المحاكى (بدون إنترنت)
-            connectSimulate() {
-                console.log('🎮 تشغيل الوضع التجريبي');
+            // استخدام التخزين المحلي للإشارة
+            useLocalStorageForSignaling(data, peerId) {
+                const signalingKey = `p2p_signaling_${this.myId}_to_${peerId}`;
+                localStorage.setItem(signalingKey, JSON.stringify(data));
                 
-                this.connection = {
-                    type: 'simulate',
-                    room: this.roomId,
-                    user: this.myId,
-                    active: true
+                // تعيين مهلة للتحقق من الرد
+                this.checkForAnswer(peerId);
+            }
+
+            // التحقق من وجود رد
+            async checkForAnswer(peerId) {
+                const maxChecks = 30; // 30 محاولة كل ثانية
+                let checks = 0;
+                
+                const checkInterval = setInterval(() => {
+                    checks++;
+                    
+                    const answerKey = `p2p_signaling_${peerId}_to_${this.myId}`;
+                    const answerData = localStorage.getItem(answerKey);
+                    
+                    if (answerData) {
+                        clearInterval(checkInterval);
+                        localStorage.removeItem(answerKey);
+                        
+                        const answer = JSON.parse(answerData);
+                        this.handleSignalingMessage(answer);
+                    }
+                    
+                    if (checks >= maxChecks) {
+                        clearInterval(checkInterval);
+                        this.showNotification('warning', 'انتهت المهلة', 'لم يرد الطرف الآخر على طلب الاتصال');
+                        this.disconnect();
+                    }
+                }, 1000);
+            }
+
+            // معالجة رسائل الإشارة
+            handleSignalingMessage(message) {
+                if (!this.peerConnection) return;
+                
+                switch(message.type) {
+                    case 'offer':
+                        this.handleOffer(message);
+                        break;
+                    case 'answer':
+                        this.handleAnswer(message);
+                        break;
+                    case 'ice-candidate':
+                        this.handleICECandidate(message);
+                        break;
+                    case 'discover':
+                        this.handleDiscovery(message);
+                        break;
+                }
+            }
+
+            // معالجة عرض الاتصال
+            async handleOffer(message) {
+                if (this.isConnected) {
+                    this.showNotification('warning', 'اتصال مرفوض', 'لديك اتصال نشط بالفعل');
+                    return;
+                }
+                
+                this.peerId = message.sender;
+                
+                // إنشاء اتصال WebRTC
+                this.peerConnection = new RTCPeerConnection(this.config.webrtcConfig);
+                
+                // إعداد معالجة قناة البيانات الواردة
+                this.peerConnection.ondatachannel = (event) => {
+                    this.dataChannel = event.channel;
+                    this.setupDataChannelEvents();
                 };
                 
-                // إضافة بعض المستخدمين الوهميين
-                setTimeout(() => {
-                    this.updateUsersList([this.myId, 'محمد', 'أحمد', 'فاطمة']);
-                    this.addSystemMessage('3 طلاب آخرون في الغرفة (وضع تجريبي)');
-                }, 1000);
+                // إعداد معالجات الأحداث
+                this.setupPeerConnectionEvents();
                 
-                return Promise.resolve();
+                // تعيين العرض البعيد
+                await this.peerConnection.setRemoteDescription(new RTCSessionDescription(message.offer));
+                
+                // إنشاء الإجابة
+                const answer = await this.peerConnection.createAnswer();
+                await this.peerConnection.setLocalDescription(answer);
+                
+                // إرسال الإجابة
+                const answerData = {
+                    type: 'answer',
+                    answer: answer,
+                    sender: this.myId,
+                    timestamp: Date.now()
+                };
+                
+                this.sendAnswerToPeer(answerData, message.sender);
+                
+                this.showNotification('info', 'اتصال وارد', `طلب اتصال من ${message.sender}`);
             }
 
-            // التحويل التلقائي بين الخوادم
-            autoSwitchServer() {
-                if (this.reconnectAttempts >= this.maxReconnectAttempts) return;
+            // إرسال الإجابة للطرف الآخر
+            async sendAnswerToPeer(answerData, peerId) {
+                const signalingKey = `p2p_signaling_${this.myId}_to_${peerId}`;
+                localStorage.setItem(signalingKey, JSON.stringify(answerData));
                 
-                this.reconnectAttempts++;
+                // إرسال إشعار
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: signalingKey,
+                    newValue: JSON.stringify(answerData)
+                }));
+            }
+
+            // معالجة الإجابة
+            async handleAnswer(message) {
+                if (!this.peerConnection) return;
                 
-                // البحث عن خادم متصل
-                const onlineServer = this.servers.find(s => {
-                    const statusEl = document.getElementById(`status-${s.id}`);
-                    return statusEl && statusEl.classList.contains('online') && s.id !== this.currentServer?.id;
+                await this.peerConnection.setRemoteDescription(new RTCSessionDescription(message.answer));
+            }
+
+            // معالجة مرشح ICE
+            async handleICECandidate(message) {
+                if (!this.peerConnection) return;
+                
+                try {
+                    await this.peerConnection.addIceCandidate(new RTCIceCandidate(message.candidate));
+                } catch (e) {
+                    console.error('❌ خطأ في إضافة مرشح ICE:', e);
+                }
+            }
+
+            // معالجة اكتشاف الأجهزة
+            handleDiscovery(message) {
+                // تخزين الجهاز المكتشف
+                this.discoveredDevices.set(message.deviceId, {
+                    id: message.deviceId,
+                    method: message.method,
+                    timestamp: Date.now()
                 });
-                
-                if (onlineServer) {
-                    this.showNotification('info', 'جرب خادماً آخر', `جاري التبديل إلى ${onlineServer.name}...`);
+            }
+
+            // إعداد أحداث قناة البيانات
+            setupDataChannelEvents() {
+                this.dataChannel.onopen = () => {
+                    console.log('✅ قناة البيانات مفتوحة');
+                    this.isConnected = true;
+                    this.updateUI();
+                    this.updateConnectionStatus('connected');
+                    this.showNotification('success', 'تم الاتصال!', 'يمكنك البدء في المراسلة الآن');
+                    this.elements.peerName.textContent = `متصل بـ: ${this.peerId}`;
                     
-                    setTimeout(() => {
-                        this.selectServer(onlineServer.id);
-                        document.getElementById(onlineServer.id).checked = true;
-                        
-                        if (this.roomId) {
-                            setTimeout(() => this.joinRoom(), 500);
-                        }
-                    }, 1000);
-                }
+                    // إرسال رسالة ترحيب
+                    this.sendSystemMessage('system', 'تم الاتصال بنجاح! جاهز للمراسلة.');
+                };
+                
+                this.dataChannel.onclose = () => {
+                    console.log('🔌 قناة البيانات مغلقة');
+                    this.handleDisconnection();
+                };
+                
+                this.dataChannel.onerror = (error) => {
+                    console.error('❌ خطأ في قناة البيانات:', error);
+                    this.showNotification('error', 'خطأ في الاتصال', 'تعذر إرسال البيانات');
+                };
+                
+                this.dataChannel.onmessage = (event) => {
+                    this.handleIncomingData(event.data);
+                };
             }
 
-            // بدء إرسال ping
-            startPing() {
-                if (this.pingInterval) clearInterval(this.pingInterval);
-                
-                this.pingInterval = setInterval(() => {
-                    if (this.connection && this.connection.readyState === WebSocket.OPEN) {
-                        this.connection.send(JSON.stringify({
-                            type: 'ping',
-                            timestamp: Date.now()
-                        }));
+            // إعداد أحداث اتصال WebRTC
+            setupPeerConnectionEvents() {
+                this.peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        this.sendICECandidate(event.candidate);
                     }
-                }, 30000);
+                };
+                
+                this.peerConnection.oniceconnectionstatechange = () => {
+                    const state = this.peerConnection.iceConnectionState;
+                    console.log('🔄 حالة ICE:', state);
+                    this.elements.networkState.textContent = this.translateIceState(state);
+                    
+                    if (state === 'connected' || state === 'completed') {
+                        this.elements.connectionSpeed.textContent = 'سريع';
+                    } else if (state === 'disconnected' || state === 'failed') {
+                        this.showNotification('warning', 'ضعف الاتصال', 'جودة الاتصال منخفضة');
+                        this.elements.connectionSpeed.textContent = 'بطيء';
+                    }
+                };
+                
+                this.peerConnection.onconnectionstatechange = () => {
+                    console.log('🔄 حالة الاتصال:', this.peerConnection.connectionState);
+                };
             }
 
-            // معالجة الرسائل الواردة
-            handleIncomingMessage(data) {
-                this.lastMessageTime = Date.now();
+            // إرسال مرشح ICE
+            sendICECandidate(candidate) {
+                if (!this.peerId) return;
                 
-                switch(data.type) {
-                    case 'message':
-                        this.addMessage(data, 'received');
-                        break;
-                    case 'system':
-                        this.addSystemMessage(data.text);
-                        break;
-                    case 'users':
-                        this.updateUsersList(data.users);
-                        break;
-                    case 'ping':
-                        // الرد على ping
-                        if (this.connection && this.connection.readyState === WebSocket.OPEN) {
-                            this.connection.send(JSON.stringify({
-                                type: 'pong',
-                                timestamp: data.timestamp
-                            }));
-                        }
-                        break;
+                const candidateData = {
+                    type: 'ice-candidate',
+                    candidate: candidate,
+                    sender: this.myId,
+                    timestamp: Date.now()
+                };
+                
+                const signalingKey = `p2p_ice_${this.myId}_to_${this.peerId}`;
+                localStorage.setItem(signalingKey, JSON.stringify(candidateData));
+                
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: signalingKey,
+                    newValue: JSON.stringify(candidateData)
+                }));
+            }
+
+            // الاتصال عبر البلوتوث
+            async connectViaBluetooth(peerId) {
+                if (!navigator.bluetooth) {
+                    this.showNotification('error', 'غير مدعوم', 'البلوتوث غير مدعوم في هذا المتصفح');
+                    return;
                 }
                 
-                this.saveMessages();
+                try {
+                    this.showNotification('info', 'بلوتوث', 'جاري البحث عن الأجهزة...');
+                    
+                    // طلب إذن البلوتوث
+                    const device = await navigator.bluetooth.requestDevice({
+                        filters: [{ name: peerId }],
+                        optionalServices: ['generic_access']
+                    });
+                    
+                    this.showNotification('success', 'تم العثور', `عثرنا على ${device.name}`);
+                    
+                    // Note: تحتاج إلى تطبيق خدمة GATT للاتصال الفعلي
+                    // هذا مثال مبسط للعرض
+                    
+                } catch (error) {
+                    console.error('❌ خطأ في البلوتوث:', error);
+                    this.showNotification('error', 'خطأ بلوتوث', error.message || 'فشل الاتصال');
+                }
+            }
+
+            // إظهار رمز QR
+            showQRCode() {
+                this.elements.qrCodeContainer.style.display = 'block';
+                
+                // إنشاء بيانات الاتصال
+                const connectionData = {
+                    type: 'p2p-connection',
+                    deviceId: this.myId,
+                    method: this.connectionMethod,
+                    timestamp: Date.now(),
+                    url: window.location.href
+                };
+                
+                const connectionString = JSON.stringify(connectionData);
+                
+                // إنشاء QR Code
+                QRCode.toCanvas(document.getElementById('qrcode'), connectionString, {
+                    width: 200,
+                    height: 200,
+                    color: {
+                        dark: '#4361ee',
+                        light: '#ffffff'
+                    }
+                }, function(error) {
+                    if (error) console.error('❌ خطأ في إنشاء QR:', error);
+                });
+            }
+
+            // إنشاء رابط اتصال مباشر
+            generateDirectLink() {
+                const connectionData = {
+                    deviceId: this.myId,
+                    method: this.connectionMethod,
+                    action: 'connect'
+                };
+                
+                const baseUrl = window.location.origin + window.location.pathname;
+                const params = new URLSearchParams(connectionData);
+                const directUrl = `${baseUrl}?${params.toString()}#direct`;
+                
+                this.elements.directLink.textContent = directUrl;
+                
+                // التحقق من وجود رابط اتصال في URL
+                this.checkForDirectConnection();
+            }
+
+            // التحقق من رابط اتصال مباشر
+            checkForDirectConnection() {
+                const params = new URLSearchParams(window.location.search);
+                const action = params.get('action');
+                const targetDeviceId = params.get('deviceId');
+                
+                if (action === 'connect' && targetDeviceId && targetDeviceId !== this.myId) {
+                    this.showNotification('info', 'اتصال مباشر', `طلب اتصال من ${targetDeviceId}`);
+                    this.elements.peerId.value = targetDeviceId;
+                    
+                    // بدء الاتصال تلقائياً بعد تأخير قصير
+                    setTimeout(() => {
+                        this.initiateConnection();
+                    }, 2000);
+                }
+            }
+
+            // نسخ رابط الاتصال
+            copyConnectionLink() {
+                this.copyToClipboard(this.elements.directLink.textContent);
+                this.showNotification('success', 'تم النسخ', 'تم نسخ رابط الاتصال');
+            }
+
+            // حفظ معرف الطرف الآخر
+            savePeerId(peerId) {
+                try {
+                    const savedPeers = JSON.parse(localStorage.getItem('p2p_saved_peers') || '[]');
+                    
+                    if (!savedPeers.includes(peerId)) {
+                        savedPeers.push(peerId);
+                        if (savedPeers.length > 10) savedPeers.shift();
+                        localStorage.setItem('p2p_saved_peers', JSON.stringify(savedPeers));
+                    }
+                    
+                    localStorage.setItem('p2p_last_peer', peerId);
+                } catch (e) {
+                    console.error('❌ خطأ في حفظ المعرف:', e);
+                }
+            }
+
+            // معالجة البيانات الواردة
+            handleIncomingData(data) {
+                try {
+                    const message = JSON.parse(data);
+                    
+                    switch(message.type) {
+                        case 'message':
+                            this.addMessage(message, 'received');
+                            this.connectionStats.bytesReceived += data.length;
+                            this.connectionStats.messagesReceived++;
+                            break;
+                            
+                        case 'system':
+                            this.showNotification('info', 'نظام', message.text);
+                            break;
+                            
+                        case 'file':
+                            this.handleIncomingFile(message);
+                            break;
+                            
+                        case 'ping':
+                            this.sendPong(message);
+                            break;
+                            
+                        case 'pong':
+                            this.updateLatency(message);
+                            break;
+                    }
+                } catch (e) {
+                    console.error('❌ خطأ في معالجة البيانات:', e);
+                }
             }
 
             // إرسال رسالة
-            async sendMessage() {
+            sendMessage() {
                 const messageText = this.elements.messageInput.value.trim();
                 
                 if (!messageText) {
@@ -1857,8 +2161,8 @@
                     return;
                 }
                 
-                if (!this.isConnected) {
-                    this.showNotification('error', 'غير متصل', 'أنت لست في غرفة');
+                if (!this.isConnected || !this.dataChannel || this.dataChannel.readyState !== 'open') {
+                    this.showNotification('error', 'غير متصل', 'لا يوجد اتصال نشط');
                     return;
                 }
 
@@ -1866,64 +2170,51 @@
                     type: 'message',
                     text: messageText,
                     timestamp: Date.now(),
-                    user: this.myId,
-                    room: this.roomId,
-                    messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+                    sender: this.myId,
+                    messageId: this.generateMessageId()
                 };
 
-                // إضافة الرسالة محلياً أولاً
-                this.addMessage(message, 'sent');
-                this.elements.messageInput.value = '';
-                this.elements.messageInput.style.height = 'auto';
-                
-                // إرسال الرسالة حسب نوع الاتصال
-                let sendSuccess = false;
-                
                 try {
-                    if (this.connectionType === 'websocket' && this.connection.readyState === WebSocket.OPEN) {
-                        this.connection.send(JSON.stringify(message));
-                        sendSuccess = true;
-                    } else if (this.connectionType === 'http' || this.connectionType === 'longpoll') {
-                        sendSuccess = await this.sendHTTPMessage(message);
-                    } else if (this.connectionType === 'simulate') {
-                        // في الوضع التجريبي، نضيف رداً وهمياً
-                        setTimeout(() => {
-                            this.addMessage({
-                                type: 'message',
-                                text: `رد على: ${messageText}`,
-                                timestamp: Date.now() + 1000,
-                                user: 'مستخدم تجريبي',
-                                messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
-                            }, 'received');
-                        }, 1000);
-                        sendSuccess = true;
-                    }
+                    const messageString = JSON.stringify(message);
+                    this.dataChannel.send(messageString);
+                    this.addMessage(message, 'sent');
+                    this.elements.messageInput.value = '';
+                    this.elements.messageInput.style.height = 'auto';
                     
-                    if (!sendSuccess) {
-                        this.showNotification('warning', 'تحذير', 'تم حفظ الرسالة محلياً ولكن لم تصل للآخرين');
-                    }
+                    this.connectionStats.bytesSent += messageString.length;
+                    this.connectionStats.messagesSent++;
                     
+                    this.saveMessages();
                 } catch (error) {
-                    console.error('❌ فشل إرسال الرسالة:', error);
-                    this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة، تحقق من الاتصال');
+                    console.error('❌ خطأ في إرسال الرسالة:', error);
+                    this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة');
                 }
-                
-                this.saveMessages();
             }
 
             // إرسال رسالة نظام
-            sendSystemMessage(text) {
-                const systemMessage = {
+            sendSystemMessage(type, text) {
+                if (!this.isConnected || !this.dataChannel) return;
+                
+                const message = {
                     type: 'system',
                     text: text,
                     timestamp: Date.now(),
-                    user: 'system'
+                    sender: 'system'
                 };
                 
-                this.handleIncomingMessage(systemMessage);
+                try {
+                    this.dataChannel.send(JSON.stringify(message));
+                } catch (e) {
+                    console.log('⚠️ لم نتمكن من إرسال رسالة النظام');
+                }
             }
 
-            // إضافة رسالة للواجهة
+            // توليد معرف رسالة
+            generateMessageId() {
+                return Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            }
+
+            // إضافة رسالة للعرض
             addMessage(messageData, type) {
                 // تجنب الرسائل المكررة
                 if (this.messages.some(msg => msg.messageId === messageData.messageId)) {
@@ -1933,33 +2224,29 @@
                 const message = {
                     ...messageData,
                     id: Date.now() + Math.random(),
-                    type: type,
-                    localTimestamp: new Date().toISOString()
+                    type: type
                 };
                 
                 this.messages.push(message);
                 this.renderMessage(message);
                 this.updateMessageCount();
                 this.scrollToBottom();
-            }
-
-            // إضافة رسالة نظام
-            addSystemMessage(text) {
-                const message = {
-                    type: 'system',
-                    text: text,
-                    timestamp: Date.now(),
-                    id: Date.now() + Math.random(),
-                    localTimestamp: new Date().toISOString()
-                };
                 
-                this.messages.push(message);
-                this.renderSystemMessage(message);
-                this.updateMessageCount();
-                this.scrollToBottom();
+                // إشعار عند استلام رسالة جديدة
+                if (type === 'received') {
+                    if (Notification.permission === 'granted') {
+                        new Notification('رسالة جديدة', {
+                            body: messageData.text.substring(0, 100),
+                            icon: '/favicon.ico'
+                        });
+                    }
+                    
+                    // إشعار مرئي
+                    this.showNotification('info', 'رسالة جديدة', messageData.text.substring(0, 50) + '...');
+                }
             }
 
-            // عرض رسالة عادية
+            // عرض الرسالة
             renderMessage(message) {
                 const messageElement = document.createElement('div');
                 messageElement.className = `message ${message.type}`;
@@ -1970,14 +2257,8 @@
                     minute: '2-digit'
                 });
                 
-                const isSent = message.type === 'sent';
-                const senderName = isSent ? 'أنت' : message.user || 'مستخدم';
-                
                 messageElement.innerHTML = `
                     <div class="message-content">
-                        <small style="opacity: 0.7; display: block; margin-bottom: 5px; font-weight: bold;">
-                            ${senderName}
-                        </small>
                         ${this.escapeHtml(message.text)}
                         <div class="message-time">
                             <i class="far fa-clock"></i>
@@ -1995,78 +2276,46 @@
                 this.elements.messagesContainer.appendChild(messageElement);
             }
 
-            // عرض رسالة نظام
-            renderSystemMessage(message) {
-                const messageElement = document.createElement('div');
-                messageElement.className = 'message system';
-                messageElement.style.textAlign = 'center';
-                messageElement.style.maxWidth = '100%';
-                messageElement.style.margin = '10px auto';
+            // معالجة الملفات الواردة
+            handleIncomingFile(fileData) {
+                this.showNotification('info', 'ملف وارد', `يتم استلام ${fileData.name}...`);
                 
-                const time = new Date(message.timestamp).toLocaleTimeString('ar-EG', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                messageElement.innerHTML = `
-                    <div style="
-                        background: #e3f2fd;
-                        color: #1565c0;
-                        padding: 8px 15px;
-                        border-radius: 20px;
-                        display: inline-block;
-                        font-size: 0.9rem;
-                        border: 1px solid #bbdefb;
-                    ">
-                        <i class="fas fa-info-circle"></i>
-                        ${this.escapeHtml(message.text)}
-                        <small style="margin-right: 10px; opacity: 0.7;">
-                            ${time}
-                        </small>
-                    </div>
-                `;
-                
-                this.elements.messagesContainer.appendChild(messageElement);
+                // Note: تحتاج إلى معالجة تنزيل الملف
+                console.log('📁 ملف وارد:', fileData);
             }
 
-            // تحديث قائمة المستخدمين
-            updateUsersList(users) {
-                this.users = new Set(users);
-                this.elements.connUsers.textContent = this.users.size;
+            // إرسال pong للرد على ping
+            sendPong(pingMessage) {
+                if (!this.isConnected || !this.dataChannel) return;
                 
-                // إرسال إشعار عند دخول مستخدم جديد
-                if (this.users.size > 1) {
-                    this.elements.roomName.textContent = `غرفة: ${this.roomId} (${this.users.size} مستخدمين)`;
+                const pong = {
+                    type: 'pong',
+                    timestamp: pingMessage.timestamp,
+                    received: Date.now(),
+                    sender: this.myId
+                };
+                
+                try {
+                    this.dataChannel.send(JSON.stringify(pong));
+                } catch (e) {
+                    console.log('⚠️ لم نتمكن من إرسال pong');
                 }
             }
 
-            // مغادرة الغرفة
-            leaveRoom() {
-                this.disconnectFromServer();
-                this.isConnected = false;
-                this.roomId = '';
-                this.users.clear();
-                this.updateUI();
-                
-                this.sendSystemMessage('غادرت الغرفة');
-                this.showNotification('info', 'تم المغادرة', 'غادرت الغرفة بنجاح');
-                this.updateConnectionStatus('disconnected');
+            // تحديث زمن الاستجابة
+            updateLatency(pongMessage) {
+                const latency = Date.now() - pongMessage.timestamp;
+                this.elements.connectionSpeed.textContent = `${latency}ms`;
             }
 
-            // قطع الاتصال من الخادم
-            disconnectFromServer() {
-                if (this.pingInterval) {
-                    clearInterval(this.pingInterval);
-                    this.pingInterval = null;
+            // قطع الاتصال
+            disconnect() {
+                if (this.dataChannel) {
+                    this.dataChannel.close();
                 }
                 
-                if (this.connection) {
-                    if (this.connectionType === 'websocket' && this.connection.readyState === WebSocket.OPEN) {
-                        this.connection.close();
-                    } else if (this.connection.type === 'http' || this.connection.type === 'longpoll') {
-                        this.connection.active = false;
-                    }
-                    this.connection = null;
+                if (this.peerConnection) {
+                    this.peerConnection.close();
                 }
                 
                 this.handleDisconnection();
@@ -2075,63 +2324,45 @@
             // معالجة قطع الاتصال
             handleDisconnection() {
                 this.isConnected = false;
+                this.peerConnection = null;
+                this.dataChannel = null;
+                this.peerId = null;
+                this.reconnectAttempts = 0;
+                
                 this.updateUI();
+                this.updateConnectionStatus('disconnected');
+                this.showNotification('info', 'تم قطع الاتصال', 'تم إنهاء الاتصال مع الطرف الآخر');
+                this.elements.peerName.textContent = 'لم يتم الاتصال بعد';
             }
 
-            // استعادة المحادثة من التخزين المحلي
-            restoreChat() {
-                try {
-                    const savedMessages = localStorage.getItem('school_messages');
-                    if (savedMessages) {
-                        this.messages = JSON.parse(savedMessages);
-                        this.messages.forEach(msg => {
-                            if (msg.type === 'system') {
-                                this.renderSystemMessage(msg);
-                            } else {
-                                this.renderMessage(msg);
-                            }
-                        });
-                        this.updateMessageCount();
+            // محاولة إعادة الاتصال
+            attemptReconnect() {
+                if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+                    this.showNotification('error', 'إعادة الاتصال', 'فشلت جميع محاولات إعادة الاتصال');
+                    return;
+                }
+                
+                this.reconnectAttempts++;
+                this.showNotification('info', 'إعادة الاتصال', `المحاولة ${this.reconnectAttempts}/${this.maxReconnectAttempts}`);
+                
+                setTimeout(() => {
+                    if (this.peerId && !this.isConnected) {
+                        this.initiateConnection();
                     }
-                } catch (error) {
-                    console.error('❌ خطأ في استعادة المحادثة:', error);
-                    localStorage.removeItem('school_messages');
-                }
-            }
-
-            // حفظ الرسائل في التخزين المحلي
-            saveMessages() {
-                try {
-                    // حفظ آخر 100 رسالة فقط
-                    const messagesToSave = this.messages.slice(-100);
-                    localStorage.setItem('school_messages', JSON.stringify(messagesToSave));
-                } catch (error) {
-                    console.error('❌ خطأ في حفظ الرسائل:', error);
-                }
+                }, 2000 * this.reconnectAttempts);
             }
 
             // تحديث واجهة المستخدم
             updateUI() {
                 const isConnected = this.isConnected;
                 
-                // تحديث حالة الأزرار
-                this.elements.joinRoomBtn.disabled = isConnected;
+                this.elements.connectBtn.disabled = isConnected;
                 this.elements.disconnectBtn.disabled = !isConnected;
                 this.elements.messageInput.disabled = !isConnected;
                 this.elements.sendBtn.disabled = !isConnected;
-                this.elements.myId.disabled = isConnected;
-                this.elements.roomId.disabled = isConnected;
-                this.elements.saveMyId.disabled = isConnected;
+                this.elements.fileBtn.disabled = !isConnected;
                 
-                // تحديث معلومات الاتصال
-                this.elements.connectionInfo.style.display = isConnected ? 'block' : 'none';
-                
-                if (isConnected) {
-                    this.elements.connState.textContent = 'متصل';
-                    this.elements.connRoom.textContent = this.roomId;
-                    this.elements.connMessages.textContent = this.messages.length;
-                    this.elements.roomName.textContent = `غرفة: ${this.roomId}`;
-                }
+                this.elements.networkInfo.style.display = isConnected ? 'block' : 'none';
             }
 
             // تحديث حالة الاتصال
@@ -2144,23 +2375,57 @@
                 switch(status) {
                     case 'connected':
                         statusDot.classList.add('connected');
-                        statusText.textContent = 'متصل';
+                        statusText.textContent = 'متصل مباشرة';
                         break;
                     case 'connecting':
                         statusDot.classList.add('connecting');
                         statusText.textContent = 'جاري الاتصال...';
                         break;
                     case 'disconnected':
-                        statusText.textContent = 'غير متصل';
+                        statusText.textContent = 'جاهز للاتصال';
                         break;
                 }
+            }
+
+            // تحديث حالة الشبكة
+            updateNetworkState() {
+                const isOnline = navigator.onLine;
+                const state = isOnline ? 'متصل بالشبكة' : 'غير متصل بالإنترنت';
+                const color = isOnline ? '#2ed573' : '#ff4757';
+                
+                this.elements.networkState.textContent = state;
+                this.elements.networkState.style.color = color;
             }
 
             // تحديث عداد الرسائل
             updateMessageCount() {
                 const count = this.messages.length;
                 this.elements.messageCount.textContent = `${count} رسالة`;
-                this.elements.connMessages.textContent = count;
+            }
+
+            // استعادة المحادثة
+            restoreChat() {
+                try {
+                    const savedMessages = localStorage.getItem('p2p_messages');
+                    if (savedMessages) {
+                        this.messages = JSON.parse(savedMessages);
+                        this.messages.forEach(msg => this.renderMessage(msg));
+                        this.updateMessageCount();
+                    }
+                } catch (error) {
+                    console.error('❌ خطأ في استعادة المحادثة:', error);
+                }
+            }
+
+            // حفظ الرسائل
+            saveMessages() {
+                try {
+                    // حفظ آخر 200 رسالة فقط
+                    const messagesToSave = this.messages.slice(-200);
+                    localStorage.setItem('p2p_messages', JSON.stringify(messagesToSave));
+                } catch (error) {
+                    console.error('❌ خطأ في حفظ الرسائل:', error);
+                }
             }
 
             // مسح المحادثة
@@ -2171,14 +2436,97 @@
                     this.messages = [];
                     this.elements.messagesContainer.innerHTML = `
                         <div class="welcome-message">
-                            <i class="fas fa-school"></i>
-                            <h3>مرحبًا في مراسلة المدارس</h3>
-                            <p>اختر طريقة اتصال، ثم ادخل اسمك ورقم الغرفة للبدء</p>
+                            <i class="fas fa-satellite"></i>
+                            <h3>مرحبًا في المراسلة المباشرة</h3>
+                            <p>اختر طريقة اتصال لبدء المحادثة مباشرة بدون سيرفرات</p>
                         </div>
                     `;
                     this.updateMessageCount();
-                    localStorage.removeItem('school_messages');
+                    localStorage.removeItem('p2p_messages');
                     this.showNotification('success', 'تم المسح', 'تم مسح جميع الرسائل');
+                }
+            }
+
+            // التعامل مع اختيار الملفات
+            handleFileSelection(event) {
+                const files = event.target.files;
+                if (!files.length || !this.isConnected) return;
+                
+                for (let file of files) {
+                    this.sendFile(file);
+                }
+                
+                // إعادة تعيين مدخل الملفات
+                event.target.value = '';
+            }
+
+            // إرسال ملف
+            sendFile(file) {
+                if (!this.isConnected || !this.dataChannel) {
+                    this.showNotification('error', 'غير متصل', 'لا يمكن إرسال الملف');
+                    return;
+                }
+                
+                if (file.size > 10 * 1024 * 1024) { // 10MB حد
+                    this.showNotification('error', 'ملف كبير', 'الحد الأقصى للملف هو 10MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    const fileData = {
+                        type: 'file',
+                        name: file.name,
+                        size: file.size,
+                        mimeType: file.type,
+                        data: e.target.result,
+                        timestamp: Date.now(),
+                        sender: this.myId
+                    };
+                    
+                    try {
+                        // إرسال البيانات على دفعات للملفات الكبيرة
+                        if (file.size > 1024 * 1024) { // أكبر من 1MB
+                            this.sendFileInChunks(fileData);
+                        } else {
+                            this.dataChannel.send(JSON.stringify(fileData));
+                            this.showNotification('success', 'تم الإرسال', `تم إرسال ${file.name}`);
+                        }
+                    } catch (error) {
+                        console.error('❌ خطأ في إرسال الملف:', error);
+                        this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الملف');
+                    }
+                };
+                
+                reader.readAsDataURL(file);
+            }
+
+            // إرسال الملف على دفعات
+            sendFileInChunks(fileData) {
+                const chunkSize = 16 * 1024; // 16KB كل دفعة
+                const data = fileData.data;
+                const totalChunks = Math.ceil(data.length / chunkSize);
+                
+                this.showNotification('info', 'جاري الإرسال', `إرسال ${fileData.name} على ${totalChunks} دفعة`);
+                
+                for (let i = 0; i < totalChunks; i++) {
+                    const chunk = {
+                        type: 'file-chunk',
+                        name: fileData.name,
+                        chunkIndex: i,
+                        totalChunks: totalChunks,
+                        data: data.substr(i * chunkSize, chunkSize),
+                        sender: this.myId
+                    };
+                    
+                    setTimeout(() => {
+                        try {
+                            this.dataChannel.send(JSON.stringify(chunk));
+                        } catch (e) {
+                            console.error('❌ خطأ في إرسال الدفعة:', e);
+                        }
+                    }, i * 100); // تأخير 100ms بين كل دفعة
                 }
             }
 
@@ -2238,8 +2586,6 @@
 
             // عرض الإشعارات
             showNotification(type, title, message) {
-                const notificationArea = document.getElementById('notificationArea');
-                
                 const notification = document.createElement('div');
                 notification.className = `notification ${type}`;
                 
@@ -2258,9 +2604,8 @@
                     </div>
                 `;
                 
-                notificationArea.appendChild(notification);
+                this.elements.notificationArea.appendChild(notification);
                 
-                // إزالة الإشعار بعد 3 ثوانٍ
                 setTimeout(() => {
                     if (notification.parentNode) {
                         notification.remove();
@@ -2273,6 +2618,30 @@
                 this.elements.messagesContainer.scrollTop = this.elements.messagesContainer.scrollHeight;
             }
 
+            // تحويل حالة ICE
+            translateIceState(state) {
+                const states = {
+                    'new': 'جديد',
+                    'checking': 'جاري التحقق',
+                    'connected': 'متصل',
+                    'completed': 'مكتمل',
+                    'failed': 'فشل',
+                    'disconnected': 'منقطع',
+                    'closed': 'مغلق'
+                };
+                return states[state] || state;
+            }
+
+            // نسخ للنصوص
+            copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    this.showNotification('success', 'تم النسخ', 'تم نسخ النص إلى الحافظة');
+                }).catch(err => {
+                    console.error('❌ خطأ في النسخ:', err);
+                    this.showNotification('error', 'خطأ', 'تعذر نسخ النص');
+                });
+            }
+
             // منع الثغرات الأمنية
             escapeHtml(text) {
                 const div = document.createElement('div');
@@ -2281,21 +2650,47 @@
             }
         }
 
-        // تهيئة التطبيق عند تحميل الصفحة
+        // طلب إذن الإشعارات
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', () => {
-            const app = new SchoolMessenger();
-            window.schoolMessenger = app;
-            console.log('🏫 School Messenger جاهز للاستخدام!');
+            const app = new ServerlessP2PMessenger();
+            window.p2pMessenger = app;
             
-            // طلب إذن الإشعارات
-            if ('Notification' in window && Notification.permission === 'default') {
-                Notification.requestPermission();
-            }
+            console.log('🚀 Serverless P2P Messenger جاهز!');
+            console.log('📱 يمكنك الاستخدام بدون إنترنت أو سيرفرات وسيطة');
             
-            // رسالة ترحيب
-            setTimeout(() => {
-                app.showNotification('info', 'مرحباً!', 'هذا التطبيق مصمم خصيصاً للعمل في المدارس المصرية');
-            }, 1000);
+            // التحذير عند إغلاق الصفحة مع اتصال نشط
+            window.addEventListener('beforeunload', (e) => {
+                if (app.isConnected) {
+                    e.preventDefault();
+                    e.returnValue = 'لديك اتصال نشط. هل تريد مغادرة الصفحة؟';
+                }
+            });
+            
+            // الاستماع لرسائل التخزين المحلي للإشارة
+            window.addEventListener('storage', (e) => {
+                if (e.key && e.key.startsWith('p2p_signaling') || e.key.startsWith('p2p_ice')) {
+                    try {
+                        const message = JSON.parse(e.newValue);
+                        if (message && message.sender !== app.myId) {
+                            app.handleSignalingMessage(message);
+                        }
+                    } catch (error) {
+                        console.error('❌ خطأ في معالجة رسالة التخزين:', error);
+                    }
+                }
+            });
+            
+            // إعادة المسح عند العودة للصفحة
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    app.scanNetwork();
+                }
+            });
         });
     </script>
 </body>
