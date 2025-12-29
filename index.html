@@ -1076,7 +1076,7 @@
             <!-- لوحة التحكم -->
             <section class="control-panel">
                 <div class="panel-card">
-                    <h2><i class="fas fa-cogs"></i> إدارة المعرفات</h2>
+                    <h2><i class="fas fa-cogs"></i> إدارة الاتصال</h2>
                     
                     <div class="connection-controls">
                         <!-- معرفك الخاص -->
@@ -1120,6 +1120,18 @@
                             </small>
                         </div>
 
+                        <!-- نوع الاتصال -->
+                        <div class="control-group">
+                            <label><i class="fas fa-network-wired"></i> نوع الاتصال</label>
+                            <div class="connection-mode">
+                                <select id="connectionMode" class="input-with-button" style="width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px;">
+                                    <option value="auto">تلقائي (أفضل سرعة)</option>
+                                    <option value="reliable">موثوق (للاتصالات الصعبة)</option>
+                                    <option value="fast">سريع (للاتصالات المحلية)</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <!-- إجراءات -->
                         <div class="action-buttons">
                             <button id="disconnectBtn" class="btn-secondary" disabled>
@@ -1127,6 +1139,9 @@
                             </button>
                             <button id="clearChatBtn" class="btn-secondary">
                                 <i class="fas fa-trash"></i> مسح المحادثة
+                            </button>
+                            <button id="testConnectionBtn" class="btn-secondary">
+                                <i class="fas fa-bolt"></i> اختبار الاتصال
                             </button>
                         </div>
 
@@ -1146,6 +1161,10 @@
                                     <span class="info-label">السرعة:</span>
                                     <span class="info-value" id="connSpeed">-</span>
                                 </div>
+                                <div class="info-item">
+                                    <span class="info-label">جودة:</span>
+                                    <span class="info-value" id="connQuality">-</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1153,19 +1172,19 @@
 
                 <!-- التعليمات -->
                 <div class="panel-card instructions">
-                    <h3><i class="fas fa-lightbulb"></i> كيف تعمل؟</h3>
+                    <h3><i class="fas fa-lightbulb"></i> نصائح لاتصال أفضل</h3>
                     <ol>
-                        <li>اختر معرفك المفضل واحفظه (يمكنك تغييره متى شئت)</li>
-                        <li>أرسل معرفك للطرف الآخر عبر أي وسيلة (واتساب، إلخ)</li>
-                        <li>أدخل معرف الشخص الآخر في الحقل المخصص</li>
-                        <li>انقر على زر "الاتصال"</li>
-                        <li>يمكنك حفظ معرفات متعددة لإعادة الاتصال لاحقاً</li>
+                        <li><strong>نفس الشبكة:</strong> تأكد أن كلا الجهازين على نفس شبكة WiFi لاتصال أسرع</li>
+                        <li><strong>جرب جميع الأنواع:</strong> إذا فشل الاتصال، جرب تغيير نوع الاتصال من القائمة</li>
+                        <li><strong>أعد المحاولة:</strong> أحياناً تحتاج لمحاولة ثانية أو ثالثة</li>
+                        <li><strong>أعد تحميل الصفحة:</strong> إذا استمر الفشل، أعد تحميل الصفحة على كلا الجهازين</li>
+                        <li><strong>عطل مؤقت:</strong> بعض الشبكات تمنع اتصالات P2P، جرب شبكة أخرى</li>
                     </ol>
                     <div class="features">
                         <span class="feature-tag"><i class="fas fa-shield-alt"></i> مشفر</span>
                         <span class="feature-tag"><i class="fas fa-bolt"></i> فوري</span>
                         <span class="feature-tag"><i class="fas fa-server"></i> لا سيرفرات</span>
-                        <span class="feature-tag"><i class="fas fa-save"></i> معرفات مخصصة</span>
+                        <span class="feature-tag"><i class="fas fa-wifi"></i> اتصال مباشر</span>
                     </div>
                 </div>
             </section>
@@ -1188,6 +1207,9 @@
                             <i class="fas fa-handshake"></i>
                             <h3>مرحبًا في منصة المراسلة المباشرة</h3>
                             <p>قم بالاتصال بشخص آخر لبدء المحادثة</p>
+                            <div style="margin-top: 20px; color: var(--gray-color); font-size: 0.9rem;">
+                                <i class="fas fa-tips"></i> إذا واجهت مشاكل في الاتصال، جرب تغيير نوع الاتصال
+                            </div>
                         </div>
                     </div>
 
@@ -1221,14 +1243,14 @@
         <footer class="app-footer">
             <div class="footer-content">
                 <p>
-                    <i class="fas fa-code"></i> مبني بـ 
-                    <strong>WebRTC</strong> و <strong>PeerJS</strong>
+                    <i class="fas fa-code"></i> مبني بواسطة
+                    <strong>يحيى محمد</strong> للتواصل <strong>20114165562+ </strong>
                 </p>
                 <p class="tech-badges">
+                    <span class="badge">WebRTC</span>
                     <span class="badge">P2P</span>
                     <span class="badge">End-to-End</span>
-                    <span class="badge">No Server</span>
-                    <span class="badge">Custom IDs</span>
+                    <span class="badge">Direct Connect</span>
                 </p>
             </div>
         </footer>
@@ -1255,7 +1277,7 @@
     
     <!-- كود JavaScript مدمج -->
     <script>
-        // ========== JavaScript كامل ==========
+        // ========== JavaScript محسّن للاتصال الموثوق ==========
         class P2PMessenger {
             constructor() {
                 this.peer = null;
@@ -1264,10 +1286,21 @@
                 this.messages = [];
                 this.isConnected = false;
                 this.connectionAttempts = 0;
-                this.maxConnectionAttempts = 5;
+                this.maxConnectionAttempts = 10;
                 this.reconnectTimeout = null;
                 this.savedMyIds = this.getSavedMyIds();
                 this.savedPeerIds = this.getSavedPeerIds();
+                this.connectionMode = 'auto';
+                this.connectionMonitor = null;
+                this.pingInterval = null;
+                this.lastPingTime = 0;
+                this.pingLatency = 0;
+                this.connectionStats = {
+                    attempts: 0,
+                    successes: 0,
+                    failures: 0,
+                    avgLatency: 0
+                };
                 
                 this.initializeElements();
                 this.initializeEventListeners();
@@ -1278,6 +1311,9 @@
                 
                 // محاولة إعادة الاتصال التلقائي
                 this.attemptAutoReconnect();
+                
+                // حفظ الإحصائيات
+                this.loadConnectionStats();
             }
 
             // الحصول على المعرف المخزن أو إنشاء جديد
@@ -1362,6 +1398,25 @@
                 localStorage.setItem('p2p_was_connected', 'true');
             }
 
+            // تحميل إحصائيات الاتصال
+            loadConnectionStats() {
+                try {
+                    const stats = JSON.parse(localStorage.getItem('p2p_connection_stats') || '{}');
+                    this.connectionStats = { ...this.connectionStats, ...stats };
+                } catch (e) {
+                    console.log('❌ لا توجد إحصائيات سابقة');
+                }
+            }
+
+            // حفظ إحصائيات الاتصال
+            saveConnectionStats() {
+                try {
+                    localStorage.setItem('p2p_connection_stats', JSON.stringify(this.connectionStats));
+                } catch (e) {
+                    console.error('❌ خطأ في حفظ الإحصائيات');
+                }
+            }
+
             // تهيئة العناصر
             initializeElements() {
                 this.elements = {
@@ -1379,6 +1434,7 @@
                     connState: document.getElementById('connState'),
                     connType: document.getElementById('connType'),
                     connSpeed: document.getElementById('connSpeed'),
+                    connQuality: document.getElementById('connQuality'),
                     chatInfo: document.getElementById('chatInfo'),
                     peerName: document.getElementById('peerName'),
                     messageCount: document.getElementById('messageCount'),
@@ -1389,7 +1445,9 @@
                     dismissReconnect: document.getElementById('dismissReconnect'),
                     myIdManagement: document.getElementById('myIdManagement'),
                     myIdList: document.getElementById('myIdList'),
-                    peerSuggestions: document.getElementById('peerSuggestions')
+                    peerSuggestions: document.getElementById('peerSuggestions'),
+                    connectionMode: document.getElementById('connectionMode'),
+                    testConnectionBtn: document.getElementById('testConnectionBtn')
                 };
 
                 this.elements.myId.value = this.myId;
@@ -1400,6 +1458,13 @@
                 const lastPeerId = localStorage.getItem('p2p_last_peer');
                 if (lastPeerId) {
                     this.elements.peerId.value = lastPeerId;
+                }
+
+                // تحميل آخر إعدادات الاتصال
+                const savedMode = localStorage.getItem('p2p_connection_mode');
+                if (savedMode) {
+                    this.connectionMode = savedMode;
+                    this.elements.connectionMode.value = savedMode;
                 }
 
                 // إظهار إدارة المعرفات إذا كان هناك معرفات محفوظة
@@ -1413,6 +1478,23 @@
                 this.elements.peerId.addEventListener('blur', () => {
                     setTimeout(() => this.hidePeerSuggestions(), 200);
                 });
+
+                // تحديث وضع الاتصال
+                this.elements.connectionMode.addEventListener('change', (e) => {
+                    this.connectionMode = e.target.value;
+                    localStorage.setItem('p2p_connection_mode', this.connectionMode);
+                    this.showNotification('info', 'تم التغيير', `وضع الاتصال: ${this.getModeName(this.connectionMode)}`);
+                });
+            }
+
+            // الحصول على اسم وضع الاتصال
+            getModeName(mode) {
+                const names = {
+                    'auto': 'تلقائي',
+                    'reliable': 'موثوق',
+                    'fast': 'سريع'
+                };
+                return names[mode] || mode;
             }
 
             // عرض قائمة معرفاتي
@@ -1588,34 +1670,93 @@
                 }
             }
 
-            // تهيئة PeerJS مع إعدادات محسنة
+            // الحصول على إعدادات ICE حسب نوع الاتصال
+            getIceServers() {
+                // قائمة شاملة من خوادم STUN/TURN
+                const iceServers = [
+                    // Google STUN servers
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' },
+                    { urls: 'stun:stun3.l.google.com:19302' },
+                    { urls: 'stun:stun4.l.google.com:19302' },
+                    
+                    // Other public STUN servers
+                    { urls: 'stun:stun.voipbuster.com:3478' },
+                    { urls: 'stun:stun.voipstunt.com:3478' },
+                    { urls: 'stun:stun.voiparound.com:3478' },
+                    { urls: 'stun:stun.voip.aebc.com:3478' },
+                    { urls: 'stun:stun.sipgate.net:3478' },
+                    { urls: 'stun:stun.iptel.org:3478' },
+                    { urls: 'stun:stun.ideasip.com:3478' },
+                    { urls: 'stun:stun.ekiga.net:3478' },
+                    { urls: 'stun:stun.schlund.de:3478' },
+                    { urls: 'stun:stun.rixtelecom.se:3478' },
+                    { urls: 'stun:stun.sipgate.net:10000' },
+                    { urls: 'stun:stun.12connect.com:3478' },
+                    { urls: 'stun:stun.12voip.com:3478' },
+                    { urls: 'stun:stun.counterpath.com:3478' },
+                    { urls: 'stun:stun.counterpath.net:3478' },
+                    { urls: 'stun:stun.internetcalls.com:3478' },
+                    { urls: 'stun:stun.voip.eutelia.it:3478' },
+                    
+                    // TURN servers (بعضها قد يعمل بدون مصادقة)
+                    { urls: 'turn:turn.bistri.com:80', credential: 'homeo', username: 'homeo' },
+                    { urls: 'turn:turn.anyfirewall.com:443?transport=tcp', credential: 'webrtc', username: 'webrtc' },
+                    
+                    // أكثر موثوقية للاتصالات الصعبة
+                    { 
+                        urls: [
+                            'turn:global.turn.twilio.com:3478?transport=udp',
+                            'turn:global.turn.twilio.com:3478?transport=tcp',
+                            'turn:global.turn.twilio.com:443?transport=tcp'
+                        ],
+                        username: 'c84c2b8a8bbdd0ee37934b3e1d1df6c7e4c11d5b09795bdc176a247a1e1d6a',
+                        credential: 'Aedp5kY14yWgNp+flE6WlTpxTE0='
+                    }
+                ];
+
+                // تصفية حسب نوع الاتصال
+                switch(this.connectionMode) {
+                    case 'reliable':
+                        // استخدم جميع الخوادم لزيادة الموثوقية
+                        return iceServers;
+                    case 'fast':
+                        // استخدم فقط STUN سريع للاتصالات المحلية
+                        return iceServers.filter(server => server.urls.includes('stun:') && server.urls.includes('google'));
+                    case 'auto':
+                    default:
+                        // استخدم خليطاً متوازناً
+                        return iceServers;
+                }
+            }
+
+            // تهيئة PeerJS مع إعدادات متقدمة
             initializePeer() {
+                const iceServers = this.getIceServers();
+                
                 const config = {
                     host: '0.peerjs.com',
                     port: 443,
                     path: '/',
                     secure: true,
-                    debug: 2,
+                    debug: 3, // زيادة مستوى التصحيح
                     config: {
-                        iceServers: [
-                            { urls: 'stun:stun.l.google.com:19302' },
-                            { urls: 'stun:stun1.l.google.com:19302' },
-                            { urls: 'stun:stun2.l.google.com:19302' },
-                            { urls: 'stun:stun3.l.google.com:19302' },
-                            { urls: 'stun:stun4.l.google.com:19302' },
-                            { 
-                                urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-                                username: 'c84c2b8a8bbdd0ee37934b3e1d1df6c7e4c11d5b09795bdc176a247a1e1d6a',
-                                credential: 'Aedp5kY14yWgNp+flE6WlTpxTE0='
-                            }
-                        ],
-                        iceCandidatePoolSize: 10,
-                        iceTransportPolicy: 'all',
+                        iceServers: iceServers,
+                        iceCandidatePoolSize: this.connectionMode === 'reliable' ? 20 : 10,
+                        iceTransportPolicy: this.connectionMode === 'fast' ? 'relay' : 'all',
                         bundlePolicy: 'max-bundle',
-                        rtcpMuxPolicy: 'require'
+                        rtcpMuxPolicy: 'require',
+                        iceCandidatePoolSize: 10
                     },
                     sdpSemantics: 'unified-plan'
                 };
+
+                console.log('🔄 تهيئة PeerJS مع الإعدادات:', {
+                    mode: this.connectionMode,
+                    iceServersCount: iceServers.length,
+                    config: config
+                });
 
                 this.peer = new Peer(this.myId, config);
                 this.setupPeerEvents();
@@ -1627,27 +1768,46 @@
                     console.log('✅ PeerJS متصل، المعرف:', id);
                     this.showNotification('success', 'جاهز للاتصال', `معرفك الحالي: ${id}`);
                     this.updateConnectionStatus('connected');
+                    
+                    // تحديث إحصائيات النجاح
+                    this.connectionStats.successes++;
+                    this.saveConnectionStats();
                 });
 
                 this.peer.on('connection', (conn) => {
+                    console.log('📥 اتصال وارد من:', conn.peer);
                     this.handleIncomingConnection(conn);
                 });
 
                 this.peer.on('error', (err) => {
                     console.error('❌ خطأ في PeerJS:', err);
                     
-                    // معالجة أخطاء المعرف المكرر
-                    if (err.type === 'unavailable-id') {
-                        this.showNotification('error', 'المعرف مستخدم', 'هذا المعرف مستخدم بالفعل، اختر معرفاً آخر');
-                        return;
-                    }
+                    // تحديث إحصائيات الفشل
+                    this.connectionStats.failures++;
+                    this.saveConnectionStats();
                     
-                    // محاولة إعادة الاتصال في حالة فشل
-                    if (err.type === 'server-error' || err.type === 'network') {
-                        this.showNotification('warning', 'فقد الاتصال بالسيرفر', 'جاري إعادة المحاولة...');
-                        this.reconnectToServer();
-                    } else {
-                        this.showNotification('error', 'خطأ في الاتصال', err.message);
+                    // معالجة أخطاء محددة
+                    switch(err.type) {
+                        case 'unavailable-id':
+                            this.showNotification('error', 'المعرف مستخدم', 'هذا المعرف مستخدم بالفعل، اختر معرفاً آخر');
+                            // إنشاء معرف جديد تلقائياً
+                            const newId = 'user-' + Math.random().toString(36).substr(2, 8);
+                            this.saveMyId(newId);
+                            this.showNotification('info', 'معرف جديد', `تم تعيين معرف جديد: ${newId}`);
+                            break;
+                            
+                        case 'server-error':
+                        case 'network':
+                            this.showNotification('warning', 'مشكلة في الشبكة', 'جاري إعادة المحاولة مع خادم بديل...');
+                            setTimeout(() => this.reconnectToServer(), 2000);
+                            break;
+                            
+                        case 'peer-unavailable':
+                            this.showNotification('warning', 'الشخص غير متاح', 'المستخدم غير متصل حالياً');
+                            break;
+                            
+                        default:
+                            this.showNotification('error', 'خطأ في الاتصال', err.message || 'خطأ غير معروف');
                     }
                     
                     this.updateConnectionStatus('disconnected');
@@ -1657,11 +1817,11 @@
                     console.log('⚠️ تم قطع الاتصال مع سيرفر PeerJS');
                     this.updateConnectionStatus('disconnected');
                     
-                    // محاولة إعادة الاتصال بعد 3 ثواني
+                    // محاولة إعادة الاتصال بعد 2 ثواني
                     setTimeout(() => {
                         if (!this.peer.disconnected) return;
                         this.reconnectToServer();
-                    }, 3000);
+                    }, 2000);
                 });
 
                 this.peer.on('close', () => {
@@ -1673,20 +1833,46 @@
             // إعادة الاتصال بالسيرفر
             reconnectToServer() {
                 if (this.connectionAttempts >= this.maxConnectionAttempts) {
-                    this.showNotification('error', 'فشل الاتصال', 'تعذر الاتصال بالسيرفر بعد عدة محاولات');
+                    this.showNotification('error', 'فشل الاتصال', `تعذر الاتصال بعد ${this.maxConnectionAttempts} محاولات. جرب تغيير نوع الاتصال.`);
                     return;
                 }
 
                 this.connectionAttempts++;
                 console.log(`🔄 محاولة إعادة الاتصال ${this.connectionAttempts}/${this.maxConnectionAttempts}`);
                 
-                this.showNotification('info', 'إعادة الاتصال', `جاري إعادة الاتصال... (${this.connectionAttempts})`);
+                // تغيير وضع الاتصال بعد عدة محاولات فاشلة
+                if (this.connectionAttempts >= 3) {
+                    this.cycleConnectionMode();
+                }
                 
-                this.peer.reconnect();
+                this.showNotification('info', 'إعادة الاتصال', `محاولة ${this.connectionAttempts} - وضع: ${this.getModeName(this.connectionMode)}`);
+                
+                setTimeout(() => {
+                    this.peer.reconnect();
+                }, 1000 * this.connectionAttempts); // زيادة التأخير مع كل محاولة
+            }
+
+            // تغيير وضع الاتصال تلقائياً
+            cycleConnectionMode() {
+                const modes = ['auto', 'reliable', 'fast'];
+                const currentIndex = modes.indexOf(this.connectionMode);
+                const nextIndex = (currentIndex + 1) % modes.length;
+                this.connectionMode = modes[nextIndex];
+                this.elements.connectionMode.value = this.connectionMode;
+                
+                this.showNotification('info', 'تغيير الإعدادات', `تم تغيير وضع الاتصال إلى: ${this.getModeName(this.connectionMode)}`);
+                
+                // إعادة تهيئة الاتصال مع الإعدادات الجديدة
+                if (this.peer) {
+                    this.peer.destroy();
+                }
+                this.initializePeer();
             }
 
             // معالجة الاتصالات الواردة
             handleIncomingConnection(conn) {
+                console.log('🔗 معالجة اتصال وارد:', conn.peer);
+                
                 if (this.connection && this.connection.open) {
                     conn.close();
                     this.showNotification('warning', 'اتصال مرفوض', 'لديك اتصال نشط بالفعل');
@@ -1703,15 +1889,20 @@
             // إعداد أحداث الاتصال
             setupConnectionEvents() {
                 this.connection.on('open', () => {
+                    console.log('🎉 اتصال مفتوح بنجاح!');
                     this.isConnected = true;
-                    this.connectionAttempts = 0; // إعادة تعداد محاولات الاتصال
+                    this.connectionAttempts = 0;
                     this.updateUI();
                     this.showNotification('success', 'تم الاتصال!', 'يمكنك البدء في المراسلة الآن');
                     this.updatePeerInfo();
                     this.updateConnectionStatus('connected');
                     
-                    // إرسال ping لقياس سرعة الاتصال
+                    // إرسال رسالة ترحيب
+                    this.sendWelcomeMessage();
+                    
+                    // بدء مراقبة الاتصال
                     this.startConnectionMonitor();
+                    this.startPingMonitor();
                 });
 
                 this.connection.on('data', (data) => {
@@ -1724,13 +1915,35 @@
 
                 this.connection.on('error', (err) => {
                     console.error('❌ خطأ في الاتصال:', err);
-                    this.showNotification('error', 'خطأ في الاتصال', err.message);
+                    this.showNotification('error', 'خطأ في الاتصال', err.message || 'خطأ غير معروف');
+                    this.handleDisconnection();
                 });
 
                 this.connection.on('iceStateChanged', (state) => {
                     console.log('🔄 حالة ICE تغيرت:', state);
                     this.elements.connState.textContent = this.translateIceState(state);
+                    this.updateConnectionQuality();
                 });
+
+                this.connection.on('stream', (stream) => {
+                    console.log('📹 تيار وسائط متاح:', stream);
+                });
+            }
+
+            // إرسال رسالة ترحيب
+            sendWelcomeMessage() {
+                const welcomeMsg = {
+                    type: 'system',
+                    text: `مرحباً! تم الاتصال بنجاح. وضع الاتصال: ${this.getModeName(this.connectionMode)}`,
+                    timestamp: new Date().toISOString(),
+                    sender: 'system'
+                };
+                
+                try {
+                    this.connection.send(welcomeMsg);
+                } catch (e) {
+                    console.log('⚠️ لم نتمكن من إرسال رسالة الترحيب');
+                }
             }
 
             // بدء مراقبة الاتصال
@@ -1739,12 +1952,29 @@
                 
                 this.connectionMonitor = setInterval(() => {
                     if (this.connection && this.connection.open) {
-                        const startTime = Date.now();
-                        this.connection.send({ type: 'ping', timestamp: startTime });
+                        this.updateConnectionMetrics();
                     } else {
                         clearInterval(this.connectionMonitor);
                     }
-                }, 5000);
+                }, 3000);
+            }
+
+            // بدء مراقبة ping
+            startPingMonitor() {
+                clearInterval(this.pingInterval);
+                
+                this.pingInterval = setInterval(() => {
+                    if (this.connection && this.connection.open) {
+                        this.lastPingTime = Date.now();
+                        this.connection.send({ 
+                            type: 'ping', 
+                            timestamp: this.lastPingTime,
+                            mode: this.connectionMode
+                        });
+                    } else {
+                        clearInterval(this.pingInterval);
+                    }
+                }, 3000);
             }
 
             // تهيئة مستمعي الأحداث
@@ -1760,6 +1990,9 @@
                 
                 // مسح المحادثة
                 this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
+                
+                // اختبار الاتصال
+                this.elements.testConnectionBtn.addEventListener('click', () => this.testConnection());
                 
                 // إرسال الرسالة
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
@@ -1793,6 +2026,35 @@
                 // تجاهل إعادة الاتصال
                 this.elements.dismissReconnect.addEventListener('click', () => {
                     this.elements.reconnectBanner.style.display = 'none';
+                });
+            }
+
+            // اختبار الاتصال
+            testConnection() {
+                if (!this.peer || this.peer.disconnected) {
+                    this.showNotification('warning', 'غير متصل', 'الاتصال مع السيرفر غير نشط');
+                    return;
+                }
+                
+                this.showNotification('info', 'اختبار الاتصال', 'جاري اختبار اتصال السيرفر...');
+                
+                // اختبار بسيط
+                const testId = 'test-' + Date.now();
+                const testPeer = new Peer(testId, {
+                    host: '0.peerjs.com',
+                    port: 443,
+                    secure: true,
+                    debug: 0
+                });
+                
+                testPeer.on('open', () => {
+                    this.showNotification('success', 'اختبار ناجح', 'الاتصال مع السيرفر يعمل بشكل جيد');
+                    testPeer.destroy();
+                });
+                
+                testPeer.on('error', () => {
+                    this.showNotification('error', 'اختبار فاشل', 'هناك مشكلة في الاتصال بالسيرفر');
+                    testPeer.destroy();
                 });
             }
 
@@ -1877,7 +2139,7 @@
                 }
             }
 
-            // الاتصال بالشخص الآخر
+            // الاتصال بالشخص الآخر مع تحسينات
             async connectToPeer() {
                 const peerId = this.elements.peerId.value.trim();
                 
@@ -1896,37 +2158,100 @@
                     return;
                 }
 
-                this.showNotification('info', 'جاري الاتصال...', `محاولة الاتصال بـ ${peerId}`);
+                this.connectionStats.attempts++;
+                this.saveConnectionStats();
+                
+                this.showNotification('info', 'جاري الاتصال...', 
+                    `محاولة الاتصال بـ ${peerId}\nوضع الاتصال: ${this.getModeName(this.connectionMode)}`);
+                
                 this.updateConnectionStatus('connecting');
                 
+                // محاولات متعددة بأساليب مختلفة
+                this.attemptConnection(peerId, 0);
+            }
+
+            // محاولة الاتصال مع إعادة المحاولة
+            attemptConnection(peerId, attempt) {
+                if (attempt >= 3) {
+                    this.showNotification('error', 'فشل الاتصال', 'فشلت جميع محاولات الاتصال. جرب وضع اتصال مختلف.');
+                    this.updateConnectionStatus('disconnected');
+                    return;
+                }
+
+                const connectionOptions = this.getConnectionOptions(attempt);
+                
                 try {
-                    this.connection = this.peer.connect(peerId, {
-                        reliable: true,
-                        serialization: 'json',
-                        metadata: {
-                            client: 'P2P Messenger',
-                            version: '1.0',
-                            timestamp: Date.now(),
-                            myName: this.myId
-                        }
-                    });
+                    console.log(`🔄 محاولة اتصال ${attempt + 1}/3`, connectionOptions);
+                    
+                    this.connection = this.peer.connect(peerId, connectionOptions);
                     
                     this.savePeerId(peerId);
                     this.setupConnectionEvents();
                     
-                    // مهلة الاتصال
+                    // مهلة الاتصال (أطول للمحاولات المتأخرة)
+                    const timeout = 10000 + (attempt * 5000);
                     this.reconnectTimeout = setTimeout(() => {
-                        if (!this.isConnected) {
-                            this.showNotification('error', 'فشل الاتصال', 'انتهت مهلة الاتصال');
-                            this.disconnect();
-                            this.updateConnectionStatus('disconnected');
+                        if (!this.isConnected && this.connection) {
+                            console.log(`⏰ انتهت مهلة المحاولة ${attempt + 1}`);
+                            this.connection.close();
+                            this.connection = null;
+                            
+                            if (attempt < 2) {
+                                this.showNotification('warning', 'إعادة المحاولة', `جاري المحاولة ${attempt + 2}...`);
+                                setTimeout(() => this.attemptConnection(peerId, attempt + 1), 1000);
+                            }
                         }
-                    }, 15000);
+                    }, timeout);
                     
                 } catch (error) {
                     console.error('❌ خطأ في الاتصال:', error);
-                    this.showNotification('error', 'فشل الاتصال', error.message);
-                    this.updateConnectionStatus('disconnected');
+                    
+                    if (attempt < 2) {
+                        this.showNotification('warning', 'إعادة المحاولة', `جاري المحاولة ${attempt + 2}...`);
+                        setTimeout(() => this.attemptConnection(peerId, attempt + 1), 1000);
+                    } else {
+                        this.showNotification('error', 'فشل الاتصال', error.message || 'تعذر إنشاء اتصال');
+                        this.updateConnectionStatus('disconnected');
+                    }
+                }
+            }
+
+            // الحصول على خيارات الاتصال حسب المحاولة
+            getConnectionOptions(attempt) {
+                const baseOptions = {
+                    reliable: true,
+                    serialization: 'json',
+                    metadata: {
+                        client: 'P2P Messenger',
+                        version: '2.0',
+                        timestamp: Date.now(),
+                        myName: this.myId,
+                        connectionMode: this.connectionMode,
+                        attempt: attempt + 1
+                    }
+                };
+
+                // تعديل الخيارات حسب المحاولة
+                switch(attempt) {
+                    case 0:
+                        // المحاولة الأولى: إعدادات عادية
+                        return baseOptions;
+                    case 1:
+                        // المحاولة الثانية: إعدادات أكثر موثوقية
+                        return {
+                            ...baseOptions,
+                            reliable: true,
+                            metadata: { ...baseOptions.metadata, fallback: true }
+                        };
+                    case 2:
+                        // المحاولة الثالثة: إعدادات مبسطة
+                        return {
+                            ...baseOptions,
+                            reliable: false, // قد يعمل أفضل في بعض الحالات
+                            metadata: { ...baseOptions.metadata, simple: true }
+                        };
+                    default:
+                        return baseOptions;
                 }
             }
 
@@ -1944,6 +2269,7 @@
                 this.connection = null;
                 clearTimeout(this.reconnectTimeout);
                 clearInterval(this.connectionMonitor);
+                clearInterval(this.pingInterval);
                 this.updateUI();
                 this.showNotification('info', 'تم قطع الاتصال', 'تم إنهاء الاتصال مع الطرف الآخر');
                 this.updateConnectionStatus('disconnected');
@@ -1969,7 +2295,8 @@
                     text: messageText,
                     timestamp: new Date().toISOString(),
                     sender: this.myId,
-                    messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+                    messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+                    connectionMode: this.connectionMode
                 };
 
                 try {
@@ -1982,7 +2309,20 @@
                     this.saveMessages();
                 } catch (error) {
                     console.error('❌ خطأ في إرسال الرسالة:', error);
-                    this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة');
+                    this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة. تحقق من الاتصال.');
+                    
+                    // محاولة إعادة الإرسال مرة واحدة
+                    setTimeout(() => {
+                        if (this.connection && this.connection.open) {
+                            try {
+                                this.connection.send(message);
+                                this.addMessage(message, 'sent');
+                                this.showNotification('success', 'تم الإرسال', 'تم إرسال الرسالة في المحاولة الثانية');
+                            } catch (e) {
+                                this.showNotification('error', 'فشل نهائي', 'تعذر إرسال الرسالة بعد محاولتين');
+                            }
+                        }
+                    }, 1000);
                 }
             }
 
@@ -1992,10 +2332,29 @@
                     this.addMessage(data, 'received');
                     this.saveMessages();
                 } else if (data.type === 'ping') {
-                    this.connection.send({ type: 'pong', timestamp: data.timestamp });
+                    // الرد على ping
+                    this.connection.send({ 
+                        type: 'pong', 
+                        timestamp: data.timestamp,
+                        received: Date.now()
+                    });
                 } else if (data.type === 'pong') {
+                    // حساب زمن الاستجابة
                     const latency = Date.now() - data.timestamp;
+                    this.pingLatency = latency;
                     this.elements.connSpeed.textContent = `${latency}ms`;
+                    this.updateConnectionQuality();
+                    
+                    // تحديث متوسط زمن الاستجابة
+                    if (this.connectionStats.avgLatency === 0) {
+                        this.connectionStats.avgLatency = latency;
+                    } else {
+                        this.connectionStats.avgLatency = (this.connectionStats.avgLatency + latency) / 2;
+                    }
+                    this.saveConnectionStats();
+                } else if (data.type === 'system') {
+                    // عرض رسائل النظام
+                    this.showNotification('info', 'نظام', data.text);
                 }
             }
 
@@ -2020,6 +2379,13 @@
                 
                 // إشعار عند استلام رسالة جديدة
                 if (type === 'received') {
+                    if (Notification.permission === 'granted') {
+                        new Notification('رسالة جديدة', {
+                            body: messageData.text.substring(0, 100),
+                            icon: '/favicon.ico'
+                        });
+                    }
+                    
                     this.showNotification('info', 'رسالة جديدة', messageData.text.substring(0, 50) + '...');
                 }
             }
@@ -2035,12 +2401,16 @@
                     minute: '2-digit'
                 });
                 
+                // إضافة مؤشر وضع الاتصال للرسائل المرسلة
+                const modeIndicator = message.type === 'sent' && message.connectionMode ? 
+                    `<small style="opacity:0.7; font-size:0.7rem;">(${this.getModeName(message.connectionMode)})</small>` : '';
+                
                 messageElement.innerHTML = `
                     <div class="message-content">
                         ${this.escapeHtml(message.text)}
                         <div class="message-time">
                             <i class="far fa-clock"></i>
-                            ${time}
+                            ${time} ${modeIndicator}
                         </div>
                     </div>
                 `;
@@ -2091,6 +2461,7 @@
                 this.elements.sendBtn.disabled = !isConnected;
                 this.elements.saveMyId.disabled = isConnected;
                 this.elements.myId.disabled = isConnected;
+                this.elements.testConnectionBtn.disabled = isConnected;
                 
                 // تحديث معلومات الاتصال
                 this.elements.connectionInfo.style.display = isConnected ? 'block' : 'none';
@@ -2122,18 +2493,51 @@
                 }
             }
 
+            // تحديث جودة الاتصال
+            updateConnectionQuality() {
+                if (!this.pingLatency) return;
+                
+                let quality = 'جيدة';
+                let color = '#2ed573';
+                
+                if (this.pingLatency < 100) {
+                    quality = 'ممتازة';
+                    color = '#2ed573';
+                } else if (this.pingLatency < 300) {
+                    quality = 'جيدة';
+                    color = '#ffa502';
+                } else if (this.pingLatency < 1000) {
+                    quality = 'متوسطة';
+                    color = '#ff7f00';
+                } else {
+                    quality = 'ضعيفة';
+                    color = '#ff4757';
+                }
+                
+                this.elements.connQuality.textContent = quality;
+                this.elements.connQuality.style.color = color;
+            }
+
             // تحديث معلومات الاتصال
             updateConnectionMetrics() {
                 if (this.connection && this.peer) {
-                    this.elements.connType.textContent = this.connection.type || 'P2P';
+                    this.elements.connType.textContent = this.getModeName(this.connectionMode);
                     this.elements.connState.textContent = 'نشط';
+                    
+                    if (this.pingLatency) {
+                        this.elements.connSpeed.textContent = `${this.pingLatency}ms`;
+                        this.updateConnectionQuality();
+                    }
                 }
             }
 
             // تحديث معلومات الطرف الآخر
             updatePeerInfo() {
                 if (this.connection) {
-                    this.elements.peerName.textContent = `مستخدم: ${this.connection.peer.substring(0, 20)}`;
+                    const shortId = this.connection.peer.length > 20 ? 
+                        this.connection.peer.substring(0, 20) + '...' : 
+                        this.connection.peer;
+                    this.elements.peerName.textContent = `مستخدم: ${shortId}`;
                 }
             }
 
@@ -2240,17 +2644,31 @@
             }
         }
 
+        // طلب إذن الإشعارات
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
         // تهيئة التطبيق عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
             const app = new P2PMessenger();
             window.p2pMessenger = app; // لجعل التطبيق متاحًا في وحدة التحكم
-            console.log('🚀 P2P Messenger جاهز للاستخدام!');
+            console.log('🚀 P2P Messenger المحسّن جاهز للاستخدام!');
+            console.log('💡 نصائح: إذا واجهت مشاكل في الاتصال، جرب تغيير نوع الاتصال من القائمة.');
             
             // التحذير عند إغلاق الصفحة
             window.addEventListener('beforeunload', (e) => {
                 if (app.isConnected) {
                     e.preventDefault();
                     e.returnValue = 'لديك اتصال نشط. هل تريد مغادرة الصفحة؟';
+                }
+            });
+            
+            // إعادة الاتصال عند العودة للصفحة
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && app.peer && app.peer.disconnected) {
+                    console.log('🔄 إعادة الاتصال بعد العودة للصفحة');
+                    app.peer.reconnect();
                 }
             });
         });
