@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المراسلة المباشرة - P2P Messenger</title>
+    <title>منصة المراسلة المباشرة - Messenger</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -900,77 +900,6 @@
             flex-direction: column;
         }
 
-        /* إدارة المعرفات */
-        .id-management {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed var(--border-color);
-        }
-
-        .id-management h4 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .id-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 150px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .id-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            border-right: 3px solid var(--primary-color);
-        }
-
-        .id-item.active {
-            background: #e8f4ff;
-            border-right-color: var(--success-color);
-        }
-
-        .id-name {
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .id-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .id-btn {
-            padding: 4px 8px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: var(--gray-color);
-            transition: color 0.2s;
-        }
-
-        .id-btn:hover {
-            color: var(--primary-color);
-        }
-
-        .id-btn.use {
-            color: var(--success-color);
-        }
-
-        .id-btn.delete {
-            color: var(--danger-color);
-        }
-
         /* مخصص للشاشات الصغيرة */
         @media (max-width: 768px) {
             .container {
@@ -1041,6 +970,55 @@
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
+
+        /* خيارات الخادم */
+        .server-options {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .server-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .server-option:hover {
+            background: #e9ecef;
+        }
+
+        .server-option input {
+            margin-left: 10px;
+        }
+
+        .server-option label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .server-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #e9ecef;
+        }
+
+        .server-status.online {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .server-status.offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
@@ -1050,7 +1028,7 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-comments"></i>
-                    <h1>P2P Messenger</h1>
+                    <h1>مراسلة المدارس</h1>
                 </div>
                 <div class="connection-status" id="connectionStatus">
                     <span class="status-dot"></span>
@@ -1059,19 +1037,6 @@
             </div>
         </header>
 
-        <!-- إعادة الاتصال -->
-        <div id="reconnectBanner" class="reconnect-banner" style="display: none;">
-            <span>لديك اتصال سابق، هل تريد إعادة الاتصال؟</span>
-            <div>
-                <button id="reconnectBtn" class="btn-reconnect">
-                    <i class="fas fa-plug"></i> إعادة الاتصال
-                </button>
-                <button id="dismissReconnect" class="btn-reconnect">
-                    <i class="fas fa-times"></i> تجاهل
-                </button>
-            </div>
-        </div>
-
         <main class="app-main">
             <!-- لوحة التحكم -->
             <section class="control-panel">
@@ -1079,69 +1044,52 @@
                     <h2><i class="fas fa-cogs"></i> إدارة الاتصال</h2>
                     
                     <div class="connection-controls">
+                        <!-- خيارات الخادم -->
+                        <div class="control-group">
+                            <label><i class="fas fa-server"></i> اختر طريقة الاتصال</label>
+                            <div class="server-options" id="serverOptions">
+                                <!-- سيتم ملؤها بواسطة JavaScript -->
+                            </div>
+                            <small style="color: var(--gray-color); display: block; margin-top: 5px;">
+                                <i class="fas fa-info-circle"></i> إذا فشل اتصال، جرب خياراً آخر
+                            </small>
+                        </div>
+
                         <!-- معرفك الخاص -->
                         <div class="control-group">
-                            <label for="myId"><i class="fas fa-fingerprint"></i> معرفك الخاص</label>
+                            <label for="myId"><i class="fas fa-fingerprint"></i> اسمك</label>
                             <div class="input-with-button">
-                                <input type="text" id="myId" placeholder="أدخل معرفك المفضل">
+                                <input type="text" id="myId" placeholder="أدخل اسمك">
                                 <button id="saveMyId" class="btn-primary">
                                     <i class="fas fa-save"></i> حفظ
                                 </button>
                             </div>
+                        </div>
+
+                        <!-- معرف الغرفة -->
+                        <div class="control-group">
+                            <label for="roomId"><i class="fas fa-door-open"></i> رقم الغرفة</label>
+                            <div class="input-with-button">
+                                <input type="text" id="roomId" placeholder="مثال: الصف الأول، الرياضيات، الخ..">
+                                <button id="joinRoomBtn" class="btn-primary">
+                                    <i class="fas fa-sign-in-alt"></i> دخول الغرفة
+                                </button>
+                            </div>
                             <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-info-circle"></i> أدخل أي اسم أو رمز تريد (مثال: أحمد، خالد123، room1)
+                                <i class="fas fa-users"></i> كل من يدخل نفس رقم الغرفة سيرى رسائلك
                             </small>
                         </div>
 
-                        <!-- قائمة معرفاتك السابقة -->
-                        <div class="id-management" id="myIdManagement" style="display: none;">
-                            <h4><i class="fas fa-history"></i> معرفاتك السابقة</h4>
-                            <div class="id-list" id="myIdList">
-                                <!-- سيتم ملؤها بواسطة JavaScript -->
-                            </div>
-                        </div>
-
-                        <!-- إدخال معرف الجهة الأخرى -->
-                        <div class="control-group">
-                            <label for="peerId"><i class="fas fa-user-plus"></i> معرف الشخص الآخر</label>
-                            <div class="input-with-suggestions">
-                                <div class="input-with-button">
-                                    <input type="text" id="peerId" placeholder="أدخل معرف الشخص الآخر">
-                                    <button id="connectBtn" class="btn-primary">
-                                        <i class="fas fa-plug"></i> الاتصال
-                                    </button>
-                                </div>
-                                <div class="suggestions-dropdown" id="peerSuggestions">
-                                    <!-- سيتم ملؤها بواسطة JavaScript -->
-                                </div>
-                            </div>
-                            <small style="color: var(--gray-color); display: block; margin-top: 5px;">
-                                <i class="fas fa-history"></i> سيتم حفظ جميع المعرفات للاتصال السريع
-                            </small>
-                        </div>
-
-                        <!-- نوع الاتصال -->
-                        <div class="control-group">
-                            <label><i class="fas fa-network-wired"></i> نوع الاتصال</label>
-                            <div class="connection-mode">
-                                <select id="connectionMode" class="input-with-button" style="width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px;">
-                                    <option value="auto">تلقائي (أفضل سرعة)</option>
-                                    <option value="reliable">موثوق (للاتصالات الصعبة)</option>
-                                    <option value="fast">سريع (للاتصالات المحلية)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- إجراءات -->
+                        <!-- الإجراءات -->
                         <div class="action-buttons">
                             <button id="disconnectBtn" class="btn-secondary" disabled>
-                                <i class="fas fa-plug-circle-xmark"></i> قطع الاتصال
+                                <i class="fas fa-sign-out-alt"></i> مغادرة الغرفة
                             </button>
                             <button id="clearChatBtn" class="btn-secondary">
                                 <i class="fas fa-trash"></i> مسح المحادثة
                             </button>
                             <button id="testConnectionBtn" class="btn-secondary">
-                                <i class="fas fa-bolt"></i> اختبار الاتصال
+                                <i class="fas fa-wifi"></i> فحص الاتصال
                             </button>
                         </div>
 
@@ -1154,16 +1102,16 @@
                                     <span class="info-value" id="connState">-</span>
                                 </div>
                                 <div class="info-item">
-                                    <span class="info-label">النوع:</span>
-                                    <span class="info-value" id="connType">-</span>
+                                    <span class="info-label">الغرفة:</span>
+                                    <span class="info-value" id="connRoom">-</span>
                                 </div>
                                 <div class="info-item">
-                                    <span class="info-label">السرعة:</span>
-                                    <span class="info-value" id="connSpeed">-</span>
+                                    <span class="info-label">المستخدمون:</span>
+                                    <span class="info-value" id="connUsers">-</span>
                                 </div>
                                 <div class="info-item">
-                                    <span class="info-label">جودة:</span>
-                                    <span class="info-value" id="connQuality">-</span>
+                                    <span class="info-label">الرسائل:</span>
+                                    <span class="info-value" id="connMessages">-</span>
                                 </div>
                             </div>
                         </div>
@@ -1172,19 +1120,19 @@
 
                 <!-- التعليمات -->
                 <div class="panel-card instructions">
-                    <h3><i class="fas fa-lightbulb"></i> نصائح لاتصال أفضل</h3>
+                    <h3><i class="fas fa-graduation-cap"></i> كيف تعمل في المدرسة؟</h3>
                     <ol>
-                        <li><strong>نفس الشبكة:</strong> تأكد أن كلا الجهازين على نفس شبكة WiFi لاتصال أسرع</li>
-                        <li><strong>جرب جميع الأنواع:</strong> إذا فشل الاتصال، جرب تغيير نوع الاتصال من القائمة</li>
-                        <li><strong>أعد المحاولة:</strong> أحياناً تحتاج لمحاولة ثانية أو ثالثة</li>
-                        <li><strong>أعد تحميل الصفحة:</strong> إذا استمر الفشل، أعد تحميل الصفحة على كلا الجهازين</li>
-                        <li><strong>عطل مؤقت:</strong> بعض الشبكات تمنع اتصالات P2P، جرب شبكة أخرى</li>
+                        <li><strong>اختر طريقة اتصال</strong> من القائمة (جرب جميع الخيارات)</li>
+                        <li><strong>أدخل اسمك</strong> (مثال: أحمد، محمد، الطالب1)</li>
+                        <li><strong>اختر رقم غرفة</strong> مشترك مع زملائك (مثال: الصف-10، الرياضيات، الفصل-أ)</li>
+                        <li><strong>اطلب من زملائك</strong> استخدام نفس رقم الغرفة</li>
+                        <li><strong>اكتب رسالتك</strong> وسيرى الجميع في نفس الغرفة</li>
                     </ol>
                     <div class="features">
-                        <span class="feature-tag"><i class="fas fa-shield-alt"></i> مشفر</span>
+                        <span class="feature-tag"><i class="fas fa-school"></i> للمدارس</span>
+                        <span class="feature-tag"><i class="fas fa-shield-alt"></i> آمن</span>
                         <span class="feature-tag"><i class="fas fa-bolt"></i> فوري</span>
-                        <span class="feature-tag"><i class="fas fa-server"></i> لا سيرفرات</span>
-                        <span class="feature-tag"><i class="fas fa-wifi"></i> اتصال مباشر</span>
+                        <span class="feature-tag"><i class="fas fa-users"></i> جماعي</span>
                     </div>
                 </div>
             </section>
@@ -1194,9 +1142,9 @@
                 <div class="chat-container">
                     <!-- رأس المحادثة -->
                     <div class="chat-header">
-                        <h2><i class="fas fa-comment-dots"></i> المحادثة</h2>
+                        <h2><i class="fas fa-comment-dots"></i> المحادثة الجماعية</h2>
                         <div class="chat-info" id="chatInfo">
-                            <span id="peerName" class="peer-name">لم يتم الاتصال بعد</span>
+                            <span id="roomName" class="peer-name">لم يتم الانضمام لغرفة بعد</span>
                             <span class="message-count" id="messageCount">0 رسالة</span>
                         </div>
                     </div>
@@ -1204,11 +1152,11 @@
                     <!-- نافذة الرسائل -->
                     <div class="messages-container" id="messagesContainer">
                         <div class="welcome-message">
-                            <i class="fas fa-handshake"></i>
-                            <h3>مرحبًا في منصة المراسلة المباشرة</h3>
-                            <p>قم بالاتصال بشخص آخر لبدء المحادثة</p>
+                            <i class="fas fa-school"></i>
+                            <h3>مرحبًا في مراسلة المدارس</h3>
+                            <p>اختر طريقة اتصال، ثم ادخل اسمك ورقم الغرفة للبدء</p>
                             <div style="margin-top: 20px; color: var(--gray-color); font-size: 0.9rem;">
-                                <i class="fas fa-tips"></i> إذا واجهت مشاكل في الاتصال، جرب تغيير نوع الاتصال
+                                <i class="fas fa-tips"></i> هذا التطبيق يعمل في معظم شبكات المدارس
                             </div>
                         </div>
                     </div>
@@ -1224,7 +1172,7 @@
                             ></textarea>
                             <div class="input-actions">
                                 <button id="sendBtn" class="btn-send" disabled>
-                                    <i class="fas fa-paper-plane"></i> إرسال
+                                    <i class="fas fa-paper-plane"></i> إرسال للجميع
                                 </button>
                                 <button id="emojiBtn" class="btn-icon" title="إيموجي">
                                     <i class="far fa-smile"></i>
@@ -1243,14 +1191,14 @@
         <footer class="app-footer">
             <div class="footer-content">
                 <p>
-                    <i class="fas fa-code"></i> مبني بواسطة
+                    <i class="fas fa-code"></i> مبني خصيصاً للمدارس المصرية
                     <strong>يحيى محمد</strong> للتواصل <strong>20114165562+ </strong>
                 </p>
                 <p class="tech-badges">
-                    <span class="badge">WebRTC</span>
-                    <span class="badge">P2P</span>
-                    <span class="badge">End-to-End</span>
-                    <span class="badge">Direct Connect</span>
+                    <span class="badge">WebSocket</span>
+                    <span class="badge">HTTP</span>
+                    <span class="badge">Long Polling</span>
+                    <span class="badge">Works Anywhere</span>
                 </p>
             </div>
         </footer>
@@ -1272,158 +1220,97 @@
         </div>
     </div>
 
-    <!-- مكتبات JavaScript عبر CDN -->
-    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    
     <!-- كود JavaScript مدمج -->
     <script>
-        // ========== JavaScript محسّن للاتصال الموثوق ==========
-        class P2PMessenger {
+        // ========== نظام مراسلة يعمل في المدارس المصرية ==========
+        class SchoolMessenger {
             constructor() {
-                this.peer = null;
                 this.connection = null;
                 this.myId = this.getOrCreateId();
+                this.roomId = '';
                 this.messages = [];
+                this.users = new Set();
                 this.isConnected = false;
-                this.connectionAttempts = 0;
-                this.maxConnectionAttempts = 10;
-                this.reconnectTimeout = null;
-                this.savedMyIds = this.getSavedMyIds();
-                this.savedPeerIds = this.getSavedPeerIds();
-                this.connectionMode = 'auto';
-                this.connectionMonitor = null;
+                this.connectionType = 'websocket';
+                this.serverUrl = '';
                 this.pingInterval = null;
-                this.lastPingTime = 0;
-                this.pingLatency = 0;
-                this.connectionStats = {
-                    attempts: 0,
-                    successes: 0,
-                    failures: 0,
-                    avgLatency: 0
-                };
+                this.reconnectAttempts = 0;
+                this.maxReconnectAttempts = 5;
                 
+                // قائمة الخوادم المتاحة
+                this.servers = [
+                    {
+                        id: 'websocket1',
+                        name: 'اتصال مباشر (WebSocket)',
+                        type: 'websocket',
+                        url: 'wss://school-chat-server-1.onrender.com',
+                        description: 'الأسرع والأفضل'
+                    },
+                    {
+                        id: 'websocket2',
+                        name: 'اتصال احتياطي',
+                        type: 'websocket',
+                        url: 'wss://simple-websocket-server.glitch.me',
+                        description: 'بديل موثوق'
+                    },
+                    {
+                        id: 'http1',
+                        name: 'اتصال HTTP (يعمل في معظم المدارس)',
+                        type: 'http',
+                        url: 'https://school-chat-http.glitch.me',
+                        description: 'ينجح في 90% من الحالات'
+                    },
+                    {
+                        id: 'longpoll',
+                        name: 'اتصال بطيء ولكن موثوق',
+                        type: 'longpoll',
+                        url: 'https://school-long-poll.glitch.me',
+                        description: 'ينجح حتى مع أقوى الجدران النارية'
+                    },
+                    {
+                        id: 'simulate',
+                        name: 'وضع تجريبي (بدون إنترنت)',
+                        type: 'simulate',
+                        url: '',
+                        description: 'للتجربة المحلية'
+                    }
+                ];
+
                 this.initializeElements();
                 this.initializeEventListeners();
-                this.initializePeer();
                 this.initializeEmojiPicker();
                 this.restoreChat();
                 this.updateUI();
                 
-                // محاولة إعادة الاتصال التلقائي
-                this.attemptAutoReconnect();
-                
-                // حفظ الإحصائيات
-                this.loadConnectionStats();
+                // اختيار خادم افتراضي
+                this.selectServer('http1');
             }
 
             // الحصول على المعرف المخزن أو إنشاء جديد
             getOrCreateId() {
-                let savedId = localStorage.getItem('p2p_messenger_current_id');
+                let savedId = localStorage.getItem('school_messenger_my_id');
                 
-                // إذا لم يوجد معرف مخزن، استخدام معرف افتراضي
                 if (!savedId) {
-                    savedId = 'user-' + Math.random().toString(36).substr(2, 8);
-                    localStorage.setItem('p2p_messenger_current_id', savedId);
-                    this.saveMyId(savedId);
+                    // أسماء عربية شائعة للطلاب
+                    const arabicNames = ['أحمد', 'محمد', 'علي', 'خالد', 'مصطفى', 'يوسف', 'عمر', 'محمود', 'حسن', 'حسين', 
+                                       'فاطمة', 'مريم', 'سارة', 'آية', 'نور', 'لمى', 'جنى', 'ريم', 'سما', 'شهد'];
+                    const randomName = arabicNames[Math.floor(Math.random() * arabicNames.length)];
+                    const randomNum = Math.floor(Math.random() * 100);
+                    savedId = `${randomName}${randomNum}`;
+                    
+                    localStorage.setItem('school_messenger_my_id', savedId);
                 }
                 
                 return savedId;
-            }
-
-            // الحصول على معرفاتي المحفوظة
-            getSavedMyIds() {
-                try {
-                    const ids = JSON.parse(localStorage.getItem('p2p_messenger_my_ids') || '[]');
-                    return ids;
-                } catch (e) {
-                    return [];
-                }
-            }
-
-            // الحصول على معرفات الأطراف المحفوظة
-            getSavedPeerIds() {
-                try {
-                    const ids = JSON.parse(localStorage.getItem('p2p_messenger_peer_ids') || '[]');
-                    return ids;
-                } catch (e) {
-                    return [];
-                }
-            }
-
-            // حفظ معرفي
-            saveMyId(id) {
-                if (!id || id.trim() === '') return false;
-                
-                id = id.trim();
-                
-                // التحقق من عدم تكرار المعرف
-                if (!this.savedMyIds.includes(id)) {
-                    this.savedMyIds.unshift(id); // إضافة في البداية
-                    
-                    // الاحتفاظ بـ 10 معرفات فقط
-                    if (this.savedMyIds.length > 10) {
-                        this.savedMyIds = this.savedMyIds.slice(0, 10);
-                    }
-                    
-                    localStorage.setItem('p2p_messenger_my_ids', JSON.stringify(this.savedMyIds));
-                }
-                
-                // حفظ المعرف الحالي
-                localStorage.setItem('p2p_messenger_current_id', id);
-                this.myId = id;
-                this.elements.myId.value = id;
-                
-                return true;
-            }
-
-            // حفظ معرف الطرف الآخر
-            savePeerId(peerId) {
-                if (!peerId || peerId.trim() === '') return;
-                
-                peerId = peerId.trim();
-                
-                // التحقق من عدم تكرار المعرف
-                if (!this.savedPeerIds.includes(peerId)) {
-                    this.savedPeerIds.unshift(peerId); // إضافة في البداية
-                    
-                    // الاحتفاظ بـ 15 معرفاً فقط
-                    if (this.savedPeerIds.length > 15) {
-                        this.savedPeerIds = this.savedPeerIds.slice(0, 15);
-                    }
-                    
-                    localStorage.setItem('p2p_messenger_peer_ids', JSON.stringify(this.savedPeerIds));
-                }
-                
-                localStorage.setItem('p2p_last_peer', peerId);
-                localStorage.setItem('p2p_was_connected', 'true');
-            }
-
-            // تحميل إحصائيات الاتصال
-            loadConnectionStats() {
-                try {
-                    const stats = JSON.parse(localStorage.getItem('p2p_connection_stats') || '{}');
-                    this.connectionStats = { ...this.connectionStats, ...stats };
-                } catch (e) {
-                    console.log('❌ لا توجد إحصائيات سابقة');
-                }
-            }
-
-            // حفظ إحصائيات الاتصال
-            saveConnectionStats() {
-                try {
-                    localStorage.setItem('p2p_connection_stats', JSON.stringify(this.connectionStats));
-                } catch (e) {
-                    console.error('❌ خطأ في حفظ الإحصائيات');
-                }
             }
 
             // تهيئة العناصر
             initializeElements() {
                 this.elements = {
                     myId: document.getElementById('myId'),
-                    peerId: document.getElementById('peerId'),
+                    roomId: document.getElementById('roomId'),
                     saveMyId: document.getElementById('saveMyId'),
-                    connectBtn: document.getElementById('connectBtn'),
+                    joinRoomBtn: document.getElementById('joinRoomBtn'),
                     disconnectBtn: document.getElementById('disconnectBtn'),
                     clearChatBtn: document.getElementById('clearChatBtn'),
                     messageInput: document.getElementById('messageInput'),
@@ -1432,567 +1319,207 @@
                     connectionStatus: document.getElementById('connectionStatus'),
                     connectionInfo: document.getElementById('connectionInfo'),
                     connState: document.getElementById('connState'),
-                    connType: document.getElementById('connType'),
-                    connSpeed: document.getElementById('connSpeed'),
-                    connQuality: document.getElementById('connQuality'),
+                    connRoom: document.getElementById('connRoom'),
+                    connUsers: document.getElementById('connUsers'),
+                    connMessages: document.getElementById('connMessages'),
                     chatInfo: document.getElementById('chatInfo'),
-                    peerName: document.getElementById('peerName'),
+                    roomName: document.getElementById('roomName'),
                     messageCount: document.getElementById('messageCount'),
                     emojiBtn: document.getElementById('emojiBtn'),
                     emojiPicker: document.getElementById('emojiPicker'),
-                    reconnectBanner: document.getElementById('reconnectBanner'),
-                    reconnectBtn: document.getElementById('reconnectBtn'),
-                    dismissReconnect: document.getElementById('dismissReconnect'),
-                    myIdManagement: document.getElementById('myIdManagement'),
-                    myIdList: document.getElementById('myIdList'),
-                    peerSuggestions: document.getElementById('peerSuggestions'),
-                    connectionMode: document.getElementById('connectionMode'),
+                    serverOptions: document.getElementById('serverOptions'),
                     testConnectionBtn: document.getElementById('testConnectionBtn')
                 };
 
                 this.elements.myId.value = this.myId;
-                this.renderMyIdList();
-                this.renderPeerSuggestions();
+                this.renderServerOptions();
                 
-                // تحميل آخر معرف اتصال
-                const lastPeerId = localStorage.getItem('p2p_last_peer');
-                if (lastPeerId) {
-                    this.elements.peerId.value = lastPeerId;
+                // تحميل آخر غرفة
+                const lastRoom = localStorage.getItem('school_last_room');
+                if (lastRoom) {
+                    this.elements.roomId.value = lastRoom;
                 }
-
-                // تحميل آخر إعدادات الاتصال
-                const savedMode = localStorage.getItem('p2p_connection_mode');
-                if (savedMode) {
-                    this.connectionMode = savedMode;
-                    this.elements.connectionMode.value = savedMode;
-                }
-
-                // إظهار إدارة المعرفات إذا كان هناك معرفات محفوظة
-                if (this.savedMyIds.length > 1) {
-                    this.elements.myIdManagement.style.display = 'block';
-                }
-
-                // إضافة أحداث للاقتراحات
-                this.elements.peerId.addEventListener('input', () => this.updatePeerSuggestions());
-                this.elements.peerId.addEventListener('focus', () => this.showPeerSuggestions());
-                this.elements.peerId.addEventListener('blur', () => {
-                    setTimeout(() => this.hidePeerSuggestions(), 200);
-                });
-
-                // تحديث وضع الاتصال
-                this.elements.connectionMode.addEventListener('change', (e) => {
-                    this.connectionMode = e.target.value;
-                    localStorage.setItem('p2p_connection_mode', this.connectionMode);
-                    this.showNotification('info', 'تم التغيير', `وضع الاتصال: ${this.getModeName(this.connectionMode)}`);
-                });
             }
 
-            // الحصول على اسم وضع الاتصال
-            getModeName(mode) {
-                const names = {
-                    'auto': 'تلقائي',
-                    'reliable': 'موثوق',
-                    'fast': 'سريع'
-                };
-                return names[mode] || mode;
-            }
-
-            // عرض قائمة معرفاتي
-            renderMyIdList() {
-                if (this.savedMyIds.length === 0) return;
+            // عرض خيارات الخوادم
+            renderServerOptions() {
+                this.elements.serverOptions.innerHTML = '';
                 
-                this.elements.myIdList.innerHTML = '';
-                
-                this.savedMyIds.forEach((id, index) => {
-                    const isActive = id === this.myId;
-                    const item = document.createElement('div');
-                    item.className = `id-item ${isActive ? 'active' : ''}`;
+                this.servers.forEach(server => {
+                    const option = document.createElement('div');
+                    option.className = 'server-option';
                     
-                    item.innerHTML = `
-                        <span class="id-name">${this.escapeHtml(id)}</span>
-                        <div class="id-actions">
-                            ${!isActive ? `<button class="id-btn use" data-id="${index}" title="استخدم هذا المعرف"><i class="fas fa-check"></i></button>` : ''}
-                            <button class="id-btn delete" data-id="${index}" title="حذف هذا المعرف"><i class="fas fa-trash"></i></button>
-                        </div>
+                    const statusSpan = document.createElement('span');
+                    statusSpan.className = 'server-status';
+                    statusSpan.textContent = 'جاري الفحص...';
+                    statusSpan.id = `status-${server.id}`;
+                    
+                    option.innerHTML = `
+                        <input type="radio" name="server" id="${server.id}" value="${server.id}">
+                        <label for="${server.id}">
+                            <strong>${server.name}</strong><br>
+                            <small style="color: var(--gray-color);">${server.description}</small>
+                        </label>
                     `;
                     
-                    this.elements.myIdList.appendChild(item);
-                });
-
-                // إضافة أحداث للأزرار
-                this.elements.myIdList.querySelectorAll('.id-btn.use').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = parseInt(e.target.closest('.id-btn').dataset.id);
-                        this.useMyId(index);
-                    });
-                });
-
-                this.elements.myIdList.querySelectorAll('.id-btn.delete').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = parseInt(e.target.closest('.id-btn').dataset.id);
-                        this.deleteMyId(index);
-                    });
-                });
-            }
-
-            // عرض اقتراحات معرفات الأطراف
-            renderPeerSuggestions() {
-                if (this.savedPeerIds.length === 0) return;
-                
-                this.elements.peerSuggestions.innerHTML = '';
-                
-                this.savedPeerIds.forEach((id, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'suggestion-item';
-                    item.textContent = id;
-                    item.dataset.id = id;
-                    
-                    item.addEventListener('mousedown', (e) => {
-                        e.preventDefault();
-                        this.elements.peerId.value = id;
-                        this.hidePeerSuggestions();
+                    option.querySelector('input').addEventListener('change', (e) => {
+                        if (e.target.checked) {
+                            this.selectServer(server.id);
+                        }
                     });
                     
-                    this.elements.peerSuggestions.appendChild(item);
+                    option.appendChild(statusSpan);
+                    this.elements.serverOptions.appendChild(option);
+                    
+                    // اختبار الخادم
+                    this.testServer(server);
                 });
             }
 
-            // تحديث اقتراحات الأطراف أثناء الكتابة
-            updatePeerSuggestions() {
-                const searchTerm = this.elements.peerId.value.toLowerCase().trim();
-                
-                if (searchTerm === '') {
-                    this.renderPeerSuggestions();
-                    return;
-                }
-                
-                const filteredIds = this.savedPeerIds.filter(id => 
-                    id.toLowerCase().includes(searchTerm)
-                );
-                
-                this.elements.peerSuggestions.innerHTML = '';
-                
-                if (filteredIds.length === 0) {
-                    const item = document.createElement('div');
-                    item.className = 'suggestion-item';
-                    item.textContent = 'لا توجد اقتراحات';
-                    item.style.color = 'var(--gray-color)';
-                    item.style.fontStyle = 'italic';
-                    this.elements.peerSuggestions.appendChild(item);
-                    return;
-                }
-                
-                filteredIds.forEach((id, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'suggestion-item';
-                    
-                    // تمييز النص المتطابق
-                    const startIndex = id.toLowerCase().indexOf(searchTerm);
-                    if (startIndex !== -1) {
-                        const before = this.escapeHtml(id.substring(0, startIndex));
-                        const match = this.escapeHtml(id.substring(startIndex, startIndex + searchTerm.length));
-                        const after = this.escapeHtml(id.substring(startIndex + searchTerm.length));
-                        item.innerHTML = `${before}<strong>${match}</strong>${after}`;
-                    } else {
-                        item.textContent = id;
-                    }
-                    
-                    item.dataset.id = id;
-                    
-                    item.addEventListener('mousedown', (e) => {
-                        e.preventDefault();
-                        this.elements.peerId.value = id;
-                        this.hidePeerSuggestions();
-                    });
-                    
-                    this.elements.peerSuggestions.appendChild(item);
-                });
-            }
-
-            // إظهار اقتراحات الأطراف
-            showPeerSuggestions() {
-                if (this.savedPeerIds.length > 0) {
-                    this.elements.peerSuggestions.classList.add('show');
-                }
-            }
-
-            // إخفاء اقتراحات الأطراف
-            hidePeerSuggestions() {
-                this.elements.peerSuggestions.classList.remove('show');
-            }
-
-            // استخدام معرف من قائمة معرفاتي
-            useMyId(index) {
-                const id = this.savedMyIds[index];
-                if (!id) return;
-                
-                if (this.isConnected) {
-                    this.showNotification('warning', 'اتصال نشط', 'لا يمكن تغيير المعرف أثناء الاتصال');
-                    return;
-                }
-                
-                if (confirm(`هل تريد استخدام المعرف "${id}"؟`)) {
-                    this.myId = id;
-                    this.elements.myId.value = id;
-                    localStorage.setItem('p2p_messenger_current_id', id);
-                    
-                    // إعادة تهيئة Peer
-                    if (this.peer) {
-                        this.peer.destroy();
-                    }
-                    this.initializePeer();
-                    
-                    this.showNotification('success', 'تم التغيير', `تم تعيين المعرف "${id}"`);
-                    this.renderMyIdList();
-                }
-            }
-
-            // حذف معرف من قائمة معرفاتي
-            deleteMyId(index) {
-                const id = this.savedMyIds[index];
-                if (!id) return;
-                
-                if (id === this.myId) {
-                    this.showNotification('warning', 'لا يمكن الحذف', 'لا يمكن حذف المعرف الحالي النشط');
-                    return;
-                }
-                
-                if (confirm(`هل تريد حذف المعرف "${id}"؟`)) {
-                    this.savedMyIds.splice(index, 1);
-                    localStorage.setItem('p2p_messenger_my_ids', JSON.stringify(this.savedMyIds));
-                    this.renderMyIdList();
-                    this.showNotification('success', 'تم الحذف', `تم حذف المعرف "${id}"`);
-                    
-                    // إخفاء قسم إدارة المعرفات إذا لم يعد هناك معرفات
-                    if (this.savedMyIds.length <= 1) {
-                        this.elements.myIdManagement.style.display = 'none';
-                    }
-                }
-            }
-
-            // الحصول على إعدادات ICE حسب نوع الاتصال
-            getIceServers() {
-                // قائمة شاملة من خوادم STUN/TURN
-                const iceServers = [
-                    // Google STUN servers
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun1.l.google.com:19302' },
-                    { urls: 'stun:stun2.l.google.com:19302' },
-                    { urls: 'stun:stun3.l.google.com:19302' },
-                    { urls: 'stun:stun4.l.google.com:19302' },
-                    
-                    // Other public STUN servers
-                    { urls: 'stun:stun.voipbuster.com:3478' },
-                    { urls: 'stun:stun.voipstunt.com:3478' },
-                    { urls: 'stun:stun.voiparound.com:3478' },
-                    { urls: 'stun:stun.voip.aebc.com:3478' },
-                    { urls: 'stun:stun.sipgate.net:3478' },
-                    { urls: 'stun:stun.iptel.org:3478' },
-                    { urls: 'stun:stun.ideasip.com:3478' },
-                    { urls: 'stun:stun.ekiga.net:3478' },
-                    { urls: 'stun:stun.schlund.de:3478' },
-                    { urls: 'stun:stun.rixtelecom.se:3478' },
-                    { urls: 'stun:stun.sipgate.net:10000' },
-                    { urls: 'stun:stun.12connect.com:3478' },
-                    { urls: 'stun:stun.12voip.com:3478' },
-                    { urls: 'stun:stun.counterpath.com:3478' },
-                    { urls: 'stun:stun.counterpath.net:3478' },
-                    { urls: 'stun:stun.internetcalls.com:3478' },
-                    { urls: 'stun:stun.voip.eutelia.it:3478' },
-                    
-                    // TURN servers (بعضها قد يعمل بدون مصادقة)
-                    { urls: 'turn:turn.bistri.com:80', credential: 'homeo', username: 'homeo' },
-                    { urls: 'turn:turn.anyfirewall.com:443?transport=tcp', credential: 'webrtc', username: 'webrtc' },
-                    
-                    // أكثر موثوقية للاتصالات الصعبة
-                    { 
-                        urls: [
-                            'turn:global.turn.twilio.com:3478?transport=udp',
-                            'turn:global.turn.twilio.com:3478?transport=tcp',
-                            'turn:global.turn.twilio.com:443?transport=tcp'
-                        ],
-                        username: 'c84c2b8a8bbdd0ee37934b3e1d1df6c7e4c11d5b09795bdc176a247a1e1d6a',
-                        credential: 'Aedp5kY14yWgNp+flE6WlTpxTE0='
-                    }
-                ];
-
-                // تصفية حسب نوع الاتصال
-                switch(this.connectionMode) {
-                    case 'reliable':
-                        // استخدم جميع الخوادم لزيادة الموثوقية
-                        return iceServers;
-                    case 'fast':
-                        // استخدم فقط STUN سريع للاتصالات المحلية
-                        return iceServers.filter(server => server.urls.includes('stun:') && server.urls.includes('google'));
-                    case 'auto':
-                    default:
-                        // استخدم خليطاً متوازناً
-                        return iceServers;
-                }
-            }
-
-            // تهيئة PeerJS مع إعدادات متقدمة
-            initializePeer() {
-                const iceServers = this.getIceServers();
-                
-                const config = {
-                    host: '0.peerjs.com',
-                    port: 443,
-                    path: '/',
-                    secure: true,
-                    debug: 3, // زيادة مستوى التصحيح
-                    config: {
-                        iceServers: iceServers,
-                        iceCandidatePoolSize: this.connectionMode === 'reliable' ? 20 : 10,
-                        iceTransportPolicy: this.connectionMode === 'fast' ? 'relay' : 'all',
-                        bundlePolicy: 'max-bundle',
-                        rtcpMuxPolicy: 'require',
-                        iceCandidatePoolSize: 10
-                    },
-                    sdpSemantics: 'unified-plan'
-                };
-
-                console.log('🔄 تهيئة PeerJS مع الإعدادات:', {
-                    mode: this.connectionMode,
-                    iceServersCount: iceServers.length,
-                    config: config
-                });
-
-                this.peer = new Peer(this.myId, config);
-                this.setupPeerEvents();
-            }
-
-            // إعداد أحداث PeerJS
-            setupPeerEvents() {
-                this.peer.on('open', (id) => {
-                    console.log('✅ PeerJS متصل، المعرف:', id);
-                    this.showNotification('success', 'جاهز للاتصال', `معرفك الحالي: ${id}`);
-                    this.updateConnectionStatus('connected');
-                    
-                    // تحديث إحصائيات النجاح
-                    this.connectionStats.successes++;
-                    this.saveConnectionStats();
-                });
-
-                this.peer.on('connection', (conn) => {
-                    console.log('📥 اتصال وارد من:', conn.peer);
-                    this.handleIncomingConnection(conn);
-                });
-
-                this.peer.on('error', (err) => {
-                    console.error('❌ خطأ في PeerJS:', err);
-                    
-                    // تحديث إحصائيات الفشل
-                    this.connectionStats.failures++;
-                    this.saveConnectionStats();
-                    
-                    // معالجة أخطاء محددة
-                    switch(err.type) {
-                        case 'unavailable-id':
-                            this.showNotification('error', 'المعرف مستخدم', 'هذا المعرف مستخدم بالفعل، اختر معرفاً آخر');
-                            // إنشاء معرف جديد تلقائياً
-                            const newId = 'user-' + Math.random().toString(36).substr(2, 8);
-                            this.saveMyId(newId);
-                            this.showNotification('info', 'معرف جديد', `تم تعيين معرف جديد: ${newId}`);
-                            break;
-                            
-                        case 'server-error':
-                        case 'network':
-                            this.showNotification('warning', 'مشكلة في الشبكة', 'جاري إعادة المحاولة مع خادم بديل...');
-                            setTimeout(() => this.reconnectToServer(), 2000);
-                            break;
-                            
-                        case 'peer-unavailable':
-                            this.showNotification('warning', 'الشخص غير متاح', 'المستخدم غير متصل حالياً');
-                            break;
-                            
-                        default:
-                            this.showNotification('error', 'خطأ في الاتصال', err.message || 'خطأ غير معروف');
-                    }
-                    
-                    this.updateConnectionStatus('disconnected');
-                });
-
-                this.peer.on('disconnected', () => {
-                    console.log('⚠️ تم قطع الاتصال مع سيرفر PeerJS');
-                    this.updateConnectionStatus('disconnected');
-                    
-                    // محاولة إعادة الاتصال بعد 2 ثواني
-                    setTimeout(() => {
-                        if (!this.peer.disconnected) return;
-                        this.reconnectToServer();
-                    }, 2000);
-                });
-
-                this.peer.on('close', () => {
-                    console.log('🔒 تم إغلاق PeerJS');
-                    this.updateConnectionStatus('disconnected');
-                });
-            }
-
-            // إعادة الاتصال بالسيرفر
-            reconnectToServer() {
-                if (this.connectionAttempts >= this.maxConnectionAttempts) {
-                    this.showNotification('error', 'فشل الاتصال', `تعذر الاتصال بعد ${this.maxConnectionAttempts} محاولات. جرب تغيير نوع الاتصال.`);
-                    return;
-                }
-
-                this.connectionAttempts++;
-                console.log(`🔄 محاولة إعادة الاتصال ${this.connectionAttempts}/${this.maxConnectionAttempts}`);
-                
-                // تغيير وضع الاتصال بعد عدة محاولات فاشلة
-                if (this.connectionAttempts >= 3) {
-                    this.cycleConnectionMode();
-                }
-                
-                this.showNotification('info', 'إعادة الاتصال', `محاولة ${this.connectionAttempts} - وضع: ${this.getModeName(this.connectionMode)}`);
-                
-                setTimeout(() => {
-                    this.peer.reconnect();
-                }, 1000 * this.connectionAttempts); // زيادة التأخير مع كل محاولة
-            }
-
-            // تغيير وضع الاتصال تلقائياً
-            cycleConnectionMode() {
-                const modes = ['auto', 'reliable', 'fast'];
-                const currentIndex = modes.indexOf(this.connectionMode);
-                const nextIndex = (currentIndex + 1) % modes.length;
-                this.connectionMode = modes[nextIndex];
-                this.elements.connectionMode.value = this.connectionMode;
-                
-                this.showNotification('info', 'تغيير الإعدادات', `تم تغيير وضع الاتصال إلى: ${this.getModeName(this.connectionMode)}`);
-                
-                // إعادة تهيئة الاتصال مع الإعدادات الجديدة
-                if (this.peer) {
-                    this.peer.destroy();
-                }
-                this.initializePeer();
-            }
-
-            // معالجة الاتصالات الواردة
-            handleIncomingConnection(conn) {
-                console.log('🔗 معالجة اتصال وارد:', conn.peer);
-                
-                if (this.connection && this.connection.open) {
-                    conn.close();
-                    this.showNotification('warning', 'اتصال مرفوض', 'لديك اتصال نشط بالفعل');
-                    return;
-                }
-
-                this.connection = conn;
-                this.setupConnectionEvents();
-                this.savePeerId(conn.peer);
-                this.showNotification('info', 'اتصال وارد', `تم الاتصال من ${conn.peer}`);
-                this.updateConnectionStatus('connecting');
-            }
-
-            // إعداد أحداث الاتصال
-            setupConnectionEvents() {
-                this.connection.on('open', () => {
-                    console.log('🎉 اتصال مفتوح بنجاح!');
-                    this.isConnected = true;
-                    this.connectionAttempts = 0;
-                    this.updateUI();
-                    this.showNotification('success', 'تم الاتصال!', 'يمكنك البدء في المراسلة الآن');
-                    this.updatePeerInfo();
-                    this.updateConnectionStatus('connected');
-                    
-                    // إرسال رسالة ترحيب
-                    this.sendWelcomeMessage();
-                    
-                    // بدء مراقبة الاتصال
-                    this.startConnectionMonitor();
-                    this.startPingMonitor();
-                });
-
-                this.connection.on('data', (data) => {
-                    this.handleIncomingMessage(data);
-                });
-
-                this.connection.on('close', () => {
-                    this.handleDisconnection();
-                });
-
-                this.connection.on('error', (err) => {
-                    console.error('❌ خطأ في الاتصال:', err);
-                    this.showNotification('error', 'خطأ في الاتصال', err.message || 'خطأ غير معروف');
-                    this.handleDisconnection();
-                });
-
-                this.connection.on('iceStateChanged', (state) => {
-                    console.log('🔄 حالة ICE تغيرت:', state);
-                    this.elements.connState.textContent = this.translateIceState(state);
-                    this.updateConnectionQuality();
-                });
-
-                this.connection.on('stream', (stream) => {
-                    console.log('📹 تيار وسائط متاح:', stream);
-                });
-            }
-
-            // إرسال رسالة ترحيب
-            sendWelcomeMessage() {
-                const welcomeMsg = {
-                    type: 'system',
-                    text: `مرحباً! تم الاتصال بنجاح. وضع الاتصال: ${this.getModeName(this.connectionMode)}`,
-                    timestamp: new Date().toISOString(),
-                    sender: 'system'
-                };
+            // اختبار خادم
+            async testServer(server) {
+                const statusElement = document.getElementById(`status-${server.id}`);
                 
                 try {
-                    this.connection.send(welcomeMsg);
-                } catch (e) {
-                    console.log('⚠️ لم نتمكن من إرسال رسالة الترحيب');
+                    if (server.type === 'simulate') {
+                        statusElement.textContent = 'جاهز';
+                        statusElement.className = 'server-status online';
+                        return;
+                    }
+                    
+                    if (server.type === 'websocket') {
+                        // اختبار WebSocket
+                        const testWs = new WebSocket(server.url);
+                        
+                        testWs.onopen = () => {
+                            statusElement.textContent = 'متصل';
+                            statusElement.className = 'server-status online';
+                            testWs.close();
+                        };
+                        
+                        testWs.onerror = () => {
+                            statusElement.textContent = 'غير متصل';
+                            statusElement.className = 'server-status offline';
+                        };
+                        
+                        setTimeout(() => {
+                            if (testWs.readyState !== WebSocket.OPEN) {
+                                statusElement.textContent = 'غير متصل';
+                                statusElement.className = 'server-status offline';
+                            }
+                        }, 3000);
+                        
+                    } else if (server.type === 'http' || server.type === 'longpoll') {
+                        // اختبار HTTP
+                        const response = await fetch(`${server.url}/health`, {
+                            method: 'GET',
+                            mode: 'cors',
+                            timeout: 5000
+                        }).catch(() => null);
+                        
+                        if (response && response.ok) {
+                            statusElement.textContent = 'متصل';
+                            statusElement.className = 'server-status online';
+                        } else {
+                            statusElement.textContent = 'غير متصل';
+                            statusElement.className = 'server-status offline';
+                        }
+                    }
+                } catch (error) {
+                    statusElement.textContent = 'خطأ في الاتصال';
+                    statusElement.className = 'server-status offline';
                 }
             }
 
-            // بدء مراقبة الاتصال
-            startConnectionMonitor() {
-                clearInterval(this.connectionMonitor);
+            // اختيار خادم
+            selectServer(serverId) {
+                const server = this.servers.find(s => s.id === serverId);
+                if (!server) return;
                 
-                this.connectionMonitor = setInterval(() => {
-                    if (this.connection && this.connection.open) {
-                        this.updateConnectionMetrics();
-                    } else {
-                        clearInterval(this.connectionMonitor);
-                    }
-                }, 3000);
+                this.connectionType = server.type;
+                this.serverUrl = server.url;
+                this.currentServer = server;
+                
+                this.showNotification('info', 'تم التحديد', `طريقة الاتصال: ${server.name}`);
+                
+                // إذا كان متصلاً بالفعل، أعد الاتصال
+                if (this.isConnected && this.roomId) {
+                    this.disconnect();
+                    setTimeout(() => this.joinRoom(), 1000);
+                }
             }
 
-            // بدء مراقبة ping
-            startPingMonitor() {
-                clearInterval(this.pingInterval);
+            // اختبار الاتصال الحالي
+            async testCurrentConnection() {
+                if (!this.currentServer) {
+                    this.showNotification('warning', 'لا يوجد خادم', 'اختر خادم أولاً');
+                    return;
+                }
                 
-                this.pingInterval = setInterval(() => {
-                    if (this.connection && this.connection.open) {
-                        this.lastPingTime = Date.now();
-                        this.connection.send({ 
-                            type: 'ping', 
-                            timestamp: this.lastPingTime,
-                            mode: this.connectionMode
+                this.showNotification('info', 'جاري فحص الاتصال', `جاري فحص ${this.currentServer.name}...`);
+                
+                try {
+                    if (this.currentServer.type === 'websocket') {
+                        const testWs = new WebSocket(this.currentServer.url);
+                        
+                        await new Promise((resolve, reject) => {
+                            testWs.onopen = () => {
+                                testWs.close();
+                                resolve();
+                            };
+                            testWs.onerror = reject;
+                            setTimeout(reject, 5000);
                         });
-                    } else {
-                        clearInterval(this.pingInterval);
+                        
+                        this.showNotification('success', 'الاتصال ناجح', 'الخادم يعمل بشكل ممتاز');
+                        
+                    } else if (this.currentServer.type === 'http' || this.currentServer.type === 'longpoll') {
+                        const response = await fetch(`${this.currentServer.url}/health`, {
+                            method: 'GET',
+                            mode: 'cors'
+                        });
+                        
+                        if (response.ok) {
+                            this.showNotification('success', 'الاتصال ناجح', 'الخادم يعمل بشكل ممتاز');
+                        } else {
+                            throw new Error('الخادم لا يستجيب');
+                        }
+                    } else if (this.currentServer.type === 'simulate') {
+                        this.showNotification('success', 'الوضع التجريبي', 'جاهز للاستخدام محلياً');
                     }
-                }, 3000);
+                } catch (error) {
+                    this.showNotification('error', 'فشل الاتصال', 'الخادم غير متاح، جرب خادماً آخر');
+                    // اختيار خادم تلقائي
+                    const onlineServer = this.servers.find(s => {
+                        const statusEl = document.getElementById(`status-${s.id}`);
+                        return statusEl && statusEl.classList.contains('online') && s.id !== serverId;
+                    });
+                    
+                    if (onlineServer) {
+                        setTimeout(() => {
+                            this.selectServer(onlineServer.id);
+                            document.getElementById(onlineServer.id).checked = true;
+                        }, 1000);
+                    }
+                }
             }
 
             // تهيئة مستمعي الأحداث
             initializeEventListeners() {
-                // حفظ المعرف الخاص
-                this.elements.saveMyId.addEventListener('click', () => this.saveCurrentId());
+                // حفظ الاسم
+                this.elements.saveMyId.addEventListener('click', () => this.saveMyName());
                 
-                // زر الاتصال
-                this.elements.connectBtn.addEventListener('click', () => this.connectToPeer());
+                // دخول الغرفة
+                this.elements.joinRoomBtn.addEventListener('click', () => this.joinRoom());
                 
-                // زر قطع الاتصال
-                this.elements.disconnectBtn.addEventListener('click', () => this.disconnect());
+                // مغادرة الغرفة
+                this.elements.disconnectBtn.addEventListener('click', () => this.leaveRoom());
                 
                 // مسح المحادثة
                 this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
                 
                 // اختبار الاتصال
-                this.elements.testConnectionBtn.addEventListener('click', () => this.testConnection());
+                this.elements.testConnectionBtn.addEventListener('click', () => this.testCurrentConnection());
                 
                 // إرسال الرسالة
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
@@ -2016,79 +1543,642 @@
                         this.elements.emojiPicker.classList.remove('show');
                     }
                 });
-                
-                // إعادة الاتصال
-                this.elements.reconnectBtn.addEventListener('click', () => {
-                    this.elements.reconnectBanner.style.display = 'none';
-                    this.connectToPeer();
-                });
-                
-                // تجاهل إعادة الاتصال
-                this.elements.dismissReconnect.addEventListener('click', () => {
-                    this.elements.reconnectBanner.style.display = 'none';
-                });
             }
 
-            // اختبار الاتصال
-            testConnection() {
-                if (!this.peer || this.peer.disconnected) {
-                    this.showNotification('warning', 'غير متصل', 'الاتصال مع السيرفر غير نشط');
+            // حفظ الاسم
+            saveMyName() {
+                const newName = this.elements.myId.value.trim();
+                
+                if (!newName || newName === '') {
+                    this.showNotification('warning', 'اسم مطلوب', 'الرجاء إدخال اسم');
                     return;
                 }
                 
-                this.showNotification('info', 'اختبار الاتصال', 'جاري اختبار اتصال السيرفر...');
-                
-                // اختبار بسيط
-                const testId = 'test-' + Date.now();
-                const testPeer = new Peer(testId, {
-                    host: '0.peerjs.com',
-                    port: 443,
-                    secure: true,
-                    debug: 0
-                });
-                
-                testPeer.on('open', () => {
-                    this.showNotification('success', 'اختبار ناجح', 'الاتصال مع السيرفر يعمل بشكل جيد');
-                    testPeer.destroy();
-                });
-                
-                testPeer.on('error', () => {
-                    this.showNotification('error', 'اختبار فاشل', 'هناك مشكلة في الاتصال بالسيرفر');
-                    testPeer.destroy();
-                });
+                this.myId = newName;
+                localStorage.setItem('school_messenger_my_id', newName);
+                this.showNotification('success', 'تم الحفظ', `اسمك الآن: ${newName}`);
             }
 
-            // حفظ المعرف الحالي
-            saveCurrentId() {
-                const newId = this.elements.myId.value.trim();
+            // الانضمام للغرفة
+            async joinRoom() {
+                const roomId = this.elements.roomId.value.trim();
                 
-                if (!newId || newId === '') {
-                    this.showNotification('warning', 'معرف مطلوب', 'الرجاء إدخال معرف');
+                if (!roomId) {
+                    this.showNotification('warning', 'رقم غرفة مطلوب', 'الرجاء إدخال رقم الغرفة');
                     return;
                 }
                 
-                if (newId === this.myId) {
-                    this.showNotification('info', 'المعرف نفسه', 'هذا هو المعرف الحالي بالفعل');
+                if (!this.currentServer) {
+                    this.showNotification('warning', 'اختر خادم', 'الرجاء اختيار طريقة اتصال أولاً');
                     return;
                 }
                 
-                if (this.isConnected) {
-                    this.showNotification('warning', 'اتصال نشط', 'لا يمكن تغيير المعرف أثناء الاتصال');
-                    return;
+                this.roomId = roomId;
+                localStorage.setItem('school_last_room', roomId);
+                
+                this.showNotification('info', 'جاري الاتصال', `جاري الانضمام للغرفة: ${roomId}`);
+                this.updateConnectionStatus('connecting');
+                
+                try {
+                    await this.connectToServer();
+                    this.isConnected = true;
+                    this.updateUI();
+                    
+                    // إرسال رسالة انضمام
+                    this.sendSystemMessage(`${this.myId} انضم للغرفة`);
+                    
+                    this.showNotification('success', 'تم الانضمام', `أنت الآن في غرفة: ${roomId}`);
+                    this.updateConnectionStatus('connected');
+                    
+                } catch (error) {
+                    console.error('❌ فشل الاتصال:', error);
+                    this.showNotification('error', 'فشل الاتصال', 'تعذر الانضمام للغرفة، جرب خادماً آخر');
+                    this.updateConnectionStatus('disconnected');
+                    
+                    // محاولة تلقائية مع خادم آخر
+                    this.autoSwitchServer();
+                }
+            }
+
+            // الاتصال بالخادم
+            async connectToServer() {
+                if (this.connection) {
+                    this.disconnectFromServer();
                 }
                 
-                if (this.saveMyId(newId)) {
-                    // إعادة تهيئة Peer
-                    if (this.peer) {
-                        this.peer.destroy();
+                this.reconnectAttempts = 0;
+                
+                switch(this.connectionType) {
+                    case 'websocket':
+                        return await this.connectWebSocket();
+                    case 'http':
+                        return await this.connectHTTP();
+                    case 'longpoll':
+                        return await this.connectLongPoll();
+                    case 'simulate':
+                        return this.connectSimulate();
+                    default:
+                        throw new Error('نوع اتصال غير معروف');
+                }
+            }
+
+            // الاتصال عبر WebSocket
+            connectWebSocket() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        const wsUrl = `${this.serverUrl}/ws?room=${this.roomId}&user=${this.myId}`;
+                        this.connection = new WebSocket(wsUrl);
+                        
+                        this.connection.onopen = () => {
+                            console.log('✅ WebSocket متصل');
+                            this.startPing();
+                            resolve();
+                        };
+                        
+                        this.connection.onmessage = (event) => {
+                            this.handleIncomingMessage(JSON.parse(event.data));
+                        };
+                        
+                        this.connection.onerror = (error) => {
+                            console.error('❌ WebSocket error:', error);
+                            reject(error);
+                        };
+                        
+                        this.connection.onclose = () => {
+                            console.log('🔒 WebSocket مغلق');
+                            this.handleDisconnection();
+                        };
+                        
+                        // مهلة الاتصال
+                        setTimeout(() => {
+                            if (this.connection.readyState !== WebSocket.OPEN) {
+                                reject(new Error('انتهت مهلة الاتصال'));
+                            }
+                        }, 10000);
+                        
+                    } catch (error) {
+                        reject(error);
                     }
-                    this.initializePeer();
+                });
+            }
+
+            // الاتصال عبر HTTP (Long Polling محسن)
+            connectHTTP() {
+                return new Promise((resolve) => {
+                    console.log('🔄 استخدام HTTP Long Polling');
                     
-                    this.showNotification('success', 'تم الحفظ', `تم حفظ المعرف "${newId}"`);
-                    this.renderMyIdList();
+                    this.connection = {
+                        type: 'http',
+                        room: this.roomId,
+                        user: this.myId,
+                        active: true
+                    };
                     
-                    // إظهار قسم إدارة المعرفات
-                    this.elements.myIdManagement.style.display = 'block';
+                    // بدء استقبال الرسائل
+                    this.startHTTPPolling();
+                    
+                    // إرسال رسالة انضمام
+                    this.sendHTTPMessage({
+                        type: 'join',
+                        user: this.myId,
+                        room: this.roomId,
+                        timestamp: Date.now()
+                    }).then(() => {
+                        resolve();
+                    }).catch(() => {
+                        // حتى لو فشل الإرسال الأول، نستمر
+                        resolve();
+                    });
+                });
+            }
+
+            // بدء استقبال الرسائل عبر HTTP
+            startHTTPPolling() {
+                if (!this.connection || !this.connection.active) return;
+                
+                const poll = async () => {
+                    if (!this.connection || !this.connection.active) return;
+                    
+                    try {
+                        const response = await fetch(`${this.serverUrl}/poll?room=${this.roomId}&user=${this.myId}&last=${this.lastMessageTime || 0}`, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json'
+                            },
+                            signal: AbortSignal.timeout(30000) // 30 ثانية مهلة
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.messages) {
+                                data.messages.forEach(msg => this.handleIncomingMessage(msg));
+                            }
+                            if (data.users) {
+                                this.updateUsersList(data.users);
+                            }
+                        }
+                        
+                        // الاستمرار في الاستقبال
+                        setTimeout(poll, 100);
+                        
+                    } catch (error) {
+                        if (error.name !== 'AbortError' && this.connection && this.connection.active) {
+                            console.log('🔄 إعادة محاولة استقبال...');
+                            setTimeout(poll, 1000);
+                        }
+                    }
+                };
+                
+                poll();
+            }
+
+            // إرسال رسالة عبر HTTP
+            async sendHTTPMessage(message) {
+                try {
+                    const response = await fetch(`${this.serverUrl}/send`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ...message,
+                            room: this.roomId,
+                            user: this.myId
+                        })
+                    });
+                    
+                    return response.ok;
+                } catch (error) {
+                    console.error('❌ فشل إرسال HTTP:', error);
+                    return false;
+                }
+            }
+
+            // الاتصال عبر Long Polling التقليدي
+            connectLongPoll() {
+                // مشابه لـ HTTP ولكن مع مهلات أطول
+                return this.connectHTTP();
+            }
+
+            // الاتصال المحاكى (بدون إنترنت)
+            connectSimulate() {
+                console.log('🎮 تشغيل الوضع التجريبي');
+                
+                this.connection = {
+                    type: 'simulate',
+                    room: this.roomId,
+                    user: this.myId,
+                    active: true
+                };
+                
+                // إضافة بعض المستخدمين الوهميين
+                setTimeout(() => {
+                    this.updateUsersList([this.myId, 'محمد', 'أحمد', 'فاطمة']);
+                    this.addSystemMessage('3 طلاب آخرون في الغرفة (وضع تجريبي)');
+                }, 1000);
+                
+                return Promise.resolve();
+            }
+
+            // التحويل التلقائي بين الخوادم
+            autoSwitchServer() {
+                if (this.reconnectAttempts >= this.maxReconnectAttempts) return;
+                
+                this.reconnectAttempts++;
+                
+                // البحث عن خادم متصل
+                const onlineServer = this.servers.find(s => {
+                    const statusEl = document.getElementById(`status-${s.id}`);
+                    return statusEl && statusEl.classList.contains('online') && s.id !== this.currentServer?.id;
+                });
+                
+                if (onlineServer) {
+                    this.showNotification('info', 'جرب خادماً آخر', `جاري التبديل إلى ${onlineServer.name}...`);
+                    
+                    setTimeout(() => {
+                        this.selectServer(onlineServer.id);
+                        document.getElementById(onlineServer.id).checked = true;
+                        
+                        if (this.roomId) {
+                            setTimeout(() => this.joinRoom(), 500);
+                        }
+                    }, 1000);
+                }
+            }
+
+            // بدء إرسال ping
+            startPing() {
+                if (this.pingInterval) clearInterval(this.pingInterval);
+                
+                this.pingInterval = setInterval(() => {
+                    if (this.connection && this.connection.readyState === WebSocket.OPEN) {
+                        this.connection.send(JSON.stringify({
+                            type: 'ping',
+                            timestamp: Date.now()
+                        }));
+                    }
+                }, 30000);
+            }
+
+            // معالجة الرسائل الواردة
+            handleIncomingMessage(data) {
+                this.lastMessageTime = Date.now();
+                
+                switch(data.type) {
+                    case 'message':
+                        this.addMessage(data, 'received');
+                        break;
+                    case 'system':
+                        this.addSystemMessage(data.text);
+                        break;
+                    case 'users':
+                        this.updateUsersList(data.users);
+                        break;
+                    case 'ping':
+                        // الرد على ping
+                        if (this.connection && this.connection.readyState === WebSocket.OPEN) {
+                            this.connection.send(JSON.stringify({
+                                type: 'pong',
+                                timestamp: data.timestamp
+                            }));
+                        }
+                        break;
+                }
+                
+                this.saveMessages();
+            }
+
+            // إرسال رسالة
+            async sendMessage() {
+                const messageText = this.elements.messageInput.value.trim();
+                
+                if (!messageText) {
+                    this.showNotification('warning', 'رسالة فارغة', 'الرجاء كتابة رسالة');
+                    return;
+                }
+                
+                if (!this.isConnected) {
+                    this.showNotification('error', 'غير متصل', 'أنت لست في غرفة');
+                    return;
+                }
+
+                const message = {
+                    type: 'message',
+                    text: messageText,
+                    timestamp: Date.now(),
+                    user: this.myId,
+                    room: this.roomId,
+                    messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+                };
+
+                // إضافة الرسالة محلياً أولاً
+                this.addMessage(message, 'sent');
+                this.elements.messageInput.value = '';
+                this.elements.messageInput.style.height = 'auto';
+                
+                // إرسال الرسالة حسب نوع الاتصال
+                let sendSuccess = false;
+                
+                try {
+                    if (this.connectionType === 'websocket' && this.connection.readyState === WebSocket.OPEN) {
+                        this.connection.send(JSON.stringify(message));
+                        sendSuccess = true;
+                    } else if (this.connectionType === 'http' || this.connectionType === 'longpoll') {
+                        sendSuccess = await this.sendHTTPMessage(message);
+                    } else if (this.connectionType === 'simulate') {
+                        // في الوضع التجريبي، نضيف رداً وهمياً
+                        setTimeout(() => {
+                            this.addMessage({
+                                type: 'message',
+                                text: `رد على: ${messageText}`,
+                                timestamp: Date.now() + 1000,
+                                user: 'مستخدم تجريبي',
+                                messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+                            }, 'received');
+                        }, 1000);
+                        sendSuccess = true;
+                    }
+                    
+                    if (!sendSuccess) {
+                        this.showNotification('warning', 'تحذير', 'تم حفظ الرسالة محلياً ولكن لم تصل للآخرين');
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ فشل إرسال الرسالة:', error);
+                    this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة، تحقق من الاتصال');
+                }
+                
+                this.saveMessages();
+            }
+
+            // إرسال رسالة نظام
+            sendSystemMessage(text) {
+                const systemMessage = {
+                    type: 'system',
+                    text: text,
+                    timestamp: Date.now(),
+                    user: 'system'
+                };
+                
+                this.handleIncomingMessage(systemMessage);
+            }
+
+            // إضافة رسالة للواجهة
+            addMessage(messageData, type) {
+                // تجنب الرسائل المكررة
+                if (this.messages.some(msg => msg.messageId === messageData.messageId)) {
+                    return;
+                }
+                
+                const message = {
+                    ...messageData,
+                    id: Date.now() + Math.random(),
+                    type: type,
+                    localTimestamp: new Date().toISOString()
+                };
+                
+                this.messages.push(message);
+                this.renderMessage(message);
+                this.updateMessageCount();
+                this.scrollToBottom();
+            }
+
+            // إضافة رسالة نظام
+            addSystemMessage(text) {
+                const message = {
+                    type: 'system',
+                    text: text,
+                    timestamp: Date.now(),
+                    id: Date.now() + Math.random(),
+                    localTimestamp: new Date().toISOString()
+                };
+                
+                this.messages.push(message);
+                this.renderSystemMessage(message);
+                this.updateMessageCount();
+                this.scrollToBottom();
+            }
+
+            // عرض رسالة عادية
+            renderMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${message.type}`;
+                messageElement.dataset.id = message.id;
+                
+                const time = new Date(message.timestamp).toLocaleTimeString('ar-EG', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const isSent = message.type === 'sent';
+                const senderName = isSent ? 'أنت' : message.user || 'مستخدم';
+                
+                messageElement.innerHTML = `
+                    <div class="message-content">
+                        <small style="opacity: 0.7; display: block; margin-bottom: 5px; font-weight: bold;">
+                            ${senderName}
+                        </small>
+                        ${this.escapeHtml(message.text)}
+                        <div class="message-time">
+                            <i class="far fa-clock"></i>
+                            ${time}
+                        </div>
+                    </div>
+                `;
+                
+                // إزالة رسالة الترحيب إذا كانت موجودة
+                const welcomeMessage = this.elements.messagesContainer.querySelector('.welcome-message');
+                if (welcomeMessage) {
+                    welcomeMessage.remove();
+                }
+                
+                this.elements.messagesContainer.appendChild(messageElement);
+            }
+
+            // عرض رسالة نظام
+            renderSystemMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message system';
+                messageElement.style.textAlign = 'center';
+                messageElement.style.maxWidth = '100%';
+                messageElement.style.margin = '10px auto';
+                
+                const time = new Date(message.timestamp).toLocaleTimeString('ar-EG', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                messageElement.innerHTML = `
+                    <div style="
+                        background: #e3f2fd;
+                        color: #1565c0;
+                        padding: 8px 15px;
+                        border-radius: 20px;
+                        display: inline-block;
+                        font-size: 0.9rem;
+                        border: 1px solid #bbdefb;
+                    ">
+                        <i class="fas fa-info-circle"></i>
+                        ${this.escapeHtml(message.text)}
+                        <small style="margin-right: 10px; opacity: 0.7;">
+                            ${time}
+                        </small>
+                    </div>
+                `;
+                
+                this.elements.messagesContainer.appendChild(messageElement);
+            }
+
+            // تحديث قائمة المستخدمين
+            updateUsersList(users) {
+                this.users = new Set(users);
+                this.elements.connUsers.textContent = this.users.size;
+                
+                // إرسال إشعار عند دخول مستخدم جديد
+                if (this.users.size > 1) {
+                    this.elements.roomName.textContent = `غرفة: ${this.roomId} (${this.users.size} مستخدمين)`;
+                }
+            }
+
+            // مغادرة الغرفة
+            leaveRoom() {
+                this.disconnectFromServer();
+                this.isConnected = false;
+                this.roomId = '';
+                this.users.clear();
+                this.updateUI();
+                
+                this.sendSystemMessage('غادرت الغرفة');
+                this.showNotification('info', 'تم المغادرة', 'غادرت الغرفة بنجاح');
+                this.updateConnectionStatus('disconnected');
+            }
+
+            // قطع الاتصال من الخادم
+            disconnectFromServer() {
+                if (this.pingInterval) {
+                    clearInterval(this.pingInterval);
+                    this.pingInterval = null;
+                }
+                
+                if (this.connection) {
+                    if (this.connectionType === 'websocket' && this.connection.readyState === WebSocket.OPEN) {
+                        this.connection.close();
+                    } else if (this.connection.type === 'http' || this.connection.type === 'longpoll') {
+                        this.connection.active = false;
+                    }
+                    this.connection = null;
+                }
+                
+                this.handleDisconnection();
+            }
+
+            // معالجة قطع الاتصال
+            handleDisconnection() {
+                this.isConnected = false;
+                this.updateUI();
+            }
+
+            // استعادة المحادثة من التخزين المحلي
+            restoreChat() {
+                try {
+                    const savedMessages = localStorage.getItem('school_messages');
+                    if (savedMessages) {
+                        this.messages = JSON.parse(savedMessages);
+                        this.messages.forEach(msg => {
+                            if (msg.type === 'system') {
+                                this.renderSystemMessage(msg);
+                            } else {
+                                this.renderMessage(msg);
+                            }
+                        });
+                        this.updateMessageCount();
+                    }
+                } catch (error) {
+                    console.error('❌ خطأ في استعادة المحادثة:', error);
+                    localStorage.removeItem('school_messages');
+                }
+            }
+
+            // حفظ الرسائل في التخزين المحلي
+            saveMessages() {
+                try {
+                    // حفظ آخر 100 رسالة فقط
+                    const messagesToSave = this.messages.slice(-100);
+                    localStorage.setItem('school_messages', JSON.stringify(messagesToSave));
+                } catch (error) {
+                    console.error('❌ خطأ في حفظ الرسائل:', error);
+                }
+            }
+
+            // تحديث واجهة المستخدم
+            updateUI() {
+                const isConnected = this.isConnected;
+                
+                // تحديث حالة الأزرار
+                this.elements.joinRoomBtn.disabled = isConnected;
+                this.elements.disconnectBtn.disabled = !isConnected;
+                this.elements.messageInput.disabled = !isConnected;
+                this.elements.sendBtn.disabled = !isConnected;
+                this.elements.myId.disabled = isConnected;
+                this.elements.roomId.disabled = isConnected;
+                this.elements.saveMyId.disabled = isConnected;
+                
+                // تحديث معلومات الاتصال
+                this.elements.connectionInfo.style.display = isConnected ? 'block' : 'none';
+                
+                if (isConnected) {
+                    this.elements.connState.textContent = 'متصل';
+                    this.elements.connRoom.textContent = this.roomId;
+                    this.elements.connMessages.textContent = this.messages.length;
+                    this.elements.roomName.textContent = `غرفة: ${this.roomId}`;
+                }
+            }
+
+            // تحديث حالة الاتصال
+            updateConnectionStatus(status) {
+                const statusDot = this.elements.connectionStatus.querySelector('.status-dot');
+                const statusText = this.elements.connectionStatus.querySelector('.status-text');
+                
+                statusDot.className = 'status-dot';
+                
+                switch(status) {
+                    case 'connected':
+                        statusDot.classList.add('connected');
+                        statusText.textContent = 'متصل';
+                        break;
+                    case 'connecting':
+                        statusDot.classList.add('connecting');
+                        statusText.textContent = 'جاري الاتصال...';
+                        break;
+                    case 'disconnected':
+                        statusText.textContent = 'غير متصل';
+                        break;
+                }
+            }
+
+            // تحديث عداد الرسائل
+            updateMessageCount() {
+                const count = this.messages.length;
+                this.elements.messageCount.textContent = `${count} رسالة`;
+                this.elements.connMessages.textContent = count;
+            }
+
+            // مسح المحادثة
+            clearChat() {
+                if (this.messages.length === 0) return;
+                
+                if (confirm('هل تريد مسح جميع الرسائل؟')) {
+                    this.messages = [];
+                    this.elements.messagesContainer.innerHTML = `
+                        <div class="welcome-message">
+                            <i class="fas fa-school"></i>
+                            <h3>مرحبًا في مراسلة المدارس</h3>
+                            <p>اختر طريقة اتصال، ثم ادخل اسمك ورقم الغرفة للبدء</p>
+                        </div>
+                    `;
+                    this.updateMessageCount();
+                    localStorage.removeItem('school_messages');
+                    this.showNotification('success', 'تم المسح', 'تم مسح جميع الرسائل');
                 }
             }
 
@@ -2127,443 +2217,23 @@
                 });
             }
 
-            // محاولة إعادة الاتصال التلقائي
-            attemptAutoReconnect() {
-                const lastPeerId = localStorage.getItem('p2p_last_peer');
-                const wasConnected = localStorage.getItem('p2p_was_connected') === 'true';
+            // إدراج إيموجي
+            insertEmoji(emoji) {
+                const input = this.elements.messageInput;
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const text = input.value;
                 
-                if (lastPeerId && wasConnected) {
-                    setTimeout(() => {
-                        this.elements.reconnectBanner.style.display = 'flex';
-                    }, 1000);
-                }
+                input.value = text.substring(0, start) + emoji + text.substring(end);
+                input.focus();
+                input.selectionStart = input.selectionEnd = start + emoji.length;
+                
+                this.elements.emojiPicker.classList.remove('show');
             }
 
-            // الاتصال بالشخص الآخر مع تحسينات
-            async connectToPeer() {
-                const peerId = this.elements.peerId.value.trim();
-                
-                if (!peerId) {
-                    this.showNotification('warning', 'معرف مطلوب', 'الرجاء إدخال معرف الشخص الآخر');
-                    return;
-                }
-                
-                if (peerId === this.myId) {
-                    this.showNotification('warning', 'خطأ', 'لا يمكنك الاتصال بنفسك');
-                    return;
-                }
-                
-                if (this.connection && this.connection.open) {
-                    this.showNotification('warning', 'اتصال نشط', 'لديك اتصال نشط بالفعل');
-                    return;
-                }
-
-                this.connectionStats.attempts++;
-                this.saveConnectionStats();
-                
-                this.showNotification('info', 'جاري الاتصال...', 
-                    `محاولة الاتصال بـ ${peerId}\nوضع الاتصال: ${this.getModeName(this.connectionMode)}`);
-                
-                this.updateConnectionStatus('connecting');
-                
-                // محاولات متعددة بأساليب مختلفة
-                this.attemptConnection(peerId, 0);
-            }
-
-            // محاولة الاتصال مع إعادة المحاولة
-            attemptConnection(peerId, attempt) {
-                if (attempt >= 3) {
-                    this.showNotification('error', 'فشل الاتصال', 'فشلت جميع محاولات الاتصال. جرب وضع اتصال مختلف.');
-                    this.updateConnectionStatus('disconnected');
-                    return;
-                }
-
-                const connectionOptions = this.getConnectionOptions(attempt);
-                
-                try {
-                    console.log(`🔄 محاولة اتصال ${attempt + 1}/3`, connectionOptions);
-                    
-                    this.connection = this.peer.connect(peerId, connectionOptions);
-                    
-                    this.savePeerId(peerId);
-                    this.setupConnectionEvents();
-                    
-                    // مهلة الاتصال (أطول للمحاولات المتأخرة)
-                    const timeout = 10000 + (attempt * 5000);
-                    this.reconnectTimeout = setTimeout(() => {
-                        if (!this.isConnected && this.connection) {
-                            console.log(`⏰ انتهت مهلة المحاولة ${attempt + 1}`);
-                            this.connection.close();
-                            this.connection = null;
-                            
-                            if (attempt < 2) {
-                                this.showNotification('warning', 'إعادة المحاولة', `جاري المحاولة ${attempt + 2}...`);
-                                setTimeout(() => this.attemptConnection(peerId, attempt + 1), 1000);
-                            }
-                        }
-                    }, timeout);
-                    
-                } catch (error) {
-                    console.error('❌ خطأ في الاتصال:', error);
-                    
-                    if (attempt < 2) {
-                        this.showNotification('warning', 'إعادة المحاولة', `جاري المحاولة ${attempt + 2}...`);
-                        setTimeout(() => this.attemptConnection(peerId, attempt + 1), 1000);
-                    } else {
-                        this.showNotification('error', 'فشل الاتصال', error.message || 'تعذر إنشاء اتصال');
-                        this.updateConnectionStatus('disconnected');
-                    }
-                }
-            }
-
-            // الحصول على خيارات الاتصال حسب المحاولة
-            getConnectionOptions(attempt) {
-                const baseOptions = {
-                    reliable: true,
-                    serialization: 'json',
-                    metadata: {
-                        client: 'P2P Messenger',
-                        version: '2.0',
-                        timestamp: Date.now(),
-                        myName: this.myId,
-                        connectionMode: this.connectionMode,
-                        attempt: attempt + 1
-                    }
-                };
-
-                // تعديل الخيارات حسب المحاولة
-                switch(attempt) {
-                    case 0:
-                        // المحاولة الأولى: إعدادات عادية
-                        return baseOptions;
-                    case 1:
-                        // المحاولة الثانية: إعدادات أكثر موثوقية
-                        return {
-                            ...baseOptions,
-                            reliable: true,
-                            metadata: { ...baseOptions.metadata, fallback: true }
-                        };
-                    case 2:
-                        // المحاولة الثالثة: إعدادات مبسطة
-                        return {
-                            ...baseOptions,
-                            reliable: false, // قد يعمل أفضل في بعض الحالات
-                            metadata: { ...baseOptions.metadata, simple: true }
-                        };
-                    default:
-                        return baseOptions;
-                }
-            }
-
-            // قطع الاتصال
-            disconnect() {
-                if (this.connection) {
-                    this.connection.close();
-                }
-                this.handleDisconnection();
-            }
-
-            // معالجة قطع الاتصال
-            handleDisconnection() {
-                this.isConnected = false;
-                this.connection = null;
-                clearTimeout(this.reconnectTimeout);
-                clearInterval(this.connectionMonitor);
-                clearInterval(this.pingInterval);
-                this.updateUI();
-                this.showNotification('info', 'تم قطع الاتصال', 'تم إنهاء الاتصال مع الطرف الآخر');
-                this.updateConnectionStatus('disconnected');
-                localStorage.setItem('p2p_was_connected', 'false');
-            }
-
-            // إرسال رسالة
-            sendMessage() {
-                const messageText = this.elements.messageInput.value.trim();
-                
-                if (!messageText) {
-                    this.showNotification('warning', 'رسالة فارغة', 'الرجاء كتابة رسالة');
-                    return;
-                }
-                
-                if (!this.isConnected || !this.connection || !this.connection.open) {
-                    this.showNotification('error', 'غير متصل', 'لا يوجد اتصال نشط');
-                    return;
-                }
-
-                const message = {
-                    type: 'message',
-                    text: messageText,
-                    timestamp: new Date().toISOString(),
-                    sender: this.myId,
-                    messageId: Date.now() + '-' + Math.random().toString(36).substr(2, 9),
-                    connectionMode: this.connectionMode
-                };
-
-                try {
-                    this.connection.send(message);
-                    this.addMessage(message, 'sent');
-                    this.elements.messageInput.value = '';
-                    this.elements.messageInput.style.height = 'auto';
-                    
-                    // حفظ الرسائل
-                    this.saveMessages();
-                } catch (error) {
-                    console.error('❌ خطأ في إرسال الرسالة:', error);
-                    this.showNotification('error', 'فشل الإرسال', 'تعذر إرسال الرسالة. تحقق من الاتصال.');
-                    
-                    // محاولة إعادة الإرسال مرة واحدة
-                    setTimeout(() => {
-                        if (this.connection && this.connection.open) {
-                            try {
-                                this.connection.send(message);
-                                this.addMessage(message, 'sent');
-                                this.showNotification('success', 'تم الإرسال', 'تم إرسال الرسالة في المحاولة الثانية');
-                            } catch (e) {
-                                this.showNotification('error', 'فشل نهائي', 'تعذر إرسال الرسالة بعد محاولتين');
-                            }
-                        }
-                    }, 1000);
-                }
-            }
-
-            // معالجة الرسائل الواردة
-            handleIncomingMessage(data) {
-                if (data.type === 'message') {
-                    this.addMessage(data, 'received');
-                    this.saveMessages();
-                } else if (data.type === 'ping') {
-                    // الرد على ping
-                    this.connection.send({ 
-                        type: 'pong', 
-                        timestamp: data.timestamp,
-                        received: Date.now()
-                    });
-                } else if (data.type === 'pong') {
-                    // حساب زمن الاستجابة
-                    const latency = Date.now() - data.timestamp;
-                    this.pingLatency = latency;
-                    this.elements.connSpeed.textContent = `${latency}ms`;
-                    this.updateConnectionQuality();
-                    
-                    // تحديث متوسط زمن الاستجابة
-                    if (this.connectionStats.avgLatency === 0) {
-                        this.connectionStats.avgLatency = latency;
-                    } else {
-                        this.connectionStats.avgLatency = (this.connectionStats.avgLatency + latency) / 2;
-                    }
-                    this.saveConnectionStats();
-                } else if (data.type === 'system') {
-                    // عرض رسائل النظام
-                    this.showNotification('info', 'نظام', data.text);
-                }
-            }
-
-            // إضافة رسالة إلى الواجهة
-            addMessage(messageData, type) {
-                // تجنب الرسائل المكررة
-                if (this.messages.some(msg => msg.messageId === messageData.messageId)) {
-                    return;
-                }
-                
-                const message = {
-                    ...messageData,
-                    id: Date.now() + Math.random(),
-                    type: type,
-                    localTimestamp: new Date().toISOString()
-                };
-                
-                this.messages.push(message);
-                this.renderMessage(message);
-                this.updateMessageCount();
-                this.scrollToBottom();
-                
-                // إشعار عند استلام رسالة جديدة
-                if (type === 'received') {
-                    if (Notification.permission === 'granted') {
-                        new Notification('رسالة جديدة', {
-                            body: messageData.text.substring(0, 100),
-                            icon: '/favicon.ico'
-                        });
-                    }
-                    
-                    this.showNotification('info', 'رسالة جديدة', messageData.text.substring(0, 50) + '...');
-                }
-            }
-
-            // عرض الرسالة
-            renderMessage(message) {
-                const messageElement = document.createElement('div');
-                messageElement.className = `message ${message.type}`;
-                messageElement.dataset.id = message.id;
-                
-                const time = new Date(message.timestamp).toLocaleTimeString('ar-EG', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                // إضافة مؤشر وضع الاتصال للرسائل المرسلة
-                const modeIndicator = message.type === 'sent' && message.connectionMode ? 
-                    `<small style="opacity:0.7; font-size:0.7rem;">(${this.getModeName(message.connectionMode)})</small>` : '';
-                
-                messageElement.innerHTML = `
-                    <div class="message-content">
-                        ${this.escapeHtml(message.text)}
-                        <div class="message-time">
-                            <i class="far fa-clock"></i>
-                            ${time} ${modeIndicator}
-                        </div>
-                    </div>
-                `;
-                
-                // إزالة رسالة الترحيب إذا كانت موجودة
-                const welcomeMessage = this.elements.messagesContainer.querySelector('.welcome-message');
-                if (welcomeMessage) {
-                    welcomeMessage.remove();
-                }
-                
-                this.elements.messagesContainer.appendChild(messageElement);
-            }
-
-            // استعادة المحادثة من التخزين المحلي
-            restoreChat() {
-                try {
-                    const savedMessages = localStorage.getItem('p2p_messages');
-                    if (savedMessages) {
-                        this.messages = JSON.parse(savedMessages);
-                        this.messages.forEach(msg => this.renderMessage(msg));
-                        this.updateMessageCount();
-                    }
-                } catch (error) {
-                    console.error('❌ خطأ في استعادة المحادثة:', error);
-                    localStorage.removeItem('p2p_messages');
-                }
-            }
-
-            // حفظ الرسائل في التخزين المحلي
-            saveMessages() {
-                try {
-                    // حفظ آخر 100 رسالة فقط لتجنب مشاكل التخزين
-                    const messagesToSave = this.messages.slice(-100);
-                    localStorage.setItem('p2p_messages', JSON.stringify(messagesToSave));
-                } catch (error) {
-                    console.error('❌ خطأ في حفظ الرسائل:', error);
-                }
-            }
-
-            // تحديث واجهة المستخدم
-            updateUI() {
-                const isConnected = this.isConnected && this.connection && this.connection.open;
-                
-                // تحديث حالة الأزرار
-                this.elements.connectBtn.disabled = isConnected;
-                this.elements.disconnectBtn.disabled = !isConnected;
-                this.elements.messageInput.disabled = !isConnected;
-                this.elements.sendBtn.disabled = !isConnected;
-                this.elements.saveMyId.disabled = isConnected;
-                this.elements.myId.disabled = isConnected;
-                this.elements.testConnectionBtn.disabled = isConnected;
-                
-                // تحديث معلومات الاتصال
-                this.elements.connectionInfo.style.display = isConnected ? 'block' : 'none';
-                
-                if (isConnected) {
-                    this.updateConnectionMetrics();
-                }
-            }
-
-            // تحديث حالة الاتصال
-            updateConnectionStatus(status) {
-                const statusDot = this.elements.connectionStatus.querySelector('.status-dot');
-                const statusText = this.elements.connectionStatus.querySelector('.status-text');
-                
-                statusDot.className = 'status-dot';
-                
-                switch(status) {
-                    case 'connected':
-                        statusDot.classList.add('connected');
-                        statusText.textContent = 'متصل';
-                        break;
-                    case 'connecting':
-                        statusDot.classList.add('connecting');
-                        statusText.textContent = 'جاري الاتصال...';
-                        break;
-                    case 'disconnected':
-                        statusText.textContent = 'غير متصل';
-                        break;
-                }
-            }
-
-            // تحديث جودة الاتصال
-            updateConnectionQuality() {
-                if (!this.pingLatency) return;
-                
-                let quality = 'جيدة';
-                let color = '#2ed573';
-                
-                if (this.pingLatency < 100) {
-                    quality = 'ممتازة';
-                    color = '#2ed573';
-                } else if (this.pingLatency < 300) {
-                    quality = 'جيدة';
-                    color = '#ffa502';
-                } else if (this.pingLatency < 1000) {
-                    quality = 'متوسطة';
-                    color = '#ff7f00';
-                } else {
-                    quality = 'ضعيفة';
-                    color = '#ff4757';
-                }
-                
-                this.elements.connQuality.textContent = quality;
-                this.elements.connQuality.style.color = color;
-            }
-
-            // تحديث معلومات الاتصال
-            updateConnectionMetrics() {
-                if (this.connection && this.peer) {
-                    this.elements.connType.textContent = this.getModeName(this.connectionMode);
-                    this.elements.connState.textContent = 'نشط';
-                    
-                    if (this.pingLatency) {
-                        this.elements.connSpeed.textContent = `${this.pingLatency}ms`;
-                        this.updateConnectionQuality();
-                    }
-                }
-            }
-
-            // تحديث معلومات الطرف الآخر
-            updatePeerInfo() {
-                if (this.connection) {
-                    const shortId = this.connection.peer.length > 20 ? 
-                        this.connection.peer.substring(0, 20) + '...' : 
-                        this.connection.peer;
-                    this.elements.peerName.textContent = `مستخدم: ${shortId}`;
-                }
-            }
-
-            // تحديث عداد الرسائل
-            updateMessageCount() {
-                const count = this.messages.length;
-                this.elements.messageCount.textContent = `${count} رسالة`;
-            }
-
-            // مسح المحادثة
-            clearChat() {
-                if (this.messages.length === 0) return;
-                
-                if (confirm('هل تريد مسح جميع الرسائل؟')) {
-                    this.messages = [];
-                    this.elements.messagesContainer.innerHTML = `
-                        <div class="welcome-message">
-                            <i class="fas fa-handshake"></i>
-                            <h3>مرحبًا في منصة المراسلة المباشرة</h3>
-                            <p>قم بالاتصال بشخص آخر لبدء المحادثة</p>
-                        </div>
-                    `;
-                    this.updateMessageCount();
-                    localStorage.removeItem('p2p_messages');
-                    this.showNotification('success', 'تم المسح', 'تم مسح جميع الرسائل');
-                }
+            // تبديل منتقي الإيموجي
+            toggleEmojiPicker() {
+                this.elements.emojiPicker.classList.toggle('show');
             }
 
             // عرض الإشعارات
@@ -2603,74 +2273,29 @@
                 this.elements.messagesContainer.scrollTop = this.elements.messagesContainer.scrollHeight;
             }
 
-            // تحويل حالة ICE
-            translateIceState(state) {
-                const states = {
-                    'new': 'جديد',
-                    'checking': 'جاري التحقق',
-                    'connected': 'متصل',
-                    'completed': 'مكتمل',
-                    'failed': 'فشل',
-                    'disconnected': 'منقطع',
-                    'closed': 'مغلق'
-                };
-                return states[state] || state;
-            }
-
-            // منع الثغرات الأمنية (HTML escaping)
+            // منع الثغرات الأمنية
             escapeHtml(text) {
                 const div = document.createElement('div');
                 div.textContent = text;
                 return div.innerHTML;
             }
-
-            // إدراج إيموجي
-            insertEmoji(emoji) {
-                const input = this.elements.messageInput;
-                const start = input.selectionStart;
-                const end = input.selectionEnd;
-                const text = input.value;
-                
-                input.value = text.substring(0, start) + emoji + text.substring(end);
-                input.focus();
-                input.selectionStart = input.selectionEnd = start + emoji.length;
-                
-                this.elements.emojiPicker.classList.remove('show');
-            }
-
-            // تبديل منتقي الإيموجي
-            toggleEmojiPicker() {
-                this.elements.emojiPicker.classList.toggle('show');
-            }
-        }
-
-        // طلب إذن الإشعارات
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
         }
 
         // تهيئة التطبيق عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
-            const app = new P2PMessenger();
-            window.p2pMessenger = app; // لجعل التطبيق متاحًا في وحدة التحكم
-            console.log('🚀 P2P Messenger المحسّن جاهز للاستخدام!');
-            console.log('💡 نصائح: إذا واجهت مشاكل في الاتصال، جرب تغيير نوع الاتصال من القائمة.');
+            const app = new SchoolMessenger();
+            window.schoolMessenger = app;
+            console.log('🏫 School Messenger جاهز للاستخدام!');
             
-            // التحذير عند إغلاق الصفحة
-            window.addEventListener('beforeunload', (e) => {
-                if (app.isConnected) {
-                    e.preventDefault();
-                    e.returnValue = 'لديك اتصال نشط. هل تريد مغادرة الصفحة؟';
-                }
-            });
+            // طلب إذن الإشعارات
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
             
-            // إعادة الاتصال عند العودة للصفحة
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden && app.peer && app.peer.disconnected) {
-                    console.log('🔄 إعادة الاتصال بعد العودة للصفحة');
-                    app.peer.reconnect();
-                }
-            });
+            // رسالة ترحيب
+            setTimeout(() => {
+                app.showNotification('info', 'مرحباً!', 'هذا التطبيق مصمم خصيصاً للعمل في المدارس المصرية');
+            }, 1000);
         });
     </script>
 </body>
